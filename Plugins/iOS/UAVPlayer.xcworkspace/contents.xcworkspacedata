@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:Swift/UAVPlayer_Swift/UAVPlayer_Swift.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:ObjectiveC/UAVPlayer_ObjectiveC/UAVPlayer_ObjectiveC.xcodeproj">
+   </FileRef>
+</Workspace>
