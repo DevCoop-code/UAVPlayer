@@ -15,6 +15,9 @@
 		7876B08F240EAFFD00FFCFFC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7876B08D240EAFFD00FFCFFC /* LaunchScreen.storyboard */; };
 		7876B092240EAFFD00FFCFFC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7876B091240EAFFD00FFCFFC /* main.m */; };
 		7876B09C240EAFFD00FFCFFC /* UAVPlayer_ObjectiveCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7876B09B240EAFFD00FFCFFC /* UAVPlayer_ObjectiveCTests.m */; };
+		7876B0D7240EB3EB00FFCFFC /* MetalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7876B0D6240EB3EB00FFCFFC /* MetalViewController.m */; };
+		7876B0DB2410D22600FFCFFC /* Matrix4.m in Sources */ = {isa = PBXBuildFile; fileRef = 7876B0DA2410D22600FFCFFC /* Matrix4.m */; };
+		7876B0DE2410DB5500FFCFFC /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 7876B0DD2410DB5500FFCFFC /* Shaders.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +46,11 @@
 		7876B097240EAFFD00FFCFFC /* UAVPlayer_ObjectiveCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UAVPlayer_ObjectiveCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7876B09B240EAFFD00FFCFFC /* UAVPlayer_ObjectiveCTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UAVPlayer_ObjectiveCTests.m; sourceTree = "<group>"; };
 		7876B09D240EAFFD00FFCFFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7876B0D5240EB3EB00FFCFFC /* MetalViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetalViewController.h; sourceTree = "<group>"; };
+		7876B0D6240EB3EB00FFCFFC /* MetalViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MetalViewController.m; sourceTree = "<group>"; };
+		7876B0D92410D22600FFCFFC /* Matrix4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Matrix4.h; sourceTree = "<group>"; };
+		7876B0DA2410D22600FFCFFC /* Matrix4.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Matrix4.m; sourceTree = "<group>"; };
+		7876B0DD2410DB5500FFCFFC /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +92,9 @@
 		7876B07E240EAFF900FFCFFC /* UAVPlayer_ObjectiveC */ = {
 			isa = PBXGroup;
 			children = (
+				7876B0DC2410DB4100FFCFFC /* Shaders */,
+				7876B0D82410D1F900FFCFFC /* Basic */,
+				7876B0D4240EB3CB00FFCFFC /* Controller */,
 				7876B07F240EAFF900FFCFFC /* AppDelegate.h */,
 				7876B080240EAFF900FFCFFC /* AppDelegate.m */,
 				7876B082240EAFF900FFCFFC /* SceneDelegate.h */,
@@ -106,6 +117,32 @@
 				7876B09D240EAFFD00FFCFFC /* Info.plist */,
 			);
 			path = UAVPlayer_ObjectiveCTests;
+			sourceTree = "<group>";
+		};
+		7876B0D4240EB3CB00FFCFFC /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7876B0D5240EB3EB00FFCFFC /* MetalViewController.h */,
+				7876B0D6240EB3EB00FFCFFC /* MetalViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		7876B0D82410D1F900FFCFFC /* Basic */ = {
+			isa = PBXGroup;
+			children = (
+				7876B0D92410D22600FFCFFC /* Matrix4.h */,
+				7876B0DA2410D22600FFCFFC /* Matrix4.m */,
+			);
+			path = Basic;
+			sourceTree = "<group>";
+		};
+		7876B0DC2410DB4100FFCFFC /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				7876B0DD2410DB5500FFCFFC /* Shaders.metal */,
+			);
+			path = Shaders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,8 +246,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				7876B087240EAFF900FFCFFC /* ViewController.m in Sources */,
+				7876B0DE2410DB5500FFCFFC /* Shaders.metal in Sources */,
+				7876B0DB2410D22600FFCFFC /* Matrix4.m in Sources */,
 				7876B081240EAFF900FFCFFC /* AppDelegate.m in Sources */,
 				7876B092240EAFFD00FFCFFC /* main.m in Sources */,
+				7876B0D7240EB3EB00FFCFFC /* MetalViewController.m in Sources */,
 				7876B084240EAFF900FFCFFC /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
