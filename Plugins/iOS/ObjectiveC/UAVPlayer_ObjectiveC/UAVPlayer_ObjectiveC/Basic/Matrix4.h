@@ -25,6 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (_Nonnull instancetype)init;
 - (_Nonnull instancetype)copy;
 
+- (void *_Nonnull)raw;
++ (NSUInteger)numberOfElements;
+
 @end
 
 NS_ASSUME_NONNULL_END
