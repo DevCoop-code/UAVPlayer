@@ -18,7 +18,9 @@ typedef struct VertexStruct
 }VertexStruct;
 
 @interface Vertex : NSObject
-+ (float*)floatBuffer:(VertexStruct)vertex;
+@property(nonatomic) VertexStruct vertex;
+- (void)setBuffer:(VertexStruct)vertex;
+- (float*)floatBuffer;
 @end
 
 NS_ASSUME_NONNULL_END

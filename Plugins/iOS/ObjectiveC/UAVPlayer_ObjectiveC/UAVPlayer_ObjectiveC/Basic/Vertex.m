@@ -10,9 +10,14 @@
 
 @implementation Vertex
 
-+ (float*)floatBuffer:(VertexStruct)vertex
+- (void)setBuffer:(VertexStruct)vertex
 {
-    float vertexArray[9] = {vertex.x, vertex.y, vertex.z, vertex.r, vertex.g, vertex.b, vertex.a, vertex.s, vertex.t};
+    _vertex = vertex;
+}
+
+- (float*)floatBuffer
+{
+    float vertexArray[9] = {_vertex.x, _vertex.y, _vertex.z, _vertex.r, _vertex.g, _vertex.b, _vertex.a, _vertex.s, _vertex.t};
     return vertexArray;
 }
 
