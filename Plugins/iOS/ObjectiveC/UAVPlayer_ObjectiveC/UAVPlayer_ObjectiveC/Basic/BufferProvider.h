@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) dispatch_semaphore_t availableResourcesSemaphore;
 
 //Create Number of Buffers
-- (void) init:(id<MTLDevice>)device
+- (instancetype) init:(id<MTLDevice>)device
 inflightBuffersCount:(NSInteger)inflightBuffersCount
 sizeOfUniformsBuffer:(NSInteger)sizeOfUniformsBuffer;
 

@@ -17,7 +17,7 @@
 }
 
 //Create Number of Buffers
-- (void) init:(id<MTLDevice>)device inflightBuffersCount:(NSInteger)inflightBuffersCount sizeOfUniformsBuffer:(NSInteger)sizeOfUniformsBuffer
+- (instancetype) init:(id<MTLDevice>)device inflightBuffersCount:(NSInteger)inflightBuffersCount sizeOfUniformsBuffer:(NSInteger)sizeOfUniformsBuffer
 {
     _availableResourcesSemaphore = dispatch_semaphore_create(inflightBuffersCount);
     
@@ -29,6 +29,8 @@
         id<MTLBuffer> uniformsBuffer = [device newBufferWithLength:sizeOfUniformsBuffer options:nil];
         [_uniformsBuffers addObject:uniformsBuffer];
     }
+    
+    return self;
 }
 
 - (id<MTLBuffer>) nextUniformsBuffer:(Matrix4 *)projectionMatrix
