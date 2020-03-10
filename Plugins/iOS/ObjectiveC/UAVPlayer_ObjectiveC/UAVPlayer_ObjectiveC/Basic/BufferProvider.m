@@ -43,8 +43,8 @@
     void *bufferPointer = buffer.contents;
     
     //Copy the passed-in matrices data into the buffer using memcpy
-    memcpy(bufferPointer, [mvMatrix raw], sizeof(float) * [Matrix4 numberOfElements]);
-    memcpy(bufferPointer + (sizeof(float) * [Matrix4 numberOfElements]), [projectionMatrix raw], sizeof(float) * [Matrix4 numberOfElements]);
+    memcpy(bufferPointer, [mvMatrix raw], sizeof(Float32) * [Matrix4 numberOfElements]);
+    memcpy(bufferPointer + (sizeof(Float32) * [Matrix4 numberOfElements]), [projectionMatrix raw], sizeof(Float32) * [Matrix4 numberOfElements]);
     
     _availableBufferIndex += 1;
     if(_availableBufferIndex == _inflightBufferCount)

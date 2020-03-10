@@ -17,23 +17,23 @@ NS_ASSUME_NONNULL_BEGIN
 @public GLKMatrix4 glkMatrix;
 }
 
-+ (Matrix4 *_Nonnull)makePerspectiveViewAngle:(float)angleRad
-                                  aspectRatio:(float)aspect
-                                        nearZ:(float)nearZ
-                                         farZ:(float)farZ;
++ (Matrix4 *_Nonnull)makePerspectiveViewAngle:(Float32)angleRad
+                                  aspectRatio:(Float32)aspect
+                                        nearZ:(Float32)nearZ
+                                         farZ:(Float32)farZ;
 
 - (_Nonnull instancetype)init;
 - (_Nonnull instancetype)copy;
 
-- (void)scale:(float)x y:(float)y z:(float)z;
-- (void)rotateAroundX:(float)xAngleRad y:(float)yAngleRad z:(float)zAngleRad;
-- (void)translate:(float)x y:(float)y z:(float)z;
+- (void)scale:(Float32)x y:(Float32)y z:(Float32)z;
+- (void)rotateAroundX:(Float32)xAngleRad y:(Float32)yAngleRad z:(Float32)zAngleRad;
+- (void)translate:(Float32)x y:(Float32)y z:(Float32)z;
 - (void)multiplyLeft:(Matrix4 *_Nonnull)matrix;
 
 - (void *_Nonnull)raw;
 - (void)printMatrixElements;
 
-+ (float)degreesToRad:(float)degrees;
++ (Float32)degreesToRad:(Float32)degrees;
 + (NSUInteger)numberOfElements;
 
 @end

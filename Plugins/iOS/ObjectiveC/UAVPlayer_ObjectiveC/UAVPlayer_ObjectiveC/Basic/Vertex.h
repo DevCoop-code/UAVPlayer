@@ -7,23 +7,24 @@
 //
 
 #import <Foundation/Foundation.h>
+@import UIKit;
 
 NS_ASSUME_NONNULL_BEGIN
 
 typedef struct VertexStruct
 {
-    float x,y,z;
-    float r,g,b,a;
-    float s,t;
+    Float32 x,y,z;
+    Float32 r,g,b,a;
+    Float32 s,t;
 }VertexStruct;
 
 @interface Vertex : NSObject
 
 @property(nonatomic) VertexStruct vertex;
 
-- (instancetype)init:(float)x y:(float)y z:(float)z r:(float)r g:(float)g b:(float)b a:(float)a s:(float)s t:(float)t;
+- (instancetype)init:(Float32)x y:(Float32)y z:(Float32)z r:(Float32)r g:(Float32)g b:(Float32)b a:(Float32)a s:(Float32)s t:(Float32)t;
 - (void)setBuffer:(VertexStruct)vertex;
-- (float*)floatBuffer;
+- (Float32 *)floatBuffer;
 
 @end
 

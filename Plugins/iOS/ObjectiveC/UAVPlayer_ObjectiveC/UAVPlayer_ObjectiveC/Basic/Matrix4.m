@@ -11,10 +11,10 @@
 @implementation Matrix4
 
 //MARK: Matrix creation
-+ (Matrix4 *_Nonnull)makePerspectiveViewAngle:(float)angleRad
-                                  aspectRatio:(float)aspect
-                                        nearZ:(float)nearZ
-                                         farZ:(float)farZ
++ (Matrix4 *_Nonnull)makePerspectiveViewAngle:(Float32)angleRad
+                                  aspectRatio:(Float32)aspect
+                                        nearZ:(Float32)nearZ
+                                         farZ:(Float32)farZ
 {
     Matrix4 *matrix = [[Matrix4 alloc] init];
     matrix->glkMatrix = GLKMatrix4MakePerspective(angleRad, aspect, nearZ, farZ);
@@ -32,19 +32,19 @@
 }
 
 //MARK: Matrix transformation
-- (void)scale:(float)x y:(float)y z:(float)z
+- (void)scale:(Float32)x y:(Float32)y z:(Float32)z
 {
     glkMatrix = GLKMatrix4Scale(glkMatrix, x, y, z);
 }
 
-- (void)rotateAroundX:(float)xAngleRad y:(float)yAngleRad z:(float)zAngleRad
+- (void)rotateAroundX:(Float32)xAngleRad y:(Float32)yAngleRad z:(Float32)zAngleRad
 {
     glkMatrix = GLKMatrix4Rotate(glkMatrix, xAngleRad, 1, 0, 0);
     glkMatrix = GLKMatrix4Rotate(glkMatrix, yAngleRad, 0, 1, 0);
     glkMatrix = GLKMatrix4Rotate(glkMatrix, zAngleRad, 0, 0, 1);
 }
 
-- (void)translate:(float)x y:(float)y z:(float)z
+- (void)translate:(Float32)x y:(Float32)y z:(Float32)z
 {
     glkMatrix = GLKMatrix4Translate(glkMatrix, x, y, z);
 }
@@ -62,11 +62,11 @@
 
 - (void)printMatrixElements
 {
-    float *matrixElements = glkMatrix.m;
+    Float32 *matrixElements = glkMatrix.m;
     printf("==========[Matrix Elements]==========\n");
     for(int i = 0; i < 16; i++)
     {
-        float element = matrixElements[i];
+        Float32 element = matrixElements[i];
         printf("%.0f ", element);
         if(i % 4 == 3)
         {
@@ -76,7 +76,7 @@
     printf("=====================================\n");
 }
 
-+ (float)degreesToRad:(float)degrees
++ (Float32)degreesToRad:(Float32)degrees
 {
     return GLKMathDegreesToRadians(degrees);
 }
