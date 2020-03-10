@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		780C41982415021400EBF896 /* Cube.m in Sources */ = {isa = PBXBuildFile; fileRef = 780C41972415021400EBF896 /* Cube.m */; };
+		780C419B2415058D00EBF896 /* MetalTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 780C419A2415058D00EBF896 /* MetalTexture.m */; };
 		7876B081240EAFF900FFCFFC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7876B080240EAFF900FFCFFC /* AppDelegate.m */; };
 		7876B084240EAFF900FFCFFC /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7876B083240EAFF900FFCFFC /* SceneDelegate.m */; };
-		7876B087240EAFF900FFCFFC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7876B086240EAFF900FFCFFC /* ViewController.m */; };
+		7876B087240EAFF900FFCFFC /* MySceneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7876B086240EAFF900FFCFFC /* MySceneViewController.m */; };
 		7876B08A240EAFF900FFCFFC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7876B088240EAFF900FFCFFC /* Main.storyboard */; };
 		7876B08C240EAFFD00FFCFFC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7876B08B240EAFFD00FFCFFC /* Assets.xcassets */; };
 		7876B08F240EAFFD00FFCFFC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7876B08D240EAFFD00FFCFFC /* LaunchScreen.storyboard */; };
@@ -18,6 +20,10 @@
 		7876B0D7240EB3EB00FFCFFC /* MetalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7876B0D6240EB3EB00FFCFFC /* MetalViewController.m */; };
 		7876B0DB2410D22600FFCFFC /* Matrix4.m in Sources */ = {isa = PBXBuildFile; fileRef = 7876B0DA2410D22600FFCFFC /* Matrix4.m */; };
 		7876B0DE2410DB5500FFCFFC /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 7876B0DD2410DB5500FFCFFC /* Shaders.metal */; };
+		7876B0E12411D80D00FFCFFC /* Vertex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7876B0E02411D80D00FFCFFC /* Vertex.m */; };
+		7876B0E42411E17800FFCFFC /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = 7876B0E32411E17800FFCFFC /* Node.m */; };
+		7876B0E72411E30A00FFCFFC /* BufferProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 7876B0E62411E30A00FFCFFC /* BufferProvider.m */; };
+		7893B2982416903600D79718 /* cube.png in Resources */ = {isa = PBXBuildFile; fileRef = 7893B2972416903500D79718 /* cube.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,13 +37,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		780C41962415021400EBF896 /* Cube.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cube.h; sourceTree = "<group>"; };
+		780C41972415021400EBF896 /* Cube.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Cube.m; sourceTree = "<group>"; };
+		780C41992415058D00EBF896 /* MetalTexture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetalTexture.h; sourceTree = "<group>"; };
+		780C419A2415058D00EBF896 /* MetalTexture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MetalTexture.m; sourceTree = "<group>"; };
 		7876B07C240EAFF900FFCFFC /* UAVPlayer_ObjectiveC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UAVPlayer_ObjectiveC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7876B07F240EAFF900FFCFFC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7876B080240EAFF900FFCFFC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7876B082240EAFF900FFCFFC /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		7876B083240EAFF900FFCFFC /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
-		7876B085240EAFF900FFCFFC /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		7876B086240EAFF900FFCFFC /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		7876B085240EAFF900FFCFFC /* MySceneViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MySceneViewController.h; sourceTree = "<group>"; };
+		7876B086240EAFF900FFCFFC /* MySceneViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MySceneViewController.m; sourceTree = "<group>"; };
 		7876B089240EAFF900FFCFFC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7876B08B240EAFFD00FFCFFC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7876B08E240EAFFD00FFCFFC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +61,13 @@
 		7876B0D92410D22600FFCFFC /* Matrix4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Matrix4.h; sourceTree = "<group>"; };
 		7876B0DA2410D22600FFCFFC /* Matrix4.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Matrix4.m; sourceTree = "<group>"; };
 		7876B0DD2410DB5500FFCFFC /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		7876B0DF2411D80D00FFCFFC /* Vertex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
+		7876B0E02411D80D00FFCFFC /* Vertex.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Vertex.m; sourceTree = "<group>"; };
+		7876B0E22411E17800FFCFFC /* Node.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		7876B0E32411E17800FFCFFC /* Node.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
+		7876B0E52411E30A00FFCFFC /* BufferProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BufferProvider.h; sourceTree = "<group>"; };
+		7876B0E62411E30A00FFCFFC /* BufferProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BufferProvider.m; sourceTree = "<group>"; };
+		7893B2972416903500D79718 /* cube.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cube.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +109,7 @@
 		7876B07E240EAFF900FFCFFC /* UAVPlayer_ObjectiveC */ = {
 			isa = PBXGroup;
 			children = (
+				7893B2972416903500D79718 /* cube.png */,
 				7876B0DC2410DB4100FFCFFC /* Shaders */,
 				7876B0D82410D1F900FFCFFC /* Basic */,
 				7876B0D4240EB3CB00FFCFFC /* Controller */,
@@ -99,8 +117,8 @@
 				7876B080240EAFF900FFCFFC /* AppDelegate.m */,
 				7876B082240EAFF900FFCFFC /* SceneDelegate.h */,
 				7876B083240EAFF900FFCFFC /* SceneDelegate.m */,
-				7876B085240EAFF900FFCFFC /* ViewController.h */,
-				7876B086240EAFF900FFCFFC /* ViewController.m */,
+				7876B085240EAFF900FFCFFC /* MySceneViewController.h */,
+				7876B086240EAFF900FFCFFC /* MySceneViewController.m */,
 				7876B088240EAFF900FFCFFC /* Main.storyboard */,
 				7876B08B240EAFFD00FFCFFC /* Assets.xcassets */,
 				7876B08D240EAFFD00FFCFFC /* LaunchScreen.storyboard */,
@@ -133,6 +151,16 @@
 			children = (
 				7876B0D92410D22600FFCFFC /* Matrix4.h */,
 				7876B0DA2410D22600FFCFFC /* Matrix4.m */,
+				7876B0DF2411D80D00FFCFFC /* Vertex.h */,
+				7876B0E02411D80D00FFCFFC /* Vertex.m */,
+				7876B0E22411E17800FFCFFC /* Node.h */,
+				7876B0E32411E17800FFCFFC /* Node.m */,
+				7876B0E52411E30A00FFCFFC /* BufferProvider.h */,
+				7876B0E62411E30A00FFCFFC /* BufferProvider.m */,
+				780C41962415021400EBF896 /* Cube.h */,
+				780C41972415021400EBF896 /* Cube.m */,
+				780C41992415058D00EBF896 /* MetalTexture.h */,
+				780C419A2415058D00EBF896 /* MetalTexture.m */,
 			);
 			path = Basic;
 			sourceTree = "<group>";
@@ -227,6 +255,7 @@
 			files = (
 				7876B08F240EAFFD00FFCFFC /* LaunchScreen.storyboard in Resources */,
 				7876B08C240EAFFD00FFCFFC /* Assets.xcassets in Resources */,
+				7893B2982416903600D79718 /* cube.png in Resources */,
 				7876B08A240EAFF900FFCFFC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -245,10 +274,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7876B087240EAFF900FFCFFC /* ViewController.m in Sources */,
+				780C41982415021400EBF896 /* Cube.m in Sources */,
+				780C419B2415058D00EBF896 /* MetalTexture.m in Sources */,
+				7876B0E72411E30A00FFCFFC /* BufferProvider.m in Sources */,
+				7876B087240EAFF900FFCFFC /* MySceneViewController.m in Sources */,
+				7876B0E12411D80D00FFCFFC /* Vertex.m in Sources */,
 				7876B0DE2410DB5500FFCFFC /* Shaders.metal in Sources */,
 				7876B0DB2410D22600FFCFFC /* Matrix4.m in Sources */,
 				7876B081240EAFF900FFCFFC /* AppDelegate.m in Sources */,
+				7876B0E42411E17800FFCFFC /* Node.m in Sources */,
 				7876B092240EAFFD00FFCFFC /* main.m in Sources */,
 				7876B0D7240EB3EB00FFCFFC /* MetalViewController.m in Sources */,
 				7876B084240EAFF900FFCFFC /* SceneDelegate.m in Sources */,
