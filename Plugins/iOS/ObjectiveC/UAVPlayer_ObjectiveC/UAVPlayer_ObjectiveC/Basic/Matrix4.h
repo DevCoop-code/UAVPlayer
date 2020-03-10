@@ -31,6 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)multiplyLeft:(Matrix4 *_Nonnull)matrix;
 
 - (void *_Nonnull)raw;
+- (void)printMatrixElements;
+
++ (float)degreesToRad:(float)degrees;
 + (NSUInteger)numberOfElements;
 
 @end

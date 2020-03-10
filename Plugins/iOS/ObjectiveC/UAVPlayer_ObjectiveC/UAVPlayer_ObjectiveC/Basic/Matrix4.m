@@ -60,6 +60,21 @@
     return glkMatrix.m;
 }
 
+- (void)printMatrixElements
+{
+    float *matrixElements = glkMatrix.m;
+    for(int i = 0; i < 16; i++)
+    {
+        float element = matrixElements[i];
+        NSLog(@"%f", element);
+    }
+}
+
++ (float)degreesToRad:(float)degrees
+{
+    return GLKMathDegreesToRadians(degrees);
+}
+
 + (NSUInteger)numberOfElements
 {
     return 16;
