@@ -63,11 +63,17 @@
 - (void)printMatrixElements
 {
     float *matrixElements = glkMatrix.m;
+    NSLog(@"==========[Matrix Elements]==========");
     for(int i = 0; i < 16; i++)
     {
         float element = matrixElements[i];
-        NSLog(@"%f", element);
+        printf("%.0f ", element);
+        if(i % 4 == 3)
+        {
+            printf("\n");
+        }
     }
+    NSLog(@"=====================================");
 }
 
 + (float)degreesToRad:(float)degrees

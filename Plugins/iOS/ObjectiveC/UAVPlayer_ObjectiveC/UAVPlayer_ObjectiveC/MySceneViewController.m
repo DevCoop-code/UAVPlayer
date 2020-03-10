@@ -20,6 +20,7 @@
 
     _worldModelMatrix = [[Matrix4 alloc] init];
     [_worldModelMatrix translate:0.0 y:0.0 z:-4.0];
+    [_worldModelMatrix printMatrixElements];
     [_worldModelMatrix rotateAroundX:[Matrix4 degreesToRad:25] y:0.0 z:0.0];
     
     _objectToDraw = [[Cube alloc]init:[super device] commandQ:[super commandQueue]];
@@ -28,7 +29,6 @@
 
 - (void)renderObject:(id<CAMetalDrawable>)drawable
 {
-    NSLog(@"renderObject");
     [_objectToDraw render:[super commandQueue]
       renderPipelineState:[super pipelineState]
                  drawable:drawable
