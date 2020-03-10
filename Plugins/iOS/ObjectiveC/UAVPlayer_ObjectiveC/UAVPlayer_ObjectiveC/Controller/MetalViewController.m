@@ -28,7 +28,7 @@
     
     _device = MTLCreateSystemDefaultDevice();
     
-    _projectionMatrix = [Matrix4 makePerspectiveViewAngle:85.0
+    _projectionMatrix = [Matrix4 makePerspectiveViewAngle:[Matrix4 degreesToRad:85.0]
                                              aspectRatio:self.view.bounds.size.width / self.view.bounds.size.height
                                                    nearZ:0.01
                                                     farZ:100];
