@@ -8,6 +8,7 @@
 
 @import UIKit;
 @import MetalKit;
+#include "Matrix4.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,10 +21,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MetalViewController : UIViewController
 
-@property(nonatomic, strong) id<MTLDevice>              device;
-@property(nonatomic, strong) CAMetalLayer               *metalLayer;
-@property(nonatomic, strong) id<MTLRenderPipelineState> pipelineState;
-@property(nonatomic, strong) id<MTLCommandQueue>        commandQueue;
+@property(nonatomic) id<MTLDevice>              device;
+@property(nonatomic) CAMetalLayer               *metalLayer;
+@property(nonatomic) id<MTLRenderPipelineState> pipelineState;
+@property(nonatomic) id<MTLCommandQueue>        commandQueue;
+@property(nonatomic) id<MetalViewControllerDelegate> metalViewControllerDelegate;
+@property(nonatomic) Matrix4 *projectionMatrix;
 
 @end
 

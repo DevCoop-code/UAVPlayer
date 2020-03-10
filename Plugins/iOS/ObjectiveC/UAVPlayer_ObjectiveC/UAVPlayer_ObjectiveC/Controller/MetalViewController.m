@@ -13,10 +13,6 @@
 {
     CADisplayLink *timer;
     CFTimeInterval lastFrameTimestamp;
-    
-    Matrix4 *projectionMatrix;
-    
-    id<MetalViewControllerDelegate> metalViewControllerDelegate;
 }
 
 - (void)viewDidLoad
@@ -32,7 +28,7 @@
     
     _device = MTLCreateSystemDefaultDevice();
     
-    projectionMatrix = [Matrix4 makePerspectiveViewAngle:85.0
+    _projectionMatrix = [Matrix4 makePerspectiveViewAngle:85.0
                                              aspectRatio:self.view.bounds.size.width / self.view.bounds.size.height
                                                    nearZ:0.01
                                                     farZ:100];
@@ -72,7 +68,7 @@
     id<CAMetalDrawable> drawable = _metalLayer.nextDrawable;
     if(nil != drawable)
     {
-        [metalViewControllerDelegate renderObject:drawable];
+        [_metalViewControllerDelegate renderObject:drawable];
     }
 }
 
