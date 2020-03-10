@@ -24,7 +24,7 @@
     _inflightBufferCount = inflightBuffersCount;
     _uniformsBuffers = (id)[NSMutableArray new];
     
-    for(int i = 0; i < inflightBuffersCount - 1; i++)
+    for(int i = 0; i < inflightBuffersCount; i++)
     {
         id<MTLBuffer> uniformsBuffer = [device newBufferWithLength:sizeOfUniformsBuffer options:nil];
         [_uniformsBuffers addObject:uniformsBuffer];
