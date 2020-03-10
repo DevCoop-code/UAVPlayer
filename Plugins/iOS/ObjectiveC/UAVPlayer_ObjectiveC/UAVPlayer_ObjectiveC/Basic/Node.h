@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) CFTimeInterval time;
 @property(nonatomic) id<MTLTexture> texture;
 
-- (void) init:(NSString *)name
+- (instancetype) init:(NSString *)name
        vertex:(NSArray<Vertex *>*)vertices
        device:(id<MTLDevice>)device
       texture:(id<MTLTexture>)texture;
@@ -34,7 +34,7 @@ renderPipelineState:(id<MTLRenderPipelineState>) pipelineState
        drawable:(id<CAMetalDrawable>) drawable
        mvMatrix: (Matrix4*)parentModelViewMatrix
 projectionMatrix:(Matrix4*)projectionMatrix
-     clearColor:(MTLClearColor)clearColor;
+     clearColor:(MTLClearColor *)clearColor;
 
 @end
 

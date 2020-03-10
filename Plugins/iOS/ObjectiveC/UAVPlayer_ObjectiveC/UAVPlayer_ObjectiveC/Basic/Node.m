@@ -19,7 +19,7 @@
     id<MTLSamplerState> samplerState;
 }
 
-- (void)init:(NSString *)name
+- (instancetype)init:(NSString *)name
       vertex:(NSArray<Vertex *> *)vertices
       device:(id<MTLDevice>)device
      texture:(id<MTLTexture>)texture
@@ -47,6 +47,8 @@
                              inflightBuffersCount:3
                              sizeOfUniformsBuffer:sizeof(float) * [Matrix4 numberOfElements] * 2];
     
+    self = [super init];
+    return self;
 }
 
 - (void)initProperty
@@ -61,7 +63,7 @@ renderPipelineState:(id<MTLRenderPipelineState>)pipelineState
        drawable:(id<CAMetalDrawable>)drawable
        mvMatrix:(Matrix4 *)parentModelViewMatrix
 projectionMatrix:(Matrix4 *)projectionMatrix
-     clearColor:(MTLClearColor)clearColor
+     clearColor:(MTLClearColor *)clearColor
 {
     //Make CPU wait
     dispatch_semaphore_wait([bufferProvider availableResourcesSemaphore], DISPATCH_TIME_FOREVER);
