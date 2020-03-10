@@ -38,13 +38,12 @@
         for(int j = 0; j < 9; j++)
         {
             vertexDataArray[index + j] = vertexElement[j];
-            NSLog(@"index count : %d", index + j);
         }
         index += 9;
     }
     
     NSUInteger dataSize = ([vertices count] * 9) * sizeof(vertexDataArray[0]);
-    _vertexBuffer = [device newBufferWithBytes:(vertexDataArray) length:dataSize options:0];
+    _vertexBuffer = [device newBufferWithBytes:(vertexDataArray) length:dataSize options:MTLResourceCPUCacheModeWriteCombined];
     
     _name = name;
     _device = device;
