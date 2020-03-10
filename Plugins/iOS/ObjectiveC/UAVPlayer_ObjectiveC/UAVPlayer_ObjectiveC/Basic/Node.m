@@ -12,9 +12,9 @@
 {
     BufferProvider *bufferProvider;
     
-    float positionX, positionY, positionZ;
-    float rotationX, rotationY, rotationZ;
-    float scale;
+    Float32 positionX, positionY, positionZ;
+    Float32 rotationX, rotationY, rotationZ;
+    Float32 scale;
     
     id<MTLSamplerState> samplerState;
 }
@@ -25,18 +25,26 @@
      texture:(id<MTLTexture>)texture
 {
     [self initProperty];
+    
     samplerState = [self defaultSampler:device];
     
-    NSMutableArray *vertexDataArray = [[NSMutableArray alloc] init];
+    Float32 *vertexDataArray = malloc(sizeof(Float32) * [vertices count] * 9);
     
+    int index = 0;
     for(int i = 0; i < [vertices count]; i++)
     {
-        Vertex * vertexData = (Vertex *)[vertices objectAtIndex:i];;
-        [vertexDataArray addObject:vertexData];
+        Vertex * vertexData = (Vertex *)[vertices objectAtIndex:i];
+        Float32 *vertexElement = vertexData.floatBuffer;
+        for(int j = 0; j < 9; j++)
+        {
+            vertexDataArray[index + j] = vertexElement[j];
+            NSLog(@"index count : %d", index + j);
+        }
+        index += 9;
     }
     
-    NSUInteger dataSize = [vertexDataArray count] * sizeof([vertexDataArray objectAtIndex:0]);
-    _vertexBuffer = [device newBufferWithBytes:(__bridge const void * _Nonnull)(vertexDataArray) length:dataSize options:nil];
+    NSUInteger dataSize = ([vertices count] * 9) * sizeof(vertexDataArray[0]);
+    _vertexBuffer = [device newBufferWithBytes:(vertexDataArray) length:dataSize options:0];
     
     _name = name;
     _device = device;
@@ -45,7 +53,7 @@
     
     bufferProvider = [[BufferProvider alloc] init:device
                              inflightBuffersCount:3
-                             sizeOfUniformsBuffer:sizeof(float) * [Matrix4 numberOfElements] * 2];
+                             sizeOfUniformsBuffer:sizeof(Float32) * [Matrix4 numberOfElements] * 2];
     
     self = [super init];
     return self;
@@ -53,8 +61,12 @@
 
 - (void)initProperty
 {
-    positionX, positionY, positionZ = 0.0;
-    rotationX, rotationY, rotationZ = 0.0;
+    positionX = 0.0;
+    positionY = 0.0;
+    positionZ = 0.0;
+    rotationX = 0.0;
+    rotationY = 0.0;
+    rotationZ = 0.0;
     scale = 0.0;
 }
 
