@@ -9,6 +9,9 @@
 #import "Vertex.h"
 
 @implementation Vertex
+{
+    Float32* vertexElementsArray;
+}
 
 - (instancetype)init:(Float32)x
                    y:(Float32)y
@@ -37,8 +40,9 @@
 - (Float32*)floatBuffer
 {
     Float32 vertexArray[9] = {_vertex.x, _vertex.y, _vertex.z, _vertex.r, _vertex.g, _vertex.b, _vertex.a, _vertex.s, _vertex.t};
-    
-    return vertexArray;
+    vertexElementsArray = vertexArray;
+
+    return vertexElementsArray;
 }
 
 @end
