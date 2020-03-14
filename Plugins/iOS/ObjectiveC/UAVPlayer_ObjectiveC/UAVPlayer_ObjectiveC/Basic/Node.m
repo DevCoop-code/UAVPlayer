@@ -66,7 +66,7 @@
     rotationX = 0.0;
     rotationY = 0.0;
     rotationZ = 0.0;
-    scale = 0.0;
+    scale = 1.0;
 }
 
 - (void) render:(id<MTLCommandQueue>)commandQueue
