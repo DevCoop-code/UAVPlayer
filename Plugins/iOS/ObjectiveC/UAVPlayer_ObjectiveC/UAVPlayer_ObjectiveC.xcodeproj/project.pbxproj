@@ -117,8 +117,6 @@
 				7876B080240EAFF900FFCFFC /* AppDelegate.m */,
 				7876B082240EAFF900FFCFFC /* SceneDelegate.h */,
 				7876B083240EAFF900FFCFFC /* SceneDelegate.m */,
-				7876B085240EAFF900FFCFFC /* MySceneViewController.h */,
-				7876B086240EAFF900FFCFFC /* MySceneViewController.m */,
 				7876B088240EAFF900FFCFFC /* Main.storyboard */,
 				7876B08B240EAFFD00FFCFFC /* Assets.xcassets */,
 				7876B08D240EAFFD00FFCFFC /* LaunchScreen.storyboard */,
@@ -142,6 +140,8 @@
 			children = (
 				7876B0D5240EB3EB00FFCFFC /* MetalViewController.h */,
 				7876B0D6240EB3EB00FFCFFC /* MetalViewController.m */,
+				7876B085240EAFF900FFCFFC /* MySceneViewController.h */,
+				7876B086240EAFF900FFCFFC /* MySceneViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
