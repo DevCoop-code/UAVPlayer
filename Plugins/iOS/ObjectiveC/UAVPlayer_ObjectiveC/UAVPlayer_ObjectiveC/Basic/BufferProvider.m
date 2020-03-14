@@ -28,7 +28,7 @@
     
     for(int i = 0; i < inflightBuffersCount; i++)
     {
-        id<MTLBuffer> uniformsBuffer = [device newBufferWithLength:sizeOfUniformsBuffer options:nil];
+        id<MTLBuffer> uniformsBuffer = [device newBufferWithLength:sizeOfUniformsBuffer options:MTLResourceCPUCacheModeWriteCombined];
         [_uniformsBuffers addObject:uniformsBuffer];
     }
     
@@ -46,7 +46,9 @@
     
     //Copy the passed-in matrices data into the buffer using memcpy
     memcpy(bufferPointer, [mvMatrix raw], sizeof(Float32) * [Matrix4 numberOfElements]);
-    memcpy(bufferPointer + (sizeof(Float32) * [Matrix4 numberOfElements]), [projectionMatrix raw], sizeof(Float32) * [Matrix4 numberOfElements]);
+    memcpy(bufferPointer + (sizeof(Float32) * [Matrix4 numberOfElements]),
+           [projectionMatrix raw],
+           sizeof(Float32) * [Matrix4 numberOfElements]);
     
     _availableBufferIndex += 1;
     if(_availableBufferIndex == _inflightBufferCount)
