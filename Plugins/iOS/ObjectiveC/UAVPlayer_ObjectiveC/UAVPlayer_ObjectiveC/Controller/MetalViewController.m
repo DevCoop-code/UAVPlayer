@@ -70,6 +70,11 @@
     {
         [_metalViewControllerDelegate renderObject:drawable];
     }
+    else
+    {
+        NSLog(@"Fail to get metalDrawable Object");
+        return;
+    }
 }
 
 - (void) newFrame:(CADisplayLink *)displayLink

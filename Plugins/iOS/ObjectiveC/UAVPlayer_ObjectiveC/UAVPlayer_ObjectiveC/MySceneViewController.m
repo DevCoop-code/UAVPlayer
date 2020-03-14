@@ -28,12 +28,19 @@
 
 - (void)renderObject:(id<CAMetalDrawable>)drawable
 {
-    [_objectToDraw render:[super commandQueue]
-      renderPipelineState:[super pipelineState]
-                 drawable:drawable
-                 mvMatrix:_worldModelMatrix
-         projectionMatrix:[super projectionMatrix]
-               clearColor:nil];
+    if(nil != drawable && nil != [super commandQueue] && nil != [super pipelineState])
+    {
+        [_objectToDraw render:[super commandQueue]
+          renderPipelineState:[super pipelineState]
+                     drawable:drawable
+                     mvMatrix:_worldModelMatrix
+             projectionMatrix:[super projectionMatrix]
+                   clearColor:nil];
+    }
+    else
+    {
+        NSLog(@"some variables are not setted");
+    }
 }
 
 
