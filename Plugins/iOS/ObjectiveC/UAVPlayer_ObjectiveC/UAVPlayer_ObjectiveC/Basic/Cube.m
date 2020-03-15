@@ -57,11 +57,8 @@
     Q,R,S ,Q,S,T,   //Bottom
     U,V,W ,U,W,X    //Back
     ];
-    
-    MetalTexture *texture = [[MetalTexture alloc]init:@"cube" ext:@"png" mipmaped:YES];
-    [texture loadTexture:device commandQ:commandQ flip:YES];
 
-    self = [super init:@"Cube" vertex:verticesArray device:device texture:texture.texture];
+    self = [super init:@"Cube" vertex:verticesArray device:device];
     return self;
 }
 @end

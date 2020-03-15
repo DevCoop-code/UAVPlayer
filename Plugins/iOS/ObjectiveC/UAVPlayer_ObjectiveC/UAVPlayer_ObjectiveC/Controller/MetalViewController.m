@@ -36,6 +36,9 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 - (void)viewWillAppear:(BOOL)animated
 {
     [self addObserver:self forKeyPath:@"avPlayer.currentItem.status" options:NSKeyValueObservingOptionNew context:AVPlayerItemStatusContext];
+    
+    NSString* assetURL = [[NSBundle mainBundle]pathForResource:@"testVideo" ofType:@"mp4"];
+    [self startToPlay:assetURL];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -82,7 +85,7 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     
     timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(newFrame:)];
     [timer addToRunLoop:NSRunLoop.mainRunLoop forMode:NSDefaultRunLoopMode];
-    [timer setPaused:YES];
+//    [timer setPaused:YES];
     
     //Setup AVPlayerItemVideoOutput with the required pixelbuffer atttributes
     NSDictionary *pixelBuffAttributes = @{(id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)};

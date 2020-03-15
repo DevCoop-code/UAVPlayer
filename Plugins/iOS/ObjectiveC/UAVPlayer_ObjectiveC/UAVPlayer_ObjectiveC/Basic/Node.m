@@ -7,6 +7,7 @@
 //
 
 #import "Node.h"
+#import "MetalTexture.h"
 
 @implementation Node
 {
@@ -22,7 +23,6 @@
 - (instancetype)init:(NSString *)name
       vertex:(NSArray<Vertex *> *)vertices
       device:(id<MTLDevice>)device
-     texture:(id<MTLTexture>)texture
 {
     [self initProperty];
     
@@ -48,7 +48,6 @@
     _name = name;
     _device = device;
     _vertexCount = [vertices count];
-    _texture = texture;
     
     bufferProvider = [[BufferProvider alloc] init:device
                              inflightBuffersCount:3
@@ -92,6 +91,10 @@ projectionMatrix:(Matrix4 *)projectionMatrix
     [commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> _Nonnull commandbuffer) {
         dispatch_semaphore_signal([bufferProvider availableResourcesSemaphore]);
     }];
+    
+    MetalTexture* texture = [[MetalTexture alloc]init:@"cube" ext:@"png" mipmaped:YES];
+    [texture loadTexture:_device commandQ:commandQueue flip:YES];
+    _texture = texture.texture;
     
     id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
     [renderEncoder setCullMode:MTLCullModeFront];

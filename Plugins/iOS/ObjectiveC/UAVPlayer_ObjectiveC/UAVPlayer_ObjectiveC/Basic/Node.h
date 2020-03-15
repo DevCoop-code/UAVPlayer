@@ -27,8 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype) init:(NSString *)name
        vertex:(NSArray<Vertex *>*)vertices
-       device:(id<MTLDevice>)device
-      texture:(id<MTLTexture>)texture;
+               device:(id<MTLDevice>)device;
+
 - (void) render:(id<MTLCommandQueue>)commandQueue
 renderPipelineState:(id<MTLRenderPipelineState>) pipelineState
        drawable:(id<CAMetalDrawable>) drawable
