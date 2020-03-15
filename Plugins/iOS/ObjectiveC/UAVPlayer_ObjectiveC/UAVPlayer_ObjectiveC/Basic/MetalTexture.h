@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 @import Metal;
 @import UIKit;
+@import VideoToolbox;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSInteger bytesPerPixel;
 @property(nonatomic) NSInteger bitsPerComponent;
 
+@property(nonatomic) CVPixelBufferRef vPixelBuffer;
+
 - (instancetype) init:(NSString *)resourceName ext:(NSString *)ext mipmaped:(Boolean)mipmaped;
 - (void) loadTexture:(id<MTLDevice>)device
             commandQ:(id<MTLCommandQueue>)commandQ
@@ -35,6 +38,11 @@ NS_ASSUME_NONNULL_BEGIN
                                       device:(id<MTLDevice>)device
                                     commandQ:(id<MTLCommandQueue>)commandQ
                                        block:(MTLCommandBufferHandler)block;
+
+- (instancetype) init:(CVPixelBufferRef)pixelBuffer mipmaped:(Boolean)mipmaped;
+- (void) loadVideoTexture:(id<MTLDevice>)device
+                 commandQ:(id<MTLCommandQueue>)commandQ
+                     flip:(Boolean)flip;
 @end
 
 NS_ASSUME_NONNULL_END

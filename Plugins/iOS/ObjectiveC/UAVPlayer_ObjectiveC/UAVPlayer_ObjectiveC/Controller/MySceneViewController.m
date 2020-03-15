@@ -26,7 +26,7 @@
     super.metalViewControllerDelegate = self;
 }
 
-- (void)renderObject:(id<CAMetalDrawable>)drawable
+- (void)renderObject:(id<CAMetalDrawable>)drawable pixelBuffer:(CVPixelBufferRef)pixelBuffer
 {
     if(nil != drawable && nil != [super commandQueue] && nil != [super pipelineState])
     {
@@ -35,6 +35,7 @@
                      drawable:drawable
                      mvMatrix:_worldModelMatrix
              projectionMatrix:[super projectionMatrix]
+                  pixelBuffer:(CVPixelBufferRef)pixelBuffer
                    clearColor:nil];
     }
     else

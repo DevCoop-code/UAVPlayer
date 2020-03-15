@@ -94,12 +94,17 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     [_videoOutput setDelegate:self queue:videoOutputQueue];
 }
 
-- (void) render
+- (void) render:(CVPixelBufferRef)pixelBuffer
 {
     id<CAMetalDrawable> drawable = _metalLayer.nextDrawable;
-    if(nil != drawable)
+    if(nil != drawable && nil != pixelBuffer)
     {
-        [_metalViewControllerDelegate renderObject:drawable];
+        [_metalViewControllerDelegate renderObject:drawable pixelBuffer:pixelBuffer];
+        
+        if(nil != pixelBuffer)
+        {
+            CFRelease(pixelBuffer);
+        }
     }
     else
     {
@@ -110,6 +115,24 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 
 - (void) newFrame:(CADisplayLink *)displayLink
 {
+    /*
+     The callback gets called once every Vsync.
+     Using tthe display link's timestamp and duration we can compute the next time the screen will be refreshed, and copy the pixel buffer for that time.
+     This pixel buffer can then be processed and later rendered on screen
+     */
+    CMTime outputItemTime = kCMTimeInvalid;
+    
+    //Calculate the nextVsync time which is when the screen will be refreshed next
+    CFTimeInterval nextVSync = ([displayLink timestamp] + [displayLink duration]);
+    
+    outputItemTime = [[self videoOutput] itemTimeForHostTime:nextVSync];
+    
+    CVPixelBufferRef pixelBuffer = NULL;
+    if([[self videoOutput] hasNewPixelBufferForItemTime:outputItemTime])
+    {
+        pixelBuffer = [[self videoOutput] copyPixelBufferForItemTime:outputItemTime itemTimeForDisplay:NULL];
+    }
+    
     if(0.0 == lastFrameTimestamp)
     {
         lastFrameTimestamp = displayLink.timestamp;
@@ -118,14 +141,14 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     NSTimeInterval elapsed = displayLink.timestamp - lastFrameTimestamp;
     lastFrameTimestamp = displayLink.timestamp;
     
-    [self gameloop:elapsed];
+    [self gameloop:elapsed pixelBuffer:pixelBuffer];
 }
 
-- (void) gameloop:(CFTimeInterval)timeSinceLastUpdate
+- (void) gameloop:(CFTimeInterval)timeSinceLastUpdate pixelBuffer:(CVPixelBufferRef)pixelBuffer
 {
     @autoreleasepool
     {
-        [self render];
+        [self render:pixelBuffer];
     }
 }
 

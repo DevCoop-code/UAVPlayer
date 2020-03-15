@@ -14,10 +14,10 @@
 - (instancetype)init:(id<MTLDevice>)device commandQ:(id<MTLCommandQueue>)commandQ
 {
     //Front
-    Vertex *A = [[Vertex alloc] init:-1.0 y: 1.0 z:1.0 r:1.0 g:0.0 b:0.0 a:1.0 s:0.25 t:0.25];
-    Vertex *B = [[Vertex alloc] init:-1.0 y:-1.0 z:1.0 r:0.0 g:1.0 b:0.0 a:1.0 s:0.25 t:0.50];
-    Vertex *C = [[Vertex alloc] init: 1.0 y:-1.0 z:1.0 r:0.0 g:0.0 b:1.0 a:1.0 s:0.50 t:0.50];
-    Vertex *D = [[Vertex alloc] init: 1.0 y: 1.0 z:1.0 r:0.1 g:0.6 b:0.4 a:1.0 s:0.50 t:0.25];
+    Vertex *A = [[Vertex alloc] init:-1.0 y: 1.0 z:1.0 r:1.0 g:0.0 b:0.0 a:1.0 s:1.0 t:0.0];
+    Vertex *B = [[Vertex alloc] init:-1.0 y:-1.0 z:1.0 r:0.0 g:1.0 b:0.0 a:1.0 s:1.0 t:1.0];
+    Vertex *C = [[Vertex alloc] init: 1.0 y:-1.0 z:1.0 r:0.0 g:0.0 b:1.0 a:1.0 s:0.0 t:1.0];
+    Vertex *D = [[Vertex alloc] init: 1.0 y: 1.0 z:1.0 r:0.1 g:0.6 b:0.4 a:1.0 s:0.0 t:0.0];
 
     //Left
     Vertex *E = [[Vertex alloc] init:-1.0 y: 1.0 z:-1.0 r:1.0 g:0.0 b:0.0 a:1.0 s:0.00 t:0.25];

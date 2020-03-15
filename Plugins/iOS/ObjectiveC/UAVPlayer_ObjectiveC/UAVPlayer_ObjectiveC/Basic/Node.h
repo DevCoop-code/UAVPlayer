@@ -34,6 +34,7 @@ renderPipelineState:(id<MTLRenderPipelineState>) pipelineState
        drawable:(id<CAMetalDrawable>) drawable
        mvMatrix: (Matrix4*)parentModelViewMatrix
 projectionMatrix:(Matrix4*)projectionMatrix
+    pixelBuffer:(CVPixelBufferRef)pixelBuffer
      clearColor:(MTLClearColor *)clearColor;
 
 @end

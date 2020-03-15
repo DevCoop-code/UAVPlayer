@@ -73,6 +73,7 @@ renderPipelineState:(id<MTLRenderPipelineState>)pipelineState
        drawable:(id<CAMetalDrawable>)drawable
        mvMatrix:(Matrix4 *)parentModelViewMatrix
 projectionMatrix:(Matrix4 *)projectionMatrix
+    pixelBuffer:(CVPixelBufferRef)pixelBuffer
      clearColor:(MTLClearColor *)clearColor
 {
     //Make CPU wait
@@ -92,8 +93,8 @@ projectionMatrix:(Matrix4 *)projectionMatrix
         dispatch_semaphore_signal([bufferProvider availableResourcesSemaphore]);
     }];
     
-    MetalTexture* texture = [[MetalTexture alloc]init:@"cube" ext:@"png" mipmaped:YES];
-    [texture loadTexture:_device commandQ:commandQueue flip:YES];
+    MetalTexture* texture = [[MetalTexture alloc]init:pixelBuffer mipmaped:YES];
+    [texture loadVideoTexture:_device commandQ:commandQueue flip:YES];
     _texture = texture.texture;
     
     id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];

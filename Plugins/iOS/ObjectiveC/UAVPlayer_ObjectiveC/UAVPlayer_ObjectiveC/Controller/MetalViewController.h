@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MetalViewControllerDelegate <NSObject>
 
 - (void) updateLogic:(CFTimeInterval) timeSinceLastUpdate;
-- (void) renderObject:(id<CAMetalDrawable>) drawable;
+- (void)renderObject:(id<CAMetalDrawable>)drawable pixelBuffer:(CVPixelBufferRef)pixelBuffer;
 
 @end
 
