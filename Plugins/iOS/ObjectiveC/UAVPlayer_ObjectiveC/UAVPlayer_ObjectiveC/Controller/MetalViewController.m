@@ -8,9 +8,18 @@
 
 #import "MetalViewController.h"
 #import "Matrix4.h"
+#import <MobileCoreServices/MobileCoreServices.h>
+
+static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
+
+# define ONE_FRAME_DURATION 0.03
+# define LUMA_SLIDER_TAG 0
+# define CHROMA_SLIDER_TAG 1
 
 @implementation MetalViewController
 {
+    dispatch_queue_t videoOutputQueue;
+    
     CADisplayLink *timer;
     CFTimeInterval lastFrameTimestamp;
 }
@@ -20,6 +29,18 @@
     [super viewDidLoad];
     
     [self initProperties];
+    
+    _avPlayer = [[AVPlayer alloc] init];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self addObserver:self forKeyPath:@"avPlayer.currentItem.status" options:NSKeyValueObservingOptionNew context:AVPlayerItemStatusContext];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self removeObserver:self forKeyPath:@"avPlayer.currentItem.status" context:AVPlayerItemStatusContext];
 }
 
 - (void)initProperties
@@ -53,7 +74,7 @@
     _pipelineState = [_device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
     if(error)
     {
-        NSLog(@"Fail tto make PipelineStateDescriptor");
+        NSLog(@"Fail to make PipelineStateDescriptor");
         return;
     }
     
@@ -61,6 +82,13 @@
     
     timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(newFrame:)];
     [timer addToRunLoop:NSRunLoop.mainRunLoop forMode:NSDefaultRunLoopMode];
+    [timer setPaused:YES];
+    
+    //Setup AVPlayerItemVideoOutput with the required pixelbuffer atttributes
+    NSDictionary *pixelBuffAttributes = @{(id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)};
+    _videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:pixelBuffAttributes];
+    videoOutputQueue = dispatch_queue_create("VideoOutputQueue", DISPATCH_QUEUE_SERIAL);
+    [_videoOutput setDelegate:self queue:videoOutputQueue];
 }
 
 - (void) render
@@ -95,6 +123,68 @@
     @autoreleasepool
     {
         [self render];
+    }
+}
+
+//MARK: Utilities
+- (void)startToPlay:(NSString*)assetURL
+{
+    NSLog(@"AssetURL path ; %@", assetURL);
+    [_avPlayer pause];
+    
+    [self setupPlaybackForURL:[NSURL fileURLWithPath:assetURL]];
+}
+
+//MARK: Playback setup
+- (void)setupPlaybackForURL:(NSURL*)URL
+{
+    //Remove video output from old item
+    [[_avPlayer currentItem] removeOutput:_videoOutput];
+    
+    AVPlayerItem* item = [[AVPlayerItem alloc] initWithURL:URL];
+    AVAsset* asset = [item asset];
+    
+    [asset loadValuesAsynchronouslyForKeys:@[@"tracks"] completionHandler:^{
+        if([asset statusOfValueForKey:@"tracks" error:nil] == AVKeyValueStatusLoaded)
+        {
+            NSArray* tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
+            if([tracks count] > 0)
+            {
+                //Choose the first video track
+//                AVAssetTrack* videoTrack = [tracks objectAtIndex:0];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [item addOutput:self.videoOutput];
+                    [self.avPlayer replaceCurrentItemWithPlayerItem:item];
+                    [self.videoOutput requestNotificationOfMediaDataChangeWithAdvanceInterval:ONE_FRAME_DURATION];
+                    [self.avPlayer play];
+                });
+            }
+        }
+    }];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+{
+    if(context == AVPlayerItemStatusContext)
+    {
+        AVPlayerStatus status = [change[NSKeyValueChangeNewKey] integerValue];
+        switch (status) {
+            case AVPlayerItemStatusUnknown:
+                break;
+            case AVPlayerItemStatusReadyToPlay:
+                
+                break;
+            case AVPlayerItemStatusFailed:
+                
+                break;
+            default:
+                break;
+        }
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
 

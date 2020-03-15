@@ -43,5 +43,12 @@
     }
 }
 
+- (IBAction)startToPlayback:(id)sender
+{
+    NSLog(@"Click to start Button");
+    
+    NSString* assetURL = [[NSBundle mainBundle]pathForResource:@"testVideo" ofType:@"mp4"];
+    [super startToPlay:assetURL];
+}
 
 @end

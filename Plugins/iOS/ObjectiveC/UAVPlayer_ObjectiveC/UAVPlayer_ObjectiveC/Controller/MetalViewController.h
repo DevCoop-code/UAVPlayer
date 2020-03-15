@@ -9,6 +9,7 @@
 @import UIKit;
 @import MetalKit;
 #include "Matrix4.h"
+#include <AVFoundation/AVFoundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface MetalViewController : UIViewController
+@interface MetalViewController : UIViewController <AVPlayerItemOutputPullDelegate>
 
 @property(nonatomic) id<MTLDevice>              device;
 @property(nonatomic) CAMetalLayer               *metalLayer;
@@ -27,6 +28,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) id<MTLCommandQueue>        commandQueue;
 @property(nonatomic) id<MetalViewControllerDelegate> metalViewControllerDelegate;
 @property(nonatomic) Matrix4 *projectionMatrix;
+
+//For Video player
+@property(nonatomic) AVPlayer* avPlayer;
+@property(nonatomic) AVPlayerItemVideoOutput* videoOutput;
+
+- (void)startToPlay:(NSString*)assetURL;
 
 @end
 
