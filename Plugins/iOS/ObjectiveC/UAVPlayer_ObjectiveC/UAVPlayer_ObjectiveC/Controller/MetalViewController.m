@@ -108,7 +108,8 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     }
     else
     {
-        NSLog(@"Fail to get metalDrawable Object");
+        if(drawable == nil)
+            NSLog(@"Fail to get metalDrawable Object");
         return;
     }
 }
