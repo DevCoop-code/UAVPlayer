@@ -37,6 +37,10 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 {
     [self addObserver:self forKeyPath:@"avPlayer.currentItem.status" options:NSKeyValueObservingOptionNew context:AVPlayerItemStatusContext];
     
+    /*
+     HLS Sample URL
+     https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8
+     */
     NSString* assetURL = [[NSBundle mainBundle]pathForResource:@"testVideo" ofType:@"mp4"];
     [self startToPlay:assetURL];
 }
@@ -159,7 +163,18 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     NSLog(@"AssetURL path ; %@", assetURL);
     [_avPlayer pause];
     
-    [self setupPlaybackForURL:[NSURL fileURLWithPath:assetURL]];
+    NSURL* videoURL = nil;
+    if([assetURL hasPrefix:@"http"])
+    {
+        videoURL = [NSURL URLWithString:assetURL];
+    }
+    else
+    {
+        videoURL = [NSURL fileURLWithPath:assetURL];
+    }
+    
+    if(videoURL != nil)
+        [self setupPlaybackForURL:videoURL];
 }
 
 //MARK: Playback setup
@@ -174,9 +189,10 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     [asset loadValuesAsynchronouslyForKeys:@[@"tracks"] completionHandler:^{
         if([asset statusOfValueForKey:@"tracks" error:nil] == AVKeyValueStatusLoaded)
         {
-            NSArray* tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
-            if([tracks count] > 0)
-            {
+            //COMMENT: Make these code to comment because it is not working remote video protocol
+//            NSArray* tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
+//            if([tracks count] > 0)
+//            {
                 //Choose the first video track
 //                AVAssetTrack* videoTrack = [tracks objectAtIndex:0];
                 
@@ -186,7 +202,7 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
                     [self.videoOutput requestNotificationOfMediaDataChangeWithAdvanceInterval:ONE_FRAME_DURATION];
                     [self.avPlayer play];
                 });
-            }
+//            }
         }
     }];
 }
