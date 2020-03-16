@@ -11,7 +11,6 @@
 		780C419B2415058D00EBF896 /* MetalTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 780C419A2415058D00EBF896 /* MetalTexture.m */; };
 		785011F0241DA76A004CA1D8 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 785011EF241DA76A004CA1D8 /* MobileCoreServices.framework */; };
 		785011F2241DA868004CA1D8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 785011F1241DA868004CA1D8 /* AVFoundation.framework */; };
-		785011F4241DB81B004CA1D8 /* testVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 785011F3241DB81B004CA1D8 /* testVideo.mp4 */; };
 		785011F8241E157C004CA1D8 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 785011F7241E157C004CA1D8 /* VideoToolbox.framework */; };
 		7876B081240EAFF900FFCFFC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7876B080240EAFF900FFCFFC /* AppDelegate.m */; };
 		7876B084240EAFF900FFCFFC /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7876B083240EAFF900FFCFFC /* SceneDelegate.m */; };
@@ -28,6 +27,7 @@
 		7876B0E42411E17800FFCFFC /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = 7876B0E32411E17800FFCFFC /* Node.m */; };
 		7876B0E72411E30A00FFCFFC /* BufferProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 7876B0E62411E30A00FFCFFC /* BufferProvider.m */; };
 		7893B2982416903600D79718 /* cube.png in Resources */ = {isa = PBXBuildFile; fileRef = 7893B2972416903500D79718 /* cube.png */; };
+		78CA044E241F8F8A00C8675D /* testVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 78CA044D241F8F8A00C8675D /* testVideo.mp4 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +47,6 @@
 		780C419A2415058D00EBF896 /* MetalTexture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MetalTexture.m; sourceTree = "<group>"; };
 		785011EF241DA76A004CA1D8 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		785011F1241DA868004CA1D8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		785011F3241DB81B004CA1D8 /* testVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testVideo.mp4; sourceTree = "<group>"; };
 		785011F7241E157C004CA1D8 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		7876B07C240EAFF900FFCFFC /* UAVPlayer_ObjectiveC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UAVPlayer_ObjectiveC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7876B07F240EAFF900FFCFFC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -76,6 +75,7 @@
 		7876B0E52411E30A00FFCFFC /* BufferProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BufferProvider.h; sourceTree = "<group>"; };
 		7876B0E62411E30A00FFCFFC /* BufferProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BufferProvider.m; sourceTree = "<group>"; };
 		7893B2972416903500D79718 /* cube.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cube.png; sourceTree = "<group>"; };
+		78CA044D241F8F8A00C8675D /* testVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testVideo.mp4; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				7893B2972416903500D79718 /* cube.png */,
-				785011F3241DB81B004CA1D8 /* testVideo.mp4 */,
+				78CA044D241F8F8A00C8675D /* testVideo.mp4 */,
 				7876B0DC2410DB4100FFCFFC /* Shaders */,
 				7876B0D82410D1F900FFCFFC /* Basic */,
 				7876B0D4240EB3CB00FFCFFC /* Controller */,
@@ -279,7 +279,7 @@
 				7876B08F240EAFFD00FFCFFC /* LaunchScreen.storyboard in Resources */,
 				7876B08C240EAFFD00FFCFFC /* Assets.xcassets in Resources */,
 				7893B2982416903600D79718 /* cube.png in Resources */,
-				785011F4241DB81B004CA1D8 /* testVideo.mp4 in Resources */,
+				78CA044E241F8F8A00C8675D /* testVideo.mp4 in Resources */,
 				7876B08A240EAFF900FFCFFC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

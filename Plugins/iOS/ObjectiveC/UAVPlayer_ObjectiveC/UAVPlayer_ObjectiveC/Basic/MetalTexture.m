@@ -147,6 +147,11 @@
         }];
     }
     NSLog(@"mipCount:%lu", (unsigned long)_texture.mipmapLevelCount);
+    
+    if(nil != image)
+    {
+        CFRelease(image);
+    }
 }
 
 - (void)generateMipMapLayersUsingSystemFunc:(id<MTLTexture>)texture
