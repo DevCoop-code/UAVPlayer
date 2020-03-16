@@ -28,8 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSInteger bytesPerPixel;
 @property(nonatomic) NSInteger bitsPerComponent;
 
-@property(nonatomic) CVPixelBufferRef vPixelBuffer;
-
 - (instancetype) init:(NSString *)resourceName ext:(NSString *)ext mipmaped:(Boolean)mipmaped;
 - (void) loadTexture:(id<MTLDevice>)device
             commandQ:(id<MTLCommandQueue>)commandQ
@@ -39,9 +37,10 @@ NS_ASSUME_NONNULL_BEGIN
                                     commandQ:(id<MTLCommandQueue>)commandQ
                                        block:(MTLCommandBufferHandler)block;
 
-- (instancetype) init:(CVPixelBufferRef)pixelBuffer mipmaped:(Boolean)mipmaped;
+- (instancetype) init:(Boolean)mipmaped;
 - (void) loadVideoTexture:(id<MTLDevice>)device
                  commandQ:(id<MTLCommandQueue>)commandQ
+              pixelBuffer:(CVPixelBufferRef)pixelBuffer
                      flip:(Boolean)flip;
 @end
 

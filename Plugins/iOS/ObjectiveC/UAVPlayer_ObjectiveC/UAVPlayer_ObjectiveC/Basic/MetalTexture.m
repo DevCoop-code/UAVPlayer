@@ -9,6 +9,9 @@
 #import "MetalTexture.h"
 
 @implementation MetalTexture
+{
+    CGColorSpaceRef colorSpace;
+}
 
 - (instancetype)init:(NSString *)resourceName ext:(NSString *)ext mipmaped:(Boolean)mipmaped
 {
@@ -28,12 +31,11 @@
     return self;
 }
 
-- (instancetype)init:(CVPixelBufferRef)pixelBuffer mipmaped:(Boolean)mipmaped
+- (instancetype)init:(Boolean)mipmaped
 {
     _bytesPerPixel = 4;
     _bitsPerComponent = 8;
     
-    _vPixelBuffer = pixelBuffer;
     _width = 0;
     _height = 0;
     _depth = 1;
@@ -41,6 +43,8 @@
     _target = MTLTextureType2D;
     _texture = nil;
     _isMipmaped = mipmaped;
+    
+    colorSpace = CGColorSpaceCreateDeviceRGB();
     
     self = [super init];
     return self;
@@ -97,12 +101,13 @@
     NSLog(@"mipCount:%lu", (unsigned long)_texture.mipmapLevelCount);
 }
 
-- (void)loadVideoTexture:(id<MTLDevice>)device commandQ:(id<MTLCommandQueue>)commandQ flip:(Boolean)flip
+- (void)loadVideoTexture:(id<MTLDevice>)device
+                commandQ:(id<MTLCommandQueue>)commandQ
+             pixelBuffer:(nonnull CVPixelBufferRef)pixelBuffer
+                    flip:(Boolean)flip
 {
     CGImageRef image = nil;
-    VTCreateCGImageFromCVPixelBuffer(_vPixelBuffer, NULL, &image);
-    
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    VTCreateCGImageFromCVPixelBuffer(pixelBuffer, NULL, &image);
     
     _width = CGImageGetWidth(image);
     _height = CGImageGetHeight(image);
@@ -147,8 +152,17 @@
         }];
     }
     NSLog(@"mipCount:%lu", (unsigned long)_texture.mipmapLevelCount);
+
+    if(context != nil)
+    {
+        CFRelease(context);
+    }
+    if(texDescriptor != nil)
+    {
+        texDescriptor = nil;
+    }
     
-    if(nil != image)
+    if(image != nil)
     {
         CFRelease(image);
     }

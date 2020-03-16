@@ -12,6 +12,7 @@
 @implementation Node
 {
     BufferProvider *bufferProvider;
+    MetalTexture* texture;
     
     Float32 positionX, positionY, positionZ;
     Float32 rotationX, rotationY, rotationZ;
@@ -53,6 +54,8 @@
                              inflightBuffersCount:3
                              sizeOfUniformsBuffer:sizeof(Float32) * [Matrix4 numberOfElements] * 2];
     
+    texture = [[MetalTexture alloc]init:YES];
+    
     self = [super init];
     return self;
 }
@@ -93,8 +96,7 @@ projectionMatrix:(Matrix4 *)projectionMatrix
         dispatch_semaphore_signal([bufferProvider availableResourcesSemaphore]);
     }];
     
-    MetalTexture* texture = [[MetalTexture alloc]init:pixelBuffer mipmaped:YES];
-    [texture loadVideoTexture:_device commandQ:commandQueue flip:YES];
+    [texture loadVideoTexture:_device commandQ:commandQueue pixelBuffer:pixelBuffer flip:YES];
     _texture = texture.texture;
     
     id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
