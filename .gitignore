@@ -1,4 +1,8 @@
 Unity/UAVPlayer/Assembly-CSharp.csproj
 Unity/UAVPlayer/UAVPlayer.sln
-Unity/UAVPlayer/Library/expandedItems
+Unity/UAVPlayer/Library/*
 Unity/UAVPlayer/Library/LastSceneManagerSetup.txt
+Unity/UAVPlayer/Library/assetDatabase3
+Unity/UAVPlayer/Library/EditorInstance.json
+Unity/UAVPlayer/Library/shadercompiler-UnityShaderCompiler0.log
+Unity/UAVPlayer/Logs/*
