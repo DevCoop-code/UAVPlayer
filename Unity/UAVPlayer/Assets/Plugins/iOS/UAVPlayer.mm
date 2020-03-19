@@ -9,7 +9,9 @@
 #include <string.h>
 #include <stdint.h>
 
-@interface UAVPlayer: NSObject
+static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
+
+@interface UAVPlayer: NSObject<AVPlayerItemOutputPullDelegate>
 {
     @public BOOL playerReady;
     
@@ -30,7 +32,11 @@
 {
     NSLog(@"play video path : %@", url);
     
+    avPlayer = [[AVPlayer alloc] init];
     
+    [self addObserver:self forKeyPath:@"avPlayer.currentItem.status" options:NSKeyValueObservingOptionNew context:AVPlayerItemStatusContext];
+    
+    [self startToPlay:url];
 }
 
 - (void)onPlayerReady
@@ -56,6 +62,54 @@
         return [fileURL isFileURL];
     }
 }
+
+- (void)startToPlay:(NSURL*)url
+{
+    [avPlayer pause];
+    
+    [self setupPlaybackForURL:url];
+}
+
+- (void)setupPlaybackForURL:(NSURL*)URL
+{
+    AVPlayerItem* item = [[AVPlayerItem alloc] initWithURL:URL];
+    AVAsset* asset = [item asset];
+    
+    [asset loadValuesAsynchronouslyForKeys:@[@"tracks"] completionHandler:^{
+        if([asset statusOfValueForKey:@"tracks" error:nil] == AVKeyValueStatusLoaded)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [avPlayer replaceCurrentItemWithPlayerItem:item];
+                [avPlayer play];
+            });
+        }
+    }];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary<NSKeyValueChangeKey,id> *)change
+                       context:(void *)context
+{
+    if(context == AVPlayerItemStatusContext)
+    {
+        AVPlayerStatus status = (AVPlayerStatus)[change[NSKeyValueChangeNewKey] integerValue];
+        switch (status) {
+            case AVPlayerItemStatusUnknown:
+                break;
+            case AVPlayerItemStatusReadyToPlay:
+                break;
+            case AVPlayerItemStatusFailed:
+                break;
+            default:
+                break;
+        }
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
 @end
 
 
@@ -72,38 +126,48 @@ static UAVPlayer* _GetPlayer()
     return _player;
 }
 
+static NSURL* _GetUrl(const char* filename)
+{
+    NSURL* url = nil;
+    if(::strstr(filename, "://"))
+    {
+        url = [NSURL URLWithString:[NSString stringWithUTF8String:filename]];
+    }
+    else
+    {
+        url = [NSURL fileURLWithPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:[NSString stringWithUTF8String:filename]]];
+    }
+    
+    return url;
+}
+
 extern "C" bool UAVP_CanOutputToTexture(const char* filename)
 {
-    printf("CanOutputToTexture called");
-    return NO;
+    return [_GetPlayer() canOutputTexture:[NSString stringWithUTF8String:filename]];
 }
 
 extern "C" bool UAVP_PlayerReady()
 {
-    printf("PlayerReady called");
     return NO;
 }
 
 extern "C" float UAVP_DurationSeconds()
 {
-    printf("DurationSeconds called");
     return 0;
 }
 
 extern "C" void UAVP_VideoExtents(int* w, int* h)
 {
-    printf("VideoExtents called");
     *w = 0;
     *h = 0;
 }
 
 extern "C" intptr_t UAVP_CurFrameTexture()
 {
-    printf("CurFrameTexture called");
     return NO;
 }
 
 extern "C" void UAVP_PlayVideo(const char* filename)
 {
-    printf("PlayVideo called");
+    [_GetPlayer() playVideo:_GetUrl(filename)];
 }
