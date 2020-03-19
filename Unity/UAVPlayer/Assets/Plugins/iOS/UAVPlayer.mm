@@ -3,6 +3,7 @@
 #endif
 
 #include <UIKit/UIKit.h>
+#include <AVFoundation/AVFoundation.h>
 
 #include <stdlib.h>
 #include <string.h>
@@ -11,10 +12,16 @@
 @interface UAVPlayer: NSObject
 {
     @public BOOL playerReady;
+    
+    AVPlayer* avPlayer;
+    AVPlayerItemVideoOutput* videoOutput;
+    
+    CFTimeInterval lastFrameTimestamp;
 }
 - (void)playVideo:(NSURL*)url;
 - (void)onPlayerReady;
 - (void)onPlayerDidFinishPlayingVideo;
+- (Boolean)canOutputTexture:(NSString*)videoPath;
 
 @end
 
@@ -22,18 +29,39 @@
 - (void)playVideo:(NSURL*)url
 {
     NSLog(@"play video path : %@", url);
+    
+    
 }
 
 - (void)onPlayerReady
 {
     NSLog(@"player ready");
 }
+
 - (void)onPlayerDidFinishPlayingVideo
 {
     NSLog(@"player did finish playing video");
 }
+
+- (Boolean)canOutputTexture:(NSString*)videoPath
+{
+    //Playback HLS
+    if([videoPath rangeOfString:@".m3u8"].location != NSNotFound)
+    {
+        return YES;
+    }
+    else    //Playback LocalVideo
+    {
+        NSURL* fileURL = [NSURL fileURLWithPath:[[[NSBundle mainBundle]bundlePath]stringByAppendingPathComponent:videoPath]];
+        return [fileURL isFileURL];
+    }
+}
 @end
 
+
+/*
+ =====Interface=====
+ */
 static UAVPlayer* _GetPlayer()
 {
     static UAVPlayer* _player = nil;
