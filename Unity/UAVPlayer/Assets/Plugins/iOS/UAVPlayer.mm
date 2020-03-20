@@ -9,6 +9,8 @@
 #include <string.h>
 #include <stdint.h>
 
+# define ONE_FRAME_DURATION 0.03
+
 static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 
 @interface UAVPlayer: NSObject<AVPlayerItemOutputPullDelegate>
@@ -18,12 +20,16 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     AVPlayer* avPlayer;
     AVPlayerItemVideoOutput* videoOutput;
     
+    CADisplayLink* timer;
     CFTimeInterval lastFrameTimestamp;
+    
+    CVPixelBufferRef pixelBuffer;
 }
 - (void)playVideo:(NSURL*)url;
 - (void)onPlayerReady;
 - (void)onPlayerDidFinishPlayingVideo;
 - (Boolean)canOutputTexture:(NSString*)videoPath;
+- (id<MTLTexture>)outputFrameTexture;
 
 @end
 
@@ -32,11 +38,42 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 {
     NSLog(@"play video path : %@", url);
     
+    [self initProperties];
+    
     avPlayer = [[AVPlayer alloc] init];
     
     [self addObserver:self forKeyPath:@"avPlayer.currentItem.status" options:NSKeyValueObservingOptionNew context:AVPlayerItemStatusContext];
     
     [self startToPlay:url];
+}
+
+- (void)initProperties
+{
+    
+    timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(newFrame:)];
+    
+    NSDictionary* pixelBuffAtttributes = @{(id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)};
+    videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:pixelBuffAtttributes];
+}
+
+- (void)newFrame:(CADisplayLink*)displayLink
+{
+    CMTime outputItemTime = kCMTimeInvalid;
+    
+    //Calculate the nextVsync time which is when the screen will be refreshed next
+    CFTimeInterval nextVSync = ([displayLink timestamp] + [displayLink duration]);
+    outputItemTime = [videoOutput itemTimeForHostTime:nextVSync];
+    
+    pixelBuffer = NULL;
+    if([videoOutput hasNewPixelBufferForItemTime:outputItemTime])
+    {
+        pixelBuffer = [videoOutput copyPixelBufferForItemTime:outputItemTime itemTimeForDisplay:NULL];
+    }
+    
+    if(nil != pixelBuffer)
+    {
+        CFRelease(pixelBuffer);
+    }
 }
 
 - (void)onPlayerReady
@@ -70,8 +107,16 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     [self setupPlaybackForURL:url];
 }
 
+- (id<MTLTexture>)outputFrameTexture
+{
+    
+}
+
 - (void)setupPlaybackForURL:(NSURL*)URL
 {
+    //Remove video outtput from old item
+    [[avPlayer currentItem] removeOutput:videoOutput];
+    
     AVPlayerItem* item = [[AVPlayerItem alloc] initWithURL:URL];
     AVAsset* asset = [item asset];
     
@@ -79,7 +124,9 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
         if([asset statusOfValueForKey:@"tracks" error:nil] == AVKeyValueStatusLoaded)
         {
             dispatch_async(dispatch_get_main_queue(), ^{
+                [item addOutput:videoOutput];
                 [avPlayer replaceCurrentItemWithPlayerItem:item];
+                [videoOutput requestNotificationOfMediaDataChangeWithAdvanceInterval:ONE_FRAME_DURATION];
                 [avPlayer play];
             });
         }
@@ -164,7 +211,7 @@ extern "C" void UAVP_VideoExtents(int* w, int* h)
 
 extern "C" intptr_t UAVP_CurFrameTexture()
 {
-    return NO;
+    return (uintptr_t)(__bridge void*)([_GetPlayer() outputFrameTexture]);
 }
 
 extern "C" void UAVP_PlayVideo(const char* filename)
