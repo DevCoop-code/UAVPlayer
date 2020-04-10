@@ -15,24 +15,6 @@
     CVMetalTextureCacheRef textureCache;
 }
 
-- (instancetype)init:(NSString *)resourceName ext:(NSString *)ext mipmaped:(Boolean)mipmaped
-{
-    _bytesPerPixel = 4;
-    _bitsPerComponent = 8;
-    
-    _path = [[NSBundle mainBundle] pathForResource:resourceName ofType:ext];
-    _width = 0;
-    _height = 0;
-    _depth = 1;
-    _format = MTLPixelFormatRGBA8Unorm;
-    _target = MTLTextureType2D;
-    _ytexture = nil;
-    _isMipmaped = mipmaped;
-    
-    self = [super init];
-    return self;
-}
-
 - (instancetype)init:(Boolean)mipmaped
 {
     _bytesPerPixel = 4;
@@ -50,57 +32,6 @@
     
     self = [super init];
     return self;
-}
-
-// Actually creates MTLTexture
-- (void)loadTexture:(id<MTLDevice>)device commandQ:(id<MTLCommandQueue>)commandQ flip:(Boolean)flip
-{
-    CGImageRef image = [[UIImage imageWithContentsOfFile:_path]CGImage];
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    
-    _width = CGImageGetWidth(image);
-    _height = CGImageGetHeight(image);
-    
-    NSUInteger rowBytes = _width * _bytesPerPixel;
-    
-    //Create Bitmap Image Context
-    CGContextRef context = CGBitmapContextCreate(nil,
-                                                 _width,
-                                                 _height,
-                                                 _bitsPerComponent,
-                                                 rowBytes,
-                                                 colorSpace,
-                                                 kCGImageAlphaPremultipliedLast);
-    CGRect bounds = CGRectMake(0, 0, _width, _height);
-    
-    //Paints a transparent rectangle
-    CGContextClearRect(context, bounds);
-    
-    //Draws an image in the specified area
-    CGContextDrawImage(context, bounds, image);
-    
-    MTLTextureDescriptor *texDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
-                                                       width:_width
-                                                      height:_height
-                                                   mipmapped:_isMipmaped];
-    _target = texDescriptor.textureType;
-    _ytexture = [device newTextureWithDescriptor:texDescriptor];
-    
-    //Returns a pointer to the image data associated with a bitmap context
-    void *pixelsData = CGBitmapContextGetData(context);
-    //Returns a 2D, rectangular region for image or texture data
-    MTLRegion region = MTLRegionMake2D(0, 0, _width, _height);
-    
-    //Copies a block of pixels into a section of texture slice
-    [_ytexture replaceRegion:region mipmapLevel:0 withBytes:pixelsData bytesPerRow:rowBytes];
-    
-    if(_isMipmaped == YES)
-    {
-        [self generateMipMapLayersUsingSystemFunc:_ytexture device:device commandQ:commandQ block:^(id<MTLCommandBuffer> _Nonnull buffer) {
-            NSLog(@"mips generated");
-        }];
-    }
-    NSLog(@"mipCount:%lu", (unsigned long)_ytexture.mipmapLevelCount);
 }
 
 - (void)loadVideoTexture:(id<MTLDevice>)device

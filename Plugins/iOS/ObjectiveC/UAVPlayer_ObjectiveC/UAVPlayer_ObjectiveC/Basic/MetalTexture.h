@@ -30,20 +30,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSInteger bytesPerPixel;
 @property(nonatomic) NSInteger bitsPerComponent;
 
-- (instancetype) init:(NSString *)resourceName ext:(NSString *)ext mipmaped:(Boolean)mipmaped;
-- (void) loadTexture:(id<MTLDevice>)device
-            commandQ:(id<MTLCommandQueue>)commandQ
-                flip:(Boolean)flip;
-- (void) generateMipMapLayersUsingSystemFunc:(id<MTLTexture>)texture
-                                      device:(id<MTLDevice>)device
-                                    commandQ:(id<MTLCommandQueue>)commandQ
-                                       block:(MTLCommandBufferHandler)block;
-
 - (instancetype) init:(Boolean)mipmaped;
 - (void) loadVideoTexture:(id<MTLDevice>)device
                  commandQ:(id<MTLCommandQueue>)commandQ
               pixelBuffer:(CVPixelBufferRef)pixelBuffer
                      flip:(Boolean)flip;
+- (void) generateMipMapLayersUsingSystemFunc:(id<MTLTexture>)texture
+                                      device:(id<MTLDevice>)device
+                                    commandQ:(id<MTLCommandQueue>)commandQ
+                                       block:(MTLCommandBufferHandler)block;
 @end
 
 NS_ASSUME_NONNULL_END
