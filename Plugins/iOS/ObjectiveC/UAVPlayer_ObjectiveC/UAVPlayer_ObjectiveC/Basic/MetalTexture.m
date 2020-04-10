@@ -74,12 +74,12 @@
             textureCache = nil;
         }
         //
-        CVMetalTextureCacheRef uvTextureCache;
-        result = CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device, nil, &uvTextureCache);
+        CVMetalTextureCacheRef cbcrTextureCache;
+        result = CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device, nil, &cbcrTextureCache);
         
         if(result == kCVReturnSuccess)
         {
-            textureCache = uvTextureCache;
+            textureCache = cbcrTextureCache;
         }
         else
         {
@@ -110,9 +110,21 @@
             yTextureCache = nil;
         }
         
+        if(cbcrTextureCache != nil)
+        {
+            CVMetalTextureCacheFlush(cbcrTextureCache, 0);
+            cbcrTextureCache = nil;
+        }
+        
         if(yTextureOut != nil)
         {
             CVBufferRelease(yTextureOut);
+            yTextureOut = nil;
+        }
+        if(cbcrTextureOut != nil)
+        {
+            CVBufferRelease(cbcrTextureOut);
+            cbcrTextureOut = nil;
         }
     }
 
