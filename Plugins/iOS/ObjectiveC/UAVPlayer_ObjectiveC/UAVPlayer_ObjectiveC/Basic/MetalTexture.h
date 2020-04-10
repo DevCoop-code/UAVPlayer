@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MetalTexture : NSObject
 
-@property(nonatomic) id<MTLTexture> texture;
+@property(nonatomic) id<MTLTexture> ytexture;
+@property(nonatomic) id<MTLTexture> cbcrtexture;
 @property(nonatomic) MTLTextureType target;
 @property(nonatomic) size_t width;
 @property(nonatomic) size_t height;

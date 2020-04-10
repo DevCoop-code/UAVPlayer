@@ -26,7 +26,7 @@
     _depth = 1;
     _format = MTLPixelFormatRGBA8Unorm;
     _target = MTLTextureType2D;
-    _texture = nil;
+    _ytexture = nil;
     _isMipmaped = mipmaped;
     
     self = [super init];
@@ -43,7 +43,7 @@
     _depth = 1;
     _format = MTLPixelFormatRGBA8Unorm;
     _target = MTLTextureType2D;
-    _texture = nil;
+    _ytexture = nil;
     _isMipmaped = mipmaped;
     
     colorSpace = CGColorSpaceCreateDeviceRGB();
@@ -84,7 +84,7 @@
                                                       height:_height
                                                    mipmapped:_isMipmaped];
     _target = texDescriptor.textureType;
-    _texture = [device newTextureWithDescriptor:texDescriptor];
+    _ytexture = [device newTextureWithDescriptor:texDescriptor];
     
     //Returns a pointer to the image data associated with a bitmap context
     void *pixelsData = CGBitmapContextGetData(context);
@@ -92,15 +92,15 @@
     MTLRegion region = MTLRegionMake2D(0, 0, _width, _height);
     
     //Copies a block of pixels into a section of texture slice
-    [_texture replaceRegion:region mipmapLevel:0 withBytes:pixelsData bytesPerRow:rowBytes];
+    [_ytexture replaceRegion:region mipmapLevel:0 withBytes:pixelsData bytesPerRow:rowBytes];
     
     if(_isMipmaped == YES)
     {
-        [self generateMipMapLayersUsingSystemFunc:_texture device:device commandQ:commandQ block:^(id<MTLCommandBuffer> _Nonnull buffer) {
+        [self generateMipMapLayersUsingSystemFunc:_ytexture device:device commandQ:commandQ block:^(id<MTLCommandBuffer> _Nonnull buffer) {
             NSLog(@"mips generated");
         }];
     }
-    NSLog(@"mipCount:%lu", (unsigned long)_texture.mipmapLevelCount);
+    NSLog(@"mipCount:%lu", (unsigned long)_ytexture.mipmapLevelCount);
 }
 
 - (void)loadVideoTexture:(id<MTLDevice>)device
@@ -113,29 +113,59 @@
     
     if(textureCache == nil)
     {
-        CVMetalTextureCacheRef newTextureCache;
-        CVReturn result = CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device, nil, &newTextureCache);
+        CVMetalTextureCacheRef yTextureCache;
+        CVReturn result = CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device, nil, &yTextureCache);
         
         if(result == kCVReturnSuccess)
         {
-            textureCache = newTextureCache;
+            textureCache = yTextureCache;
         }
         else
         {
-            NSLog(@"Unable to allocate texture cache");
+            NSLog(@"Unable to allocate luma texture cache");
         }
         
-        CVMetalTextureRef cvTextureOut;
+        CVMetalTextureRef yTextureOut;
         CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
                                                   textureCache,
                                                   pixelBuffer,
                                                   nil,
-                                                  MTLPixelFormatRGBA8Unorm,
+                                                  MTLPixelFormatR8Unorm,
                                                   _width,
                                                   _height,
                                                   0,
-                                                  &cvTextureOut);
-        _texture = CVMetalTextureGetTexture(cvTextureOut);
+                                                  &yTextureOut);
+        _ytexture = CVMetalTextureGetTexture(yTextureOut);
+        //
+        if(textureCache != nil)
+        {
+            CVMetalTextureCacheFlush(textureCache, 0);
+            textureCache = nil;
+        }
+        //
+        CVMetalTextureCacheRef uvTextureCache;
+        result = CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device, nil, &uvTextureCache);
+        
+        if(result == kCVReturnSuccess)
+        {
+            textureCache = uvTextureCache;
+        }
+        else
+        {
+            NSLog(@"Unable to allocate chroma texture cache");
+        }
+        
+        CVMetalTextureRef cbcrTextureOut;
+        CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                  textureCache,
+                                                  pixelBuffer,
+                                                  nil,
+                                                  MTLPixelFormatRG8Unorm,
+                                                  _width / 2,
+                                                  _height / 2,
+                                                  1,
+                                                  &cbcrTextureOut);
+        _cbcrtexture = CVMetalTextureGetTexture(cbcrTextureOut);
         
         if(textureCache != nil)
         {
@@ -143,15 +173,15 @@
             textureCache = nil;
         }
         
-        if(newTextureCache != nil)
+        if(yTextureCache != nil)
         {
-            CVMetalTextureCacheFlush(newTextureCache, 0);
-            newTextureCache = nil;
+            CVMetalTextureCacheFlush(yTextureCache, 0);
+            yTextureCache = nil;
         }
         
-        if(cvTextureOut != nil)
+        if(yTextureOut != nil)
         {
-            CVBufferRelease(cvTextureOut);
+            CVBufferRelease(yTextureOut);
         }
     }
 

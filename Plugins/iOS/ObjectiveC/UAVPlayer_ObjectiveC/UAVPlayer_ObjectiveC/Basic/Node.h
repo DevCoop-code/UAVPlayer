@@ -23,7 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSInteger vertexCount;
 @property(nonatomic) id<MTLBuffer> vertexBuffer;
 @property(nonatomic) CFTimeInterval time;
-@property(nonatomic) id<MTLTexture> texture;
+@property(nonatomic) id<MTLTexture> ytexture;
+@property(nonatomic) id<MTLTexture> cbcrtexture;
 
 - (instancetype) init:(NSString *)name
        vertex:(NSArray<Vertex *>*)vertices

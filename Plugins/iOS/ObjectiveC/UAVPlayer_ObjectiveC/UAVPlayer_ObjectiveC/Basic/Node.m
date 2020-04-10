@@ -97,13 +97,15 @@ projectionMatrix:(Matrix4 *)projectionMatrix
     }];
     
     [texture loadVideoTexture:_device commandQ:commandQueue pixelBuffer:pixelBuffer flip:YES];
-    _texture = texture.texture;
+    _ytexture = texture.ytexture;
+    _cbcrtexture = texture.cbcrtexture;
     
     id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
     [renderEncoder setCullMode:MTLCullModeFront];
     [renderEncoder setRenderPipelineState:pipelineState];
     [renderEncoder setVertexBuffer:_vertexBuffer offset:0 atIndex:0];
-    [renderEncoder setFragmentTexture:_texture atIndex:0];  //Passes the texture and sampler to the shaders
+    [renderEncoder setFragmentTexture:_ytexture atIndex:0];  //Passes the texture and sampler to the shaders
+    [renderEncoder setFragmentTexture:_cbcrtexture atIndex:1];
     
     if(nil != samplerState)
     {
