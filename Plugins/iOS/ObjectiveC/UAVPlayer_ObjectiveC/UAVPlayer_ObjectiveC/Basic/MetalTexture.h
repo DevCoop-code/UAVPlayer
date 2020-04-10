@@ -10,6 +10,7 @@
 @import Metal;
 @import UIKit;
 @import VideoToolbox;
+@import CoreVideo;
 
 NS_ASSUME_NONNULL_BEGIN
 

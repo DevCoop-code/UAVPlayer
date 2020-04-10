@@ -11,6 +11,8 @@
 @implementation MetalTexture
 {
     CGColorSpaceRef colorSpace;
+    
+    CVMetalTextureCacheRef textureCache;
 }
 
 - (instancetype)init:(NSString *)resourceName ext:(NSString *)ext mipmaped:(Boolean)mipmaped
@@ -106,6 +108,54 @@
              pixelBuffer:(nonnull CVPixelBufferRef)pixelBuffer
                     flip:(Boolean)flip
 {
+    _width = CVPixelBufferGetWidth(pixelBuffer);
+    _height = CVPixelBufferGetHeight(pixelBuffer);
+    
+    if(textureCache == nil)
+    {
+        CVMetalTextureCacheRef newTextureCache;
+        CVReturn result = CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device, nil, &newTextureCache);
+        
+        if(result == kCVReturnSuccess)
+        {
+            textureCache = newTextureCache;
+        }
+        else
+        {
+            NSLog(@"Unable to allocate texture cache");
+        }
+        
+        CVMetalTextureRef cvTextureOut;
+        CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                  textureCache,
+                                                  pixelBuffer,
+                                                  nil,
+                                                  MTLPixelFormatRGBA8Unorm,
+                                                  _width,
+                                                  _height,
+                                                  0,
+                                                  &cvTextureOut);
+        _texture = CVMetalTextureGetTexture(cvTextureOut);
+        
+        if(textureCache != nil)
+        {
+            CVMetalTextureCacheFlush(textureCache, 0);
+            textureCache = nil;
+        }
+        
+        if(newTextureCache != nil)
+        {
+            CVMetalTextureCacheFlush(newTextureCache, 0);
+            newTextureCache = nil;
+        }
+        
+        if(cvTextureOut != nil)
+        {
+            CVBufferRelease(cvTextureOut);
+        }
+    }
+
+    /*
     CGImageRef image = nil;
     VTCreateCGImageFromCVPixelBuffer(pixelBuffer, NULL, &image);
     
@@ -135,6 +185,7 @@
                                                       height:_height
                                                    mipmapped:_isMipmaped];
     _target = texDescriptor.textureType;
+   
     _texture = [device newTextureWithDescriptor:texDescriptor];
     
     //Returns a pointer to the image data associated with a bitmap context
@@ -166,6 +217,7 @@
     {
         CFRelease(image);
     }
+     */
 }
 
 - (void)generateMipMapLayersUsingSystemFunc:(id<MTLTexture>)texture
