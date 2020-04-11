@@ -25,13 +25,11 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     AVPlayer* avPlayer;
     AVPlayerItemVideoOutput* videoOutput;
     
-//    CADisplayLink* timer;
-//    CFTimeInterval lastFrameTimestamp;
-    
     CMTime curTime;
     CMTime curFrameTimestamp;
     CMTime lastFrameTimestamp;
     
+    CVMetalTextureCacheRef textureCache;
     CVPixelBufferRef pixelBuffer;
     
     id<MTLTexture> texture;
@@ -70,9 +68,6 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     
     commandQueue = [device newCommandQueue];
     
-//    timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(newFrame:)];
-//    [timer addToRunLoop:NSRunLoop.mainRunLoop forMode:NSDefaultRunLoopMode];
-    
     NSDictionary* pixelBuffAtttributes = @{(id)kCVPixelBufferPixelFormatTypeKey: @(/*kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange*/kCVPixelFormatType_32BGRA)};
     videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:pixelBuffAtttributes];
 
@@ -82,71 +77,8 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     curTime = kCMTimeZero;
     curFrameTimestamp = kCMTimeZero;
     lastFrameTimestamp = kCMTimeZero;
-}
 
-- (void)newFrame:(CADisplayLink*)displayLink
-{
-//    CMTime outputItemTime = kCMTimeInvalid;
-//
-//    //Calculate the nextVsync time which is when the screen will be refreshed next
-//    CFTimeInterval nextVSync = ([displayLink timestamp] + [displayLink duration]);
-//    outputItemTime = [videoOutput itemTimeForHostTime:nextVSync];
-//
-//    pixelBuffer = NULL;
-//    if([videoOutput hasNewPixelBufferForItemTime:outputItemTime])
-//    {
-//        pixelBuffer = [videoOutput copyPixelBufferForItemTime:outputItemTime itemTimeForDisplay:NULL];
-//    }
-//
-//    //loadtexture
-//    [self loadTexture];
-//
-//    if(nil != pixelBuffer)
-//    {
-//        CFRelease(pixelBuffer);
-//    }
-}
-
-- (void)loadTexture
-{
-//    CGImageRef image = nil;
-//    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-//
-//    if(pixelBuffer != nil)
-//    {
-//        VTCreateCGImageFromCVPixelBuffer(pixelBuffer, NULL, &image);
-//
-//        width = CGImageGetWidth(image);
-//        height = CGImageGetHeight(image);
-//
-//        NSUInteger rowBytes = width * 4;    //width * bytesPerPixel(4)
-//
-//        //Create Bitmap Image Context
-//        CGContextRef context = CGBitmapContextCreate(nil, width, height, 8, rowBytes, colorSpace, kCGImageAlphaPremultipliedLast);
-//
-//        MTLTextureDescriptor* texDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm
-//                                                                                                 width:width
-//                                                                                                height:height
-//                                                                                             mipmapped:YES];
-//        target = texDescriptor.textureType;
-//        texture = [device newTextureWithDescriptor:texDescriptor];
-//
-//        //Returns a pointer to the image data associated with a bitmap context
-//        void* pixelData = CGBitmapContextGetData(context);
-//        //Returns a 2D, rectangular region for image or texture data
-//        MTLRegion region = MTLRegionMake2D(0, 0, width, height);
-//
-//        //Copies a block of pixels into a section of texture slice
-//        [texture replaceRegion:region mipmapLevel:0 withBytes:pixelData bytesPerRow:rowBytes];
-//
-//        //Generate mipmap
-//        id<MTLCommandBuffer> commandBuffer = [commandQueue commandBuffer];
-//        id<MTLBlitCommandEncoder> blitCommandEncoder = [commandBuffer blitCommandEncoder];
-//        [blitCommandEncoder generateMipmapsForTexture:texture];
-//        [blitCommandEncoder endEncoding];
-//
-//        [commandBuffer commit];
-//    }
+    textureCache = nil;
 }
 
 - (void)onPlayerReady
@@ -188,58 +120,50 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
         return texture;
     curTime = time;
     
-    NSLog(@"curTime: %f", CMTimeGetSeconds(time));
-    
     pixelBuffer = NULL;
     if([videoOutput hasNewPixelBufferForItemTime:curTime])
     {
         pixelBuffer = [videoOutput copyPixelBufferForItemTime:curTime itemTimeForDisplay:NULL];
         
-        CGImageRef image = nil;
-        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+        width = CVPixelBufferGetWidth(pixelBuffer);
+        height = CVPixelBufferGetHeight(pixelBuffer);
         
-        if(pixelBuffer != nil)
+        if(textureCache == nil)
         {
-            VTCreateCGImageFromCVPixelBuffer(pixelBuffer, NULL, &image);
+            CVMetalTextureCacheRef textureCache;
+            CVMetalTextureRef textureOut;
             
-            width = CGImageGetWidth(image);
-            height = CGImageGetHeight(image);
+            CVReturn yResult = CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device, nil, &textureCache);
             
-            NSUInteger rowBytes = width * 4;
-            
-            CGContextRef context = CGBitmapContextCreate(nil, width, height, 8, rowBytes, colorSpace, kCGImageAlphaPremultipliedLast);
-            
-            MTLTextureDescriptor* texDescriptor;
-            OSType pixelFormat = CVPixelBufferGetPixelFormatType(pixelBuffer);
-            switch (pixelFormat) {
-                case kCVPixelFormatType_32BGRA:     //32bit BGRA
-                    if (@available(iOS 11.0, *)) {
-                        texDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGR10A2Unorm
-                                                                                           width:width
-                                                                                          height:height
-                                                                                       mipmapped:YES];
-//                        NSLog(@"bgra 32");
-                    } else {
-                        NSLog(@"Unsupported iOS Version");
-                    }
-                    break;
-                case kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange:
-                    texDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatBGRA8Unorm
-                                                                                       width:width
-                                                                                      height:height
-                                                                                   mipmapped:YES];
-                    break;
-                default:
-                    NSLog(@"unexpected pixel format %u", (unsigned int)pixelFormat);
-                    break;
+            if(yResult == kCVReturnSuccess)
+            {
+                textureCache = textureCache;
+            }
+            else
+            {
+                NSLog(@"Unable to allocate luma texture cache");
             }
             
-            texture = [device newTextureWithDescriptor:texDescriptor];
+            CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                      textureCache,
+                                                      pixelBuffer,
+                                                      nil,
+                                                      MTLPixelFormatBGRA8Unorm,
+                                                      width,
+                                                      height,
+                                                      0,
+                                                      &textureOut);
+            texture = CVMetalTextureGetTexture(textureOut);
             
-            void* pixelData = CGBitmapContextGetData(context);
-            MTLRegion region = MTLRegionMake2D(0, 0, width, height);
-            
-            [texture replaceRegion:region mipmapLevel:0 withBytes:pixelData bytesPerRow:rowBytes];
+            if(textureCache != nil)
+            {
+                CFRelease(textureCache);
+                textureCache = nil;
+            }
+            if(textureCache != nil)
+            {
+                textureCache = nil;
+            }
         }
     }
     
