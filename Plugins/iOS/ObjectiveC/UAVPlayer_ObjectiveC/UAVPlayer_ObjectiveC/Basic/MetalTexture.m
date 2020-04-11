@@ -44,10 +44,12 @@
     
     if(textureCache == nil)
     {
-        CVMetalTextureCacheRef yTextureCache;
-        CVReturn result = CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device, nil, &yTextureCache);
+        CVMetalTextureCacheRef yTextureCache, cbcrTextureCache;
+        CVMetalTextureRef yTextureOut, cbcrTextureOut;
         
-        if(result == kCVReturnSuccess)
+        CVReturn yresult = CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device, nil, &yTextureCache);
+        
+        if(yresult == kCVReturnSuccess)
         {
             textureCache = yTextureCache;
         }
@@ -56,7 +58,6 @@
             NSLog(@"Unable to allocate luma texture cache");
         }
         
-        CVMetalTextureRef yTextureOut;
         CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
                                                   textureCache,
                                                   pixelBuffer,
@@ -67,17 +68,10 @@
                                                   0,
                                                   &yTextureOut);
         _ytexture = CVMetalTextureGetTexture(yTextureOut);
-        //
-        if(textureCache != nil)
-        {
-            CVMetalTextureCacheFlush(textureCache, 0);
-            textureCache = nil;
-        }
-        //
-        CVMetalTextureCacheRef cbcrTextureCache;
-        result = CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device, nil, &cbcrTextureCache);
+
+        CVReturn cbcrresult = CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device, nil, &cbcrTextureCache);
         
-        if(result == kCVReturnSuccess)
+        if(cbcrresult == kCVReturnSuccess)
         {
             textureCache = cbcrTextureCache;
         }
@@ -86,7 +80,6 @@
             NSLog(@"Unable to allocate chroma texture cache");
         }
         
-        CVMetalTextureRef cbcrTextureOut;
         CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
                                                   textureCache,
                                                   pixelBuffer,
@@ -98,21 +91,20 @@
                                                   &cbcrTextureOut);
         _cbcrtexture = CVMetalTextureGetTexture(cbcrTextureOut);
         
-        if(textureCache != nil)
-        {
-            CVMetalTextureCacheFlush(textureCache, 0);
-            textureCache = nil;
-        }
-        
         if(yTextureCache != nil)
         {
-            CVMetalTextureCacheFlush(yTextureCache, 0);
+            CFRelease(yTextureCache);
             yTextureCache = nil;
+        }
+        
+        if(textureCache != nil)
+        {
+            CFRelease(textureCache);
+            textureCache = nil;
         }
         
         if(cbcrTextureCache != nil)
         {
-            CVMetalTextureCacheFlush(cbcrTextureCache, 0);
             cbcrTextureCache = nil;
         }
         
@@ -127,7 +119,8 @@
             cbcrTextureOut = nil;
         }
     }
-
+    
+    //Legacy Code
     /*
     CGImageRef image = nil;
     VTCreateCGImageFromCVPixelBuffer(pixelBuffer, NULL, &image);
