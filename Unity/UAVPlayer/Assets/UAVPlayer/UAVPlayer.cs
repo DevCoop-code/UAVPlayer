@@ -84,17 +84,20 @@ public class UAVPlayer
             System.IntPtr nativeTex = videoReady ? UAVP_CurFrameTexture() : System.IntPtr.Zero;
             if(nativeTex != System.IntPtr.Zero)
             {
-                if(_videoTexture == null)
+                if(_videoTexture == null && videoWidth != 0 && videoHeight != 0)
                 {
+                    Debug.Log("Create Texture width: " + videoWidth + ", height: " + videoHeight);
                     _videoTexture = Texture2D.CreateExternalTexture(videoWidth, videoHeight, TextureFormat.BGRA32, false, false, nativeTex);
                     _videoTexture.filterMode = FilterMode.Bilinear;
                     _videoTexture.wrapMode = TextureWrapMode.Repeat;
                 }
 
+                Debug.Log("try update Texture");
                 _videoTexture.UpdateExternalTexture(nativeTex);
             }
             else
             {
+                Debug.Log("native texture is zero");
                 _videoTexture = null;
             }
 
