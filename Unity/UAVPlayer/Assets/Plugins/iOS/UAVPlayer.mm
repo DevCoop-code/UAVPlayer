@@ -130,12 +130,11 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
         
         if(textureCache == nil)
         {
-            CVMetalTextureCacheRef textureCache;
             CVMetalTextureRef textureOut;
             
             CVReturn result = CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device, nil, &textureCache);
             
-            if(result)
+            if(result == kCVReturnSuccess)
             {
                 CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
                                                           textureCache,
