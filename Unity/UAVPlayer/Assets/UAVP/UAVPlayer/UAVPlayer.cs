@@ -110,11 +110,21 @@ public class UAVPlayer
      */
      public static bool CanOutputToTexture(string videoPath)
     {
-        return UAVP_CanOutputToTexture(videoPath);
+        bool canOutputTexture = UAVP_CanOutputToTexture(videoPath);
+        if(canOutputTexture)
+        {
+            Debug.Log("[Unity Player] CanOutputTexture");
+        }
+        else
+        {
+            Debug.Log("[Unity Player] Problem to output texture");
+        }
+        return canOutputTexture;
     }
 
     public void play(string videoPath)
     {
+        Debug.Log("[Unity Player] Player Start to play [" + videoPath + "]");
         if (CanOutputToTexture(videoPath))
             UAVP_PlayVideo(videoPath);
     }
