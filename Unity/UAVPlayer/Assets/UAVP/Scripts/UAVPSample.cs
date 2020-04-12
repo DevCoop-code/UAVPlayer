@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UAVPTest : MonoBehaviour
+public class UAVPSample : MonoBehaviour
 {
     public Material videoMat = null;
     public RawImage videoRaw = null;
 
     public string videoPath = null;
 
-    private bool videoMatTexAssigned = false;
+    private bool videoTexAssigned = false;
 
     private UAVPlayer player = new UAVPlayer();
 
@@ -36,7 +36,7 @@ public class UAVPTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!videoMatTexAssigned && player.videoTexture)
+        if (!videoTexAssigned && player.videoTexture)
         {
             if (videoMat != null)
                 videoMat.mainTexture = player.videoTexture;
@@ -44,16 +44,16 @@ public class UAVPTest : MonoBehaviour
             if (videoRaw != null)
                 videoRaw.GetComponent<RawImage>().texture = player.videoTexture;
             
-            videoMatTexAssigned = true;
+            videoTexAssigned = true;
         }
-        if (videoMatTexAssigned && !player.videoTexture)
+        if (videoTexAssigned && !player.videoTexture)
         {
             if (videoMat != null)
                 videoMat.mainTexture = null;
             if (videoRaw != null)
                 videoRaw.GetComponent<RawImage>().texture = null;
 
-            videoMatTexAssigned = false;
+            videoTexAssigned = false;
         }
     }
 }
