@@ -133,36 +133,35 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
             CVMetalTextureCacheRef textureCache;
             CVMetalTextureRef textureOut;
             
-            CVReturn yResult = CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device, nil, &textureCache);
+            CVReturn result = CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device, nil, &textureCache);
             
-            if(yResult == kCVReturnSuccess)
+            if(result)
             {
-                textureCache = textureCache;
+                CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                          textureCache,
+                                                          pixelBuffer,
+                                                          nil,
+                                                          MTLPixelFormatBGRA8Unorm,
+                                                          width,
+                                                          height,
+                                                          0,
+                                                          &textureOut);
+                texture = CVMetalTextureGetTexture(textureOut);
             }
             else
             {
-                NSLog(@"Unable to allocate luma texture cache");
+                NSLog(@"Failed to make texture Cache");
             }
-            
-            CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
-                                                      textureCache,
-                                                      pixelBuffer,
-                                                      nil,
-                                                      MTLPixelFormatBGRA8Unorm,
-                                                      width,
-                                                      height,
-                                                      0,
-                                                      &textureOut);
-            texture = CVMetalTextureGetTexture(textureOut);
             
             if(textureCache != nil)
             {
                 CFRelease(textureCache);
                 textureCache = nil;
             }
-            if(textureCache != nil)
+            if(textureOut != nil)
             {
-                textureCache = nil;
+                CVBufferRelease(textureOut);
+                textureOut = nil;
             }
         }
     }
