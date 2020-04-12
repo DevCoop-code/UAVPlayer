@@ -51,7 +51,7 @@ public class UAVPTest : MonoBehaviour
             if (videoMat != null)
                 videoMat.mainTexture = null;
             if (videoRaw != null)
-                videoRaw.GetComponent<RawImage>().texture = player.videoTexture;
+                videoRaw.GetComponent<RawImage>().texture = null;
 
             videoMatTexAssigned = false;
         }
