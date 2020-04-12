@@ -38,7 +38,7 @@ public class UAVPlayer
 #endif
 
     /*
-     *Properties
+     *===Properties===
      */
     public bool videoReady
     {
@@ -106,7 +106,7 @@ public class UAVPlayer
     }
 
     /*
-     *Functions
+     *===[Functions]===
      */
      public static bool CanOutputToTexture(string videoPath)
     {
