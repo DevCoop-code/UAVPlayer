@@ -178,6 +178,18 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
         [self setupPlaybackForURL:videoURL];
 }
 
+- (void)pausePlayer
+{
+    NSLog(@"Pause video player");
+    
+    [_avPlayer pause];
+}
+
+- (void)resumePlayer
+{
+    [_avPlayer seekToTime:[_avPlayer currentTime] completionHandler:nil];
+}
+
 //MARK: Playback setup
 - (void)setupPlaybackForURL:(NSURL*)URL
 {

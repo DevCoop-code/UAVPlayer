@@ -14,6 +14,16 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nid-wa-zNM" userLabel="startPause">
+                                <rect key="frame" x="181" y="785" width="52" height="63"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="play.fill" catalog="system"/>
+                                <connections>
+                                    <action selector="startPause:" destination="BYZ-38-t0r" eventType="touchDown" id="Y9j-Ug-JEZ"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -23,4 +33,7 @@
             <point key="canvasLocation" x="137.68115942028987" y="70.982142857142847"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="play.fill" catalog="system" width="58" height="64"/>
+    </resources>
 </document>

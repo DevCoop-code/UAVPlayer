@@ -22,7 +22,20 @@ public class UAVPlayer
     private static extern System.IntPtr UAVP_CurFrameTexture();
 
     [DllImport("__Internal")]
+    private static void UAVP_InitPlayer() { }
+
+    [DllImport("__Internal")]
     private static extern bool UAVP_PlayVideo(string videoPath);
+
+    [DllImport("__Internal")]
+    private static void UAVP_PauseVideo() { }
+
+    [DllImport("__Internal")]
+    private static void UAVP_ResumeVideo() { }
+
+    [DllImport("__Internal")]
+    private static void UAVP_ReleasePlayer() { }
+
 #else
     private static bool UAVP_CanOutputToTexture(string videoPath) { return false;  }
 
@@ -34,8 +47,25 @@ public class UAVPlayer
 
     private static System.IntPtr UAVP_CurFrameTexture() { return System.IntPtr.Zero; }
 
+    private static void UAVP_InitPlayer() { }
+
     private static bool UAVP_PlayVideo(string videoPath) { return false;  }
+
+    private static void UAVP_PauseVideo() { }
+
+    private static void UAVP_ResumeVideo() { }
+
+    private static void UAVP_ReleasePlayer() { }
 #endif
+    /*
+     * ===Constructor===
+     */
+     public UAVPlayer()
+    {
+        Debug.Log("[Unity Player] Call UAVPlayer Constructor");
+
+        UAVP_InitPlayer();
+    }
 
     /*
      *===Properties===
@@ -127,5 +157,25 @@ public class UAVPlayer
         Debug.Log("[Unity Player] Player Start to play [" + videoPath + "]");
         if (CanOutputToTexture(videoPath))
             UAVP_PlayVideo(videoPath);
+    }
+
+    public void pause()
+    {
+        Debug.Log("[Unity Player] Player Pause");
+        if (videoReady)
+            UAVP_PauseVideo();
+    }
+
+    public void resume()
+    {
+        Debug.Log("[Unity Player] Resume Pause");
+
+        UAVP_ResumeVideo();
+    }
+
+    public void release()
+    {
+        Debug.Log("[Unity Player] Player Release");
+        UAVP_ReleasePlayer();
     }
 }

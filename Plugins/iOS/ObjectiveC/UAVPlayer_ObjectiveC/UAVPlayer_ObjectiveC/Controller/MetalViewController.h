@@ -34,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) AVPlayerItemVideoOutput* videoOutput;
 
 - (void)startToPlay:(NSString*)assetURL;
+- (void)pausePlayer;
+- (void)resumePlayer;
 
 @end
 

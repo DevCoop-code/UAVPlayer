@@ -38,28 +38,44 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     size_t width;
     size_t height;
 }
+- (void)initPlayer;
 - (void)playVideo:(NSURL*)url;
+- (void)pauseVideo;
+- (void)resumeVideo;
 - (void)onPlayerReady;
 - (void)onPlayerDidFinishPlayingVideo;
 - (Boolean)canOutputTexture:(NSString*)videoPath;
 - (id<MTLTexture>)outputFrameTexture;
 - (size_t)getTextureWidth;
 - (size_t)getTextureHeight;
+- (void)releasePlayer;
 
 @end
 
 @implementation UAVPlayer
-- (void)playVideo:(NSURL*)url
+- (void)initPlayer
 {
-    NSLog(@"play video path : %@", url);
-    
+    NSLog(@"Init UAVP");
+
     [self initProperties];
     
     avPlayer = [[AVPlayer alloc] init];
     
     [self addObserver:self forKeyPath:@"avPlayer.currentItem.status" options:NSKeyValueObservingOptionNew context:AVPlayerItemStatusContext];
+}
+
+- (void)playVideo:(NSURL*)url
+{
+    NSLog(@"play video path : %@", url);
     
-    [self startToPlay:url];
+    if(url != nil)
+    {
+        [self startToPlay:url];
+    }
+    else
+    {
+        NSLog(@"Problem in video path : %@", url);
+    }
 }
 
 - (void)initProperties
@@ -68,7 +84,7 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     
     commandQueue = [device newCommandQueue];
     
-    NSDictionary* pixelBuffAtttributes = @{(id)kCVPixelBufferPixelFormatTypeKey: @(/*kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange*/kCVPixelFormatType_32BGRA)};
+    NSDictionary* pixelBuffAtttributes = @{(id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_32BGRA)};
     videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:pixelBuffAtttributes];
 
     width = 0;
@@ -182,6 +198,26 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     return height;
 }
 
+- (void)releasePlayer
+{
+    if(avPlayer != nil)
+    {
+        avPlayer = nil;
+    }
+
+    curTime = kCMTimeZero;
+    curFrameTimestamp = kCMTimeZero;
+    lastFrameTimestamp = kCMTimeZero;
+
+    if(textureCache != nil)
+    {
+        CFRelease(textureCache);
+        textureCache = nil;
+    }
+    width = 0;
+    height = 0;
+}
+
 - (void)setupPlaybackForURL:(NSURL*)URL
 {
     //Remove video outtput from old item
@@ -287,4 +323,24 @@ extern "C" intptr_t UAVP_CurFrameTexture()
 extern "C" void UAVP_PlayVideo(const char* filename)
 {
     [_GetPlayer() playVideo:_GetUrl(filename)];
+}
+
+extern "C" void UAVP_InitPlayer()
+{
+
+}
+
+extern "C" void UAVP_PauseVideo()
+{
+
+}
+
+extern "C" void UAVP_ResumeVideo()
+{
+
+}
+
+extern "C" void UAVP_ReleasePlayer()
+{
+
 }

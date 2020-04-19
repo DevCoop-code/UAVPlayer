@@ -56,4 +56,31 @@ public class UAVPSample : MonoBehaviour
             videoTexAssigned = false;
         }
     }
+
+    private void OnDestroy()
+    {
+        if (player != null)
+        {
+            player.release();
+        }
+    }
+
+    /*
+     *===External Function===
+     */
+    public void OnPause()
+    {
+        if (player != null)
+        {
+            player.pause();
+        }
+    }
+
+    public void OnResume()
+    {
+        if (player != null)
+        {
+            player.resume();
+        }
+    }
 }

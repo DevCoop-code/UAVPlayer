@@ -13,6 +13,12 @@
 
 @interface MySceneViewController : MetalViewController<MetalViewControllerDelegate>
 
+typedef enum
+{
+    playingStatus = 1,
+    pauseStatus = 2,
+} playerStatus;
+
 @property(nonatomic) Matrix4 *worldModelMatrix;
 @property(nonatomic) Cube *objectToDraw;
 
