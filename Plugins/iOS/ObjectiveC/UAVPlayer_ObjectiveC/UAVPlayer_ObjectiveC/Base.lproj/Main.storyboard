@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,15 +12,30 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="MySceneViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hXu-zp-qws" userLabel="videoPlayerView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="338"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="hXu-zp-qws" secondAttribute="bottom" constant="329" id="Ct3-mS-4Wv"/>
+                            <constraint firstItem="hXu-zp-qws" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="aZK-ZN-O1X"/>
+                            <constraint firstItem="hXu-zp-qws" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="gzo-NM-Pyu"/>
+                            <constraint firstItem="hXu-zp-qws" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="sMu-QM-hna"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="videoPlayerView" destination="hXu-zp-qws" id="r0c-sp-xs2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="137.68115942028987" y="70.982142857142847"/>
+            <point key="canvasLocation" x="136.80000000000001" y="70.614692653673174"/>
         </scene>
     </scenes>
 </document>

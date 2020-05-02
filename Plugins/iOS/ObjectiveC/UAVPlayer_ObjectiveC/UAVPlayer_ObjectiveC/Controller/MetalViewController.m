@@ -22,6 +22,7 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     
     CADisplayLink *timer;
     CFTimeInterval lastFrameTimestamp;
+    __weak IBOutlet UIView *videoPlayerView;
 }
 
 - (void)viewDidLoad
@@ -58,7 +59,7 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     _device = MTLCreateSystemDefaultDevice();
     
     _projectionMatrix = [Matrix4 makePerspectiveViewAngle:[Matrix4 degreesToRad:85.0]
-                                             aspectRatio:self.view.bounds.size.width / self.view.bounds.size.height
+                                             aspectRatio:videoPlayerView.bounds.size.width / videoPlayerView.bounds.size.height
                                                    nearZ:0.01
                                                     farZ:100];
     
@@ -66,8 +67,8 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     _metalLayer.device = _device;
     _metalLayer.pixelFormat = MTLPixelFormatBGRA8Unorm;
     _metalLayer.framebufferOnly = YES;
-    _metalLayer.frame = self.view.layer.frame;
-    [self.view.layer addSublayer:_metalLayer];
+    _metalLayer.frame = videoPlayerView.layer.frame;
+    [videoPlayerView.layer addSublayer:_metalLayer];
     
     id<MTLLibrary> defaultLibrary = [_device newDefaultLibrary];
     id<MTLFunction> vertexProgram = [defaultLibrary newFunctionWithName:@"basic_vertex"];
