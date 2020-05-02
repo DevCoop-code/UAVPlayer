@@ -93,7 +93,8 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 //    [timer setPaused:YES];
     
     //Setup AVPlayerItemVideoOutput with the required pixelbuffer atttributes
-    NSDictionary *pixelBuffAttributes = @{(id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)};
+    NSDictionary *pixelBuffAttributes = @{(id) kCVPixelBufferMetalCompatibilityKey: @(TRUE),
+                                          (id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)};
     _videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:pixelBuffAttributes];
     videoOutputQueue = dispatch_queue_create("VideoOutputQueue", DISPATCH_QUEUE_SERIAL);
     [_videoOutput setDelegate:self queue:videoOutputQueue];

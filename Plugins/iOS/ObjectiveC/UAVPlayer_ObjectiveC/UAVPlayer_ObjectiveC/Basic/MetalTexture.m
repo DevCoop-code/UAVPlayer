@@ -17,18 +17,12 @@
 
 - (instancetype)init:(Boolean)mipmaped
 {
-    _bytesPerPixel = 4;
-    _bitsPerComponent = 8;
-    
     _width = 0;
     _height = 0;
     _depth = 1;
-    _format = MTLPixelFormatRGBA8Unorm;
-    _target = MTLTextureType2D;
     _ytexture = nil;
+    _cbcrtexture = nil;
     _isMipmaped = mipmaped;
-    
-    colorSpace = CGColorSpaceCreateDeviceRGB();
     
     self = [super init];
     return self;
@@ -58,7 +52,7 @@
             NSLog(@"Unable to allocate luma texture cache");
         }
         
-        CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+        CVReturn yresultAboutTexture = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
                                                   textureCache,
                                                   pixelBuffer,
                                                   nil,
@@ -67,6 +61,10 @@
                                                   _height,
                                                   0,
                                                   &yTextureOut);
+        if(yresultAboutTexture != kCVReturnSuccess)
+        {
+            NSLog(@"Fail to make texture %d", yresultAboutTexture);
+        }
         _ytexture = CVMetalTextureGetTexture(yTextureOut);
 
         CVReturn cbcrresult = CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device, nil, &cbcrTextureCache);
@@ -80,7 +78,7 @@
             NSLog(@"Unable to allocate chroma texture cache");
         }
         
-        CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+        CVReturn cbcrresultAboutTexture = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
                                                   textureCache,
                                                   pixelBuffer,
                                                   nil,
@@ -89,6 +87,10 @@
                                                   _height / 2,
                                                   1,
                                                   &cbcrTextureOut);
+        if(cbcrresultAboutTexture != kCVReturnSuccess)
+        {
+            NSLog(@"Fail to make texture %d", cbcrresultAboutTexture);
+        }
         _cbcrtexture = CVMetalTextureGetTexture(cbcrTextureOut);
         
         if(yTextureCache != nil)
