@@ -23,6 +23,8 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     CADisplayLink *timer;
     CFTimeInterval lastFrameTimestamp;
     __weak IBOutlet UIView *videoPlayerView;
+    
+    __weak IBOutlet UIButton *startPauseBtn;
 }
 
 - (void)viewDidLoad
@@ -55,6 +57,7 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 - (void)initProperties
 {
     lastFrameTimestamp = 0.0;
+    _p_Status = unknownStatus;
     
     _device = MTLCreateSystemDefaultDevice();
     
@@ -192,6 +195,7 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     [asset loadValuesAsynchronouslyForKeys:@[@"tracks"] completionHandler:^{
         if([asset statusOfValueForKey:@"tracks" error:nil] == AVKeyValueStatusLoaded)
         {
+            self.p_Status = openStatus;
             //COMMENT: Make these code to comment because it is not working remote video protocol
 //            NSArray* tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
 //            if([tracks count] > 0)
@@ -203,11 +207,32 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
                     [item addOutput:self.videoOutput];
                     [self.avPlayer replaceCurrentItemWithPlayerItem:item];
                     [self.videoOutput requestNotificationOfMediaDataChangeWithAdvanceInterval:ONE_FRAME_DURATION];
-                    [self.avPlayer play];
+                    [self playerPlay];
                 });
 //            }
         }
     }];
+}
+
+- (void)playerPlay
+{
+    _p_Status = playStatus;
+    [self.avPlayer play];
+}
+
+- (void)playerPause
+{
+    _p_Status = pauseStatus;
+    [self.avPlayer pause];
+}
+
+- (void)playerRelease
+{
+    _p_Status = releaseStatus;
+    [self.avPlayer pause];
+    [self removeObserver:self forKeyPath:@"avPlayer.currentItem.status" context:AVPlayerItemStatusContext];
+    [[_avPlayer currentItem] removeOutput:_videoOutput];
+    self.avPlayer = nil;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
@@ -233,5 +258,28 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
+
+//MARK: Actions
+- (IBAction)startPauseToggle:(id)sender
+{
+    switch (_p_Status) {
+        case openStatus:
+            [self playerPlay];
+            [startPauseBtn setImage:[UIImage systemImageNamed:@"pause.fill"] forState:UIControlStateNormal];
+            break;
+        case playStatus:
+            [self playerPause];
+            [startPauseBtn setImage:[UIImage systemImageNamed:@"pause.fill"] forState:UIControlStateNormal];
+            break;
+        case pauseStatus:
+            [self playerPlay];
+            [startPauseBtn setImage:[UIImage systemImageNamed:@"play.fill"] forState:UIControlStateNormal];
+            break;
+        default:
+            NSLog(@"Player Status : %d", _p_Status);
+            break;
+    }
+}
+
 
 @end

@@ -15,10 +15,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hXu-zp-qws" userLabel="videoPlayerView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="338"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hXu-zp-qws" userLabel="videoPlayerView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="437"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pHW-so-MYd" userLabel="startPauseButton">
+                                <rect key="frame" x="162" y="518" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" image="play.fill" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="startPauseToggle:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FG3-3T-8Zp"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -30,6 +41,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="startPauseBtn" destination="pHW-so-MYd" id="AmR-yc-d6E"/>
                         <outlet property="videoPlayerView" destination="hXu-zp-qws" id="r0c-sp-xs2"/>
                     </connections>
                 </viewController>
@@ -38,4 +50,7 @@
             <point key="canvasLocation" x="136.80000000000001" y="70.614692653673174"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="play.fill" catalog="system" width="58" height="64"/>
+    </resources>
 </document>

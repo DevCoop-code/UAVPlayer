@@ -13,6 +13,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef enum
+{
+    unknownStatus = 0,
+    openStatus = 1,
+    playStatus = 2,
+    pauseStatus = 3,
+    releaseStatus = 4
+} playerStatus;
+
 @protocol MetalViewControllerDelegate <NSObject>
 
 - (void) updateLogic:(CFTimeInterval) timeSinceLastUpdate;
@@ -32,6 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 //For Video player
 @property(nonatomic) AVPlayer* avPlayer;
 @property(nonatomic) AVPlayerItemVideoOutput* videoOutput;
+
+@property(nonatomic) playerStatus p_Status;
 
 - (void)startToPlay:(NSString*)assetURL;
 
