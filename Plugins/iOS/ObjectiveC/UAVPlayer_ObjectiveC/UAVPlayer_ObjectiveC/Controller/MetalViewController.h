@@ -43,6 +43,8 @@ typedef enum
 @property(nonatomic) AVPlayerItemVideoOutput* videoOutput;
 
 @property(nonatomic) playerStatus p_Status;
+@property(nonatomic) CMTime currentPlayingTime;
+@property(nonatomic) CMTime totalPlayTime;
 
 - (void)startToPlay:(NSString*)assetURL;
 

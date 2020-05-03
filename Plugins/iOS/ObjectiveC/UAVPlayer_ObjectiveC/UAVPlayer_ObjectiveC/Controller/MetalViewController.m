@@ -25,6 +25,9 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     __weak IBOutlet UIView *videoPlayerView;
     
     __weak IBOutlet UIButton *startPauseBtn;
+    __weak IBOutlet UISlider *seekSlider;
+    __weak IBOutlet UILabel *currentPlayTimeLabel;
+    __weak IBOutlet UILabel *totalMediaTimeLabel;
 }
 
 - (void)viewDidLoad
@@ -57,7 +60,13 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 - (void)initProperties
 {
     lastFrameTimestamp = 0.0;
+    
+    // Initialize the media player Status
     _p_Status = unknownStatus;
+    
+    // Set the slider Value
+    seekSlider.minimumValue = 0;
+    seekSlider.maximumValue = 0;
     
     _device = MTLCreateSystemDefaultDevice();
     
@@ -195,7 +204,9 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     [asset loadValuesAsynchronouslyForKeys:@[@"tracks"] completionHandler:^{
         if([asset statusOfValueForKey:@"tracks" error:nil] == AVKeyValueStatusLoaded)
         {
+            // Set the player status to "OPEN"
             self.p_Status = openStatus;
+            
             //COMMENT: Make these code to comment because it is not working remote video protocol
 //            NSArray* tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
 //            if([tracks count] > 0)
@@ -218,6 +229,9 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 {
     _p_Status = playStatus;
     [self.avPlayer play];
+    
+    self.totalPlayTime = self.avPlayer.currentItem.duration;
+    NSLog(@"media total time : %f", CMTimeGetSeconds(self.totalPlayTime));
 }
 
 - (void)playerPause
@@ -281,5 +295,10 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     }
 }
 
+
+- (IBAction)playerSeek:(id)sender
+{
+    
+}
 
 @end
