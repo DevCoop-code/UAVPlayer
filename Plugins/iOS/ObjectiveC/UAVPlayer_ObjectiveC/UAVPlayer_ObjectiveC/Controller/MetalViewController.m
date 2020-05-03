@@ -48,7 +48,11 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
      https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8
      */
 //    NSString* assetURL = [[NSBundle mainBundle]pathForResource:@"testVideo" ofType:@"mp4"];
+//    _m_Type = local;
+    
     NSString* assetURL = @"https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8";
+    _m_Type = hls_streaming;
+    
     [self startToPlay:assetURL];
 }
 
