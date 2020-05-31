@@ -4,35 +4,6 @@ using UnityEngine;
 
 public abstract class UAVPFoundation
 {   
-    public bool mute;                       // Set whether to turn off the audio or not
-    public bool loop;                       // Set the when the video reaches the end poosition it jumps to the start position and plays again
-    public bool autoPlayback;               // Set the playing video automatically when app is started
-    public UAVPLogLevel logLevelForDebugging;   // Set Log level for debugging
-    // Set the audio volume
-    private float _volume = 1.0f;
-    public float volume
-    {
-        get
-        {
-            return _volume;
-        }
-        set
-        {
-            if(_volume > 100.0f)
-            {
-                _volume = 1.0f;
-            }
-            else if(_volume < 0.0f)
-            {
-                _volume = 0.0f;
-            }
-            else
-            {
-                _volume = value / 100.0f;
-            }
-        }
-    }
-
     /*
     Initializes the player
     - logLevel: Set the LogLevel(Debug, Source, Porting, System)

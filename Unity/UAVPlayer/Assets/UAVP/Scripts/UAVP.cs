@@ -6,9 +6,17 @@ using UnityEngine.UI;
 public class UAVP : MonoBehaviour
 {
     public Material videoMat = null;
-    public RawImage videoRaw = null;
+    public RawImage videoRawImage = null;
 
-    public string mediaStreamingURL = null;
+    /*
+    If the media type is Streaming, 
+    mediaURI is like http://~~~~.mpd or .m3u8
+    If the media type is Local or StreamingAssets,
+    mediaURI is like [directoryName]/[FileName].mp4 or .avi
+    */
+    public string mediaURI = null;
+
+    public UAVPLogLevel logLevel;
 
     private bool videoTexAssigned = false;
 
@@ -24,8 +32,16 @@ public class UAVP : MonoBehaviour
 
         if(player != null)
         {
-            Debug.Log("Start to play [" + mediaStreamingURL + "]");
-            player.OpenMedia(mediaStreamingURL, UAVPMediaType.UAVP_Local_Media);
+            Debug.Log("Start to play [" + mediaURI + "]");
+            UAVPError error = player.InitPlayer(logLevel);
+            if(error == UAVPError.UAVP_ERROR_NONE)
+            {
+                player.OpenMedia(mediaURI, UAVPMediaType.UAVP_Local_Media);
+            }
+            else
+            {
+                player = null;
+            }
         }
         else
         {
@@ -41,8 +57,8 @@ public class UAVP : MonoBehaviour
             if (videoMat != null)
                 videoMat.mainTexture = player.videoTexture;
 
-            if (videoRaw != null)
-                videoRaw.GetComponent<RawImage>().texture = player.videoTexture;
+            if (videoRawImage != null)
+                videoRawImage.GetComponent<RawImage>().texture = player.videoTexture;
             
             videoTexAssigned = true;
         }
@@ -50,8 +66,8 @@ public class UAVP : MonoBehaviour
         {
             if (videoMat != null)
                 videoMat.mainTexture = null;
-            if (videoRaw != null)
-                videoRaw.GetComponent<RawImage>().texture = null;
+            if (videoRawImage != null)
+                videoRawImage.GetComponent<RawImage>().texture = null;
 
             videoTexAssigned = false;
         }
@@ -63,6 +79,8 @@ public class UAVP : MonoBehaviour
         {
             player.Release();
         }
+
+        player = null;
     }
 
     public void OnPause()
