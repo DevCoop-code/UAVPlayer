@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,25 +12,83 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="MySceneViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nid-wa-zNM" userLabel="startPause">
-                                <rect key="frame" x="181" y="785" width="52" height="63"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="play.fill" catalog="system"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hXu-zp-qws" userLabel="videoPlayerView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="437"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pHW-so-MYd" userLabel="startPauseButton">
+                                <rect key="frame" x="162" y="530" width="50" height="50"/>
+                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" image="play.fill" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
                                 <connections>
-                                    <action selector="startPause:" destination="BYZ-38-t0r" eventType="touchDown" id="Y9j-Ug-JEZ"/>
+                                    <action selector="startPauseToggle:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FG3-3T-8Zp"/>
                                 </connections>
                             </button>
+                            <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="DDn-bz-cMj" userLabel="seekSlider">
+                                <rect key="frame" x="85" y="458" width="203" height="30"/>
+                                <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="199" id="vRJ-zX-XDj"/>
+                                </constraints>
+                                <color key="thumbTintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <connections>
+                                    <action selector="playerSeek:" destination="BYZ-38-t0r" eventType="valueChanged" id="Ag3-Uh-afv"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="00:00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JbC-au-zaC" userLabel="playingTimeLabel">
+                                <rect key="frame" x="0.0" y="462" width="79" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Qv4-2d-WOR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="00:00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F05-dc-alb" userLabel="totalTimeLabel">
+                                <rect key="frame" x="294" y="462" width="80" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="hXu-zp-qws" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="2Aq-SU-QlS"/>
+                            <constraint firstItem="hXu-zp-qws" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="4ij-73-XbU"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="JbC-au-zaC" secondAttribute="bottom" constant="184" id="HTl-41-RZO"/>
+                            <constraint firstItem="DDn-bz-cMj" firstAttribute="centerX" secondItem="pHW-so-MYd" secondAttribute="centerX" id="L9F-z0-EcF"/>
+                            <constraint firstItem="pHW-so-MYd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="OP7-8g-B3j"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="F05-dc-alb" secondAttribute="trailing" constant="1" id="RgS-0I-i93"/>
+                            <constraint firstItem="JbC-au-zaC" firstAttribute="centerY" secondItem="DDn-bz-cMj" secondAttribute="centerY" id="WCh-42-MGO"/>
+                            <constraint firstItem="DDn-bz-cMj" firstAttribute="leading" secondItem="JbC-au-zaC" secondAttribute="trailing" constant="8" id="WOB-oH-aPJ"/>
+                            <constraint firstItem="hXu-zp-qws" firstAttribute="leading" secondItem="JbC-au-zaC" secondAttribute="leading" id="YbR-Nk-dpZ"/>
+                            <constraint firstItem="JbC-au-zaC" firstAttribute="top" secondItem="hXu-zp-qws" secondAttribute="bottom" constant="25" id="gXo-IV-LLl"/>
+                            <constraint firstItem="DDn-bz-cMj" firstAttribute="top" secondItem="hXu-zp-qws" secondAttribute="bottom" constant="21" id="gcK-Pc-svZ"/>
+                            <constraint firstItem="JbC-au-zaC" firstAttribute="baseline" secondItem="F05-dc-alb" secondAttribute="baseline" id="lVj-Mk-MtP"/>
+                            <constraint firstItem="hXu-zp-qws" firstAttribute="centerX" secondItem="pHW-so-MYd" secondAttribute="centerX" id="lbK-n8-I17"/>
+                            <constraint firstItem="pHW-so-MYd" firstAttribute="top" secondItem="DDn-bz-cMj" secondAttribute="bottom" constant="43" id="lwq-mP-CqW"/>
+                            <constraint firstItem="F05-dc-alb" firstAttribute="leading" secondItem="DDn-bz-cMj" secondAttribute="trailing" constant="8" id="nRR-bw-9Zb"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="pHW-so-MYd" secondAttribute="bottom" constant="87" id="sOa-nK-mlW"/>
+                            <constraint firstItem="pHW-so-MYd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="162" id="vWf-de-yLb"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="currentPlayTimeLabel" destination="JbC-au-zaC" id="kwJ-1n-KTH"/>
+                        <outlet property="seekSlider" destination="DDn-bz-cMj" id="dMb-kC-m63"/>
+                        <outlet property="startPauseBtn" destination="pHW-so-MYd" id="AmR-yc-d6E"/>
+                        <outlet property="totalMediaTimeLabel" destination="F05-dc-alb" id="Wfg-o4-7ua"/>
+                        <outlet property="videoPlayerView" destination="hXu-zp-qws" id="r0c-sp-xs2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="137.68115942028987" y="70.982142857142847"/>
+            <point key="canvasLocation" x="136.80000000000001" y="70.614692653673174"/>
         </scene>
     </scenes>
     <resources>

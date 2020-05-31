@@ -13,6 +13,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef enum
+{
+    unknownStatus = 0,
+    openStatus = 1,
+    playStatus = 2,
+    pauseStatus = 3,
+    releaseStatus = 4
+} playerStatus;
+
+typedef enum
+{
+    local = 0,
+    hls_streaming = 1,
+    dash_streaming
+} mediaType;
+
 @protocol MetalViewControllerDelegate <NSObject>
 
 - (void) updateLogic:(CFTimeInterval) timeSinceLastUpdate;
@@ -32,6 +48,11 @@ NS_ASSUME_NONNULL_BEGIN
 //For Video player
 @property(nonatomic) AVPlayer* avPlayer;
 @property(nonatomic) AVPlayerItemVideoOutput* videoOutput;
+
+@property(nonatomic) playerStatus p_Status;
+@property(nonatomic) mediaType m_Type;
+@property(nonatomic) CMTime currentPlayingTime;
+@property(nonatomic) CMTime totalPlayTime;
 
 - (void)startToPlay:(NSString*)assetURL;
 - (void)pausePlayer;

@@ -22,6 +22,12 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     
     CADisplayLink *timer;
     CFTimeInterval lastFrameTimestamp;
+    __weak IBOutlet UIView *videoPlayerView;
+    
+    __weak IBOutlet UIButton *startPauseBtn;
+    __weak IBOutlet UISlider *seekSlider;
+    __weak IBOutlet UILabel *currentPlayTimeLabel;
+    __weak IBOutlet UILabel *totalMediaTimeLabel;
 }
 
 - (void)viewDidLoad
@@ -42,7 +48,11 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
      https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8
      */
 //    NSString* assetURL = [[NSBundle mainBundle]pathForResource:@"testVideo" ofType:@"mp4"];
+//    _m_Type = local;
+    
     NSString* assetURL = @"https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8";
+    _m_Type = hls_streaming;
+    
     [self startToPlay:assetURL];
 }
 
@@ -55,10 +65,17 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 {
     lastFrameTimestamp = 0.0;
     
+    // Initialize the media player Status
+    _p_Status = unknownStatus;
+    
+    // Set the slider Value
+    seekSlider.minimumValue = 0;
+    seekSlider.maximumValue = 0;
+    
     _device = MTLCreateSystemDefaultDevice();
     
     _projectionMatrix = [Matrix4 makePerspectiveViewAngle:[Matrix4 degreesToRad:85.0]
-                                             aspectRatio:self.view.bounds.size.width / self.view.bounds.size.height
+                                             aspectRatio:videoPlayerView.bounds.size.width / videoPlayerView.bounds.size.height
                                                    nearZ:0.01
                                                     farZ:100];
     
@@ -66,8 +83,8 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     _metalLayer.device = _device;
     _metalLayer.pixelFormat = MTLPixelFormatBGRA8Unorm;
     _metalLayer.framebufferOnly = YES;
-    _metalLayer.frame = self.view.layer.frame;
-    [self.view.layer addSublayer:_metalLayer];
+    _metalLayer.frame = videoPlayerView.layer.frame;
+    [videoPlayerView.layer addSublayer:_metalLayer];
     
     id<MTLLibrary> defaultLibrary = [_device newDefaultLibrary];
     id<MTLFunction> vertexProgram = [defaultLibrary newFunctionWithName:@"basic_vertex"];
@@ -93,7 +110,8 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 //    [timer setPaused:YES];
     
     //Setup AVPlayerItemVideoOutput with the required pixelbuffer atttributes
-    NSDictionary *pixelBuffAttributes = @{(id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)};
+    NSDictionary *pixelBuffAttributes = @{(id) kCVPixelBufferMetalCompatibilityKey: @(TRUE),
+                                          (id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)};
     _videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:pixelBuffAttributes];
     videoOutputQueue = dispatch_queue_create("VideoOutputQueue", DISPATCH_QUEUE_SERIAL);
     [_videoOutput setDelegate:self queue:videoOutputQueue];
@@ -202,6 +220,9 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     [asset loadValuesAsynchronouslyForKeys:@[@"tracks"] completionHandler:^{
         if([asset statusOfValueForKey:@"tracks" error:nil] == AVKeyValueStatusLoaded)
         {
+            // Set the player status to "OPEN"
+            self.p_Status = openStatus;
+            
             //COMMENT: Make these code to comment because it is not working remote video protocol
 //            NSArray* tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
 //            if([tracks count] > 0)
@@ -213,11 +234,35 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
                     [item addOutput:self.videoOutput];
                     [self.avPlayer replaceCurrentItemWithPlayerItem:item];
                     [self.videoOutput requestNotificationOfMediaDataChangeWithAdvanceInterval:ONE_FRAME_DURATION];
-                    [self.avPlayer play];
+                    [self playerPlay];
                 });
 //            }
         }
     }];
+}
+
+- (void)playerPlay
+{
+    _p_Status = playStatus;
+    [self.avPlayer play];
+    
+    self.totalPlayTime = self.avPlayer.currentItem.duration;
+    NSLog(@"media total time : %f", CMTimeGetSeconds(self.totalPlayTime));
+}
+
+- (void)playerPause
+{
+    _p_Status = pauseStatus;
+    [self.avPlayer pause];
+}
+
+- (void)playerRelease
+{
+    _p_Status = releaseStatus;
+    [self.avPlayer pause];
+    [self removeObserver:self forKeyPath:@"avPlayer.currentItem.status" context:AVPlayerItemStatusContext];
+    [[_avPlayer currentItem] removeOutput:_videoOutput];
+    self.avPlayer = nil;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
@@ -242,6 +287,34 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
+}
+
+//MARK: Actions
+- (IBAction)startPauseToggle:(id)sender
+{
+    switch (_p_Status) {
+        case openStatus:
+            [self playerPlay];
+            [startPauseBtn setImage:[UIImage systemImageNamed:@"pause.fill"] forState:UIControlStateNormal];
+            break;
+        case playStatus:
+            [self playerPause];
+            [startPauseBtn setImage:[UIImage systemImageNamed:@"pause.fill"] forState:UIControlStateNormal];
+            break;
+        case pauseStatus:
+            [self playerPlay];
+            [startPauseBtn setImage:[UIImage systemImageNamed:@"play.fill"] forState:UIControlStateNormal];
+            break;
+        default:
+            NSLog(@"Player Status : %d", _p_Status);
+            break;
+    }
+}
+
+
+- (IBAction)playerSeek:(id)sender
+{
+    
 }
 
 @end
