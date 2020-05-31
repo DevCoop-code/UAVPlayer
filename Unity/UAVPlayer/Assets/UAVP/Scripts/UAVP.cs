@@ -52,24 +52,27 @@ public class UAVP : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!videoTexAssigned && player.videoTexture)
+        if(player != null)
         {
-            if (videoMat != null)
-                videoMat.mainTexture = player.videoTexture;
+            if (!videoTexAssigned && player.videoTexture)
+            {
+                if (videoMat != null)
+                    videoMat.mainTexture = player.videoTexture;
 
-            if (videoRawImage != null)
-                videoRawImage.GetComponent<RawImage>().texture = player.videoTexture;
-            
-            videoTexAssigned = true;
-        }
-        if (videoTexAssigned && !player.videoTexture)
-        {
-            if (videoMat != null)
-                videoMat.mainTexture = null;
-            if (videoRawImage != null)
-                videoRawImage.GetComponent<RawImage>().texture = null;
+                if (videoRawImage != null)
+                    videoRawImage.GetComponent<RawImage>().texture = player.videoTexture;
+                
+                videoTexAssigned = true;
+            }
+            if (videoTexAssigned && !player.videoTexture)
+            {
+                if (videoMat != null)
+                    videoMat.mainTexture = null;
+                if (videoRawImage != null)
+                    videoRawImage.GetComponent<RawImage>().texture = null;
 
-            videoTexAssigned = false;
+                videoTexAssigned = false;
+            }
         }
     }
 
@@ -97,5 +100,10 @@ public class UAVP : MonoBehaviour
         {
             player.Resume();
         }
+    }
+
+    public void ToggleStart()
+    {
+        Debug.Log("start");
     }
 }
