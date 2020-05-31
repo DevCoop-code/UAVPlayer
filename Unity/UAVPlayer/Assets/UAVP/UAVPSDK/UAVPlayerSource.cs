@@ -3,66 +3,71 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
 
-public class UAVPlayerSource
+public class UAVPlayerSource: UAVPFoundation
 {
 #if UNITY_IPHONE && !UNITY_EDITOR
     [DllImport("__Internal")]
+#endif
     private static extern bool UAVP_CanOutputToTexture(string videoPath);
 
+#if UNITY_IPHONE && !UNITY_EDITOR
     [DllImport("__Internal")]
+#endif
     private static extern bool UAVP_PlayerReady();
 
+#if UNITY_IPHONE && !UNITY_EDITOR
     [DllImport("__Internal")]
+#endif
     private static extern float UAVP_DurationSeconds();
 
+#if UNITY_IPHONE && !UNITY_EDITOR
     [DllImport("__Internal")]
+#endif
+    private static extern float UAVP_CurrentSeconds();
+
+#if UNITY_IPHONE && !UNITY_EDITOR
+    [DllImport("__Internal")]
+#endif
     private static extern void UAVP_VideoExtents(ref int w, ref int h);
 
+#if UNITY_IPHONE && !UNITY_EDITOR
     [DllImport("__Internal")]
+#endif
     private static extern System.IntPtr UAVP_CurFrameTexture();
 
+#if UNITY_IPHONE && !UNITY_EDITOR
     [DllImport("__Internal")]
-    private static void UAVP_InitPlayer() { }
-
-    [DllImport("__Internal")]
-    private static extern bool UAVP_PlayVideo(string videoPath);
-
-    [DllImport("__Internal")]
-    private static void UAVP_PauseVideo() { }
-
-    [DllImport("__Internal")]
-    private static void UAVP_ResumeVideo() { }
-
-    [DllImport("__Internal")]
-    private static void UAVP_ReleasePlayer() { }
-
-#else
-    private static bool UAVP_CanOutputToTexture(string videoPath) { return false;  }
-
-    private static bool UAVP_PlayerReady() { return false;  }
-
-    private static float UAVP_DurationSeconds() { return 0.0f; }
-
-    private static void UAVP_VideoExtents(ref int w, ref int h) { }
-
-    private static System.IntPtr UAVP_CurFrameTexture() { return System.IntPtr.Zero; }
-
-    private static void UAVP_InitPlayer() { }
-
-    private static bool UAVP_PlayVideo(string videoPath) { return false;  }
-
-    private static void UAVP_PauseVideo() { }
-
-    private static void UAVP_ResumeVideo() { }
-
-    private static void UAVP_ReleasePlayer() { }
 #endif
+    private static extern UAVPError UAVP_InitPlayer();
+
+#if UNITY_IPHONE && !UNITY_EDITOR
+    [DllImport("__Internal")]
+#endif
+    private static extern UAVPError UAVP_OpenVideo(string videoPath);
+
+#if UNITY_IPHONE && !UNITY_EDITOR
+    [DllImport("__Internal")]
+#endif
+    private static extern UAVPError UAVP_PlayVideo();
+
+#if UNITY_IPHONE && !UNITY_EDITOR
+    [DllImport("__Internal")]
+#endif
+    private static extern void UAVP_PauseVideo();
+
+#if UNITY_IPHONE && !UNITY_EDITOR
+    [DllImport("__Internal")]
+#endif
+    private static extern void UAVP_ResumeVideo();
+
+#if UNITY_IPHONE && !UNITY_EDITOR
+    [DllImport("__Internal")]
+#endif
+    private static extern void UAVP_ReleasePlayer();
     
      public UAVPlayerSource()
     {
         Debug.Log("[UAVPlayer_Souce] Init");
-
-        UAVP_InitPlayer();
     }
 
     // Check whether the Media is playing or not
@@ -74,12 +79,21 @@ public class UAVPlayerSource
         }
     }
 
-    // Return the whole playable time of the media
+    // Return the whole playable time of the media(unit: seconds(s))
     public float videoDuration
     {
         get
         {
             return UAVP_DurationSeconds();
+        }
+    }
+
+    // Return currently being played(unit: seconds(s))
+    public float videoCurremtTime
+    {
+        get
+        {
+            return UAVP_CurrentSeconds();
         }
     }
 
@@ -103,6 +117,62 @@ public class UAVPlayerSource
             UAVP_VideoExtents(ref w, ref h);
             return h;
         }
+    }
+
+    // Initialize the Media Player
+    public override UAVPError InitPlayer(UAVPLogLevel logLevel)
+    {
+        UAVPError error = UAVP_InitPlayer();
+
+        return error;
+    }
+
+    // Open the Media
+    public override UAVPError OpenMedia(string URI, UAVPMediaType mediaType)
+    {
+        Debug.Log("[UAVPlayer_Play] URL[" + URI + "]");
+        UAVPError error = UAVPError.UAVP_ERROR_NONE;
+
+        if (CanOutputToTexture(URI))
+        {
+            error = UAVP_OpenVideo(URI);
+        }
+        else
+        {
+            error = UAVPError.UAVP_Error_OPENFAILED;
+        }
+        return error;
+    }
+
+    // Start to media playback
+    public override void Start()
+    {
+        Debug.Log("[UAVPlayer_Start]");
+        UAVP_PlayVideo();
+    }
+
+    // Pause the Player
+    public override void Pause()
+    {
+        Debug.Log("[UAVPlayer_Pause]");
+        if(videoReady)
+        {
+            UAVP_PauseVideo();
+        }
+    }
+
+    // Resume the Player
+    public override void Resume()
+    {
+        Debug.Log("[UAVPlayer_Resume]");
+        UAVP_ResumeVideo();
+    }
+
+    // Release the Player
+    public override void Release()
+    {
+        Debug.Log("[UAVPlayer_Release]");
+        UAVP_ReleasePlayer();
     }
 
     // Video Texture
@@ -148,36 +218,5 @@ public class UAVPlayerSource
             Debug.Log("[UAVPlayer] Player cannot play the media");
         }
         return canOutputTexture;
-    }
-
-    // Play the Player
-    public void play(string videoPath)
-    {
-        Debug.Log("[UAVPlayer_Play] URL[" + videoPath + "]");
-        if (CanOutputToTexture(videoPath))
-            UAVP_PlayVideo(videoPath);
-    }
-
-    // Pause the Player
-    public void pause()
-    {
-        Debug.Log("[UAVPlayer_Pause]");
-        if (videoReady)
-            UAVP_PauseVideo();
-    }
-
-    // Resume the Player
-    public void resume()
-    {
-        Debug.Log("[UAVPlayer_Resume]");
-
-        UAVP_ResumeVideo();
-    }
-
-    // Release the Player
-    public void release()
-    {
-        Debug.Log("[UAVPlayer_Release]");
-        UAVP_ReleasePlayer();
     }
 }

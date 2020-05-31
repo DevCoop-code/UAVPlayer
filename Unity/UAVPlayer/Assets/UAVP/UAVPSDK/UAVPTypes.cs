@@ -14,7 +14,8 @@ public enum UAVPLogLevel
 // Error Types
 public enum UAVPError
 {
-    UAVP_ERROR_NONE = 0         // No Error
+    UAVP_ERROR_NONE = 0,            // No Error
+    UAVP_Error_OPENFAILED = 1001    //Fail to Open the Media
 }
 
 // Media Types

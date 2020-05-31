@@ -44,7 +44,7 @@ public abstract class UAVPFoundation
     - URI: Media Location 
     - mediaType: Types of media
     */
-    public virtual UAVPError OpenMediaStreaming(string URI, UAVPMediaType mediaType) { return UAVPError.UAVP_ERROR_NONE; }
+    public virtual UAVPError OpenMedia(string URI, UAVPMediaType mediaType) { return UAVPError.UAVP_ERROR_NONE; }
 
     /*
     Playing the Media
@@ -65,16 +65,4 @@ public abstract class UAVPFoundation
     Release the Player
     */
     abstract public void Release();
-
-    /*
-    Returns the current time of the playback
-    - return: Time currently being played
-    */
-    abstract public int GetCurrentTime();
-
-    /*
-    Returns the whole playable time of the media
-    - return: Whole playable time
-    */
-    abstract public int GetTotalTime();
 }

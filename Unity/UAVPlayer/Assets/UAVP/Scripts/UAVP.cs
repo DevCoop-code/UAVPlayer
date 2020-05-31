@@ -25,7 +25,7 @@ public class UAVP : MonoBehaviour
         if(player != null)
         {
             Debug.Log("Start to play [" + mediaStreamingURL + "]");
-            player.play(mediaStreamingURL);
+            player.OpenMedia(mediaStreamingURL, UAVPMediaType.UAVP_Local_Media);
         }
         else
         {
@@ -61,7 +61,7 @@ public class UAVP : MonoBehaviour
     {
         if (player != null)
         {
-            player.release();
+            player.Release();
         }
     }
 
@@ -69,7 +69,7 @@ public class UAVP : MonoBehaviour
     {
         if (player != null)
         {
-            player.pause();
+            player.Pause();
         }
     }
 
@@ -77,7 +77,7 @@ public class UAVP : MonoBehaviour
     {
         if (player != null)
         {
-            player.resume();
+            player.Resume();
         }
     }
 }
