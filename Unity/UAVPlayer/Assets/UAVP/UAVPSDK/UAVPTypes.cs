@@ -21,6 +21,7 @@ public enum UAVPError
 // Media Types
 public enum UAVPMediaType
 {
-    UAVP_Streaming_Media = 0,       // Streaming Media(like HLS, Dash, ....)
-    UAVP_Local_Media = 1            // Local Media(Media in StreamingAssets Directory)
+    UAVP_Streaming_Media = 0,           // Streaming Media(like HLS, Dash, ....)
+    UAVP_Local_Media = 1,               // Local Media(Media in StreamingAssets Directory)
+    UAVP_StreamingAsset_Media = 2       // Media in StreamingAssets Directory
 }
