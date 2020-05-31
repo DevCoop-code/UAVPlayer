@@ -65,9 +65,6 @@ public class UAVP : MonoBehaviour
         }
     }
 
-    /*
-     *===External Function===
-     */
     public void OnPause()
     {
         if (player != null)

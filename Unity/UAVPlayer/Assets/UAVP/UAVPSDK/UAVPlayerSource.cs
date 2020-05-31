@@ -57,19 +57,15 @@ public class UAVPlayerSource
 
     private static void UAVP_ReleasePlayer() { }
 #endif
-    /*
-     * ===Constructor===
-     */
+    
      public UAVPlayerSource()
     {
-        Debug.Log("[Unity Player] Call UAVPlayerSource Constructor");
+        Debug.Log("[UAVPlayer_Souce] Init");
 
         UAVP_InitPlayer();
     }
 
-    /*
-     *===Properties===
-     */
+    // Check whether the Media is playing or not
     public bool videoReady
     {
         get
@@ -78,6 +74,7 @@ public class UAVPlayerSource
         }
     }
 
+    // Return the whole playable time of the media
     public float videoDuration
     {
         get
@@ -86,6 +83,7 @@ public class UAVPlayerSource
         }
     }
 
+    // Return the media texture width
     public int videoWidth
     {
         get
@@ -96,6 +94,7 @@ public class UAVPlayerSource
         }
     }
 
+    // Return the media texture height
     public int videoHeight
     {
         get
@@ -106,6 +105,7 @@ public class UAVPlayerSource
         }
     }
 
+    // Video Texture
     private Texture2D _videoTexture = null;
     public Texture2D videoTexture
     {
@@ -116,18 +116,18 @@ public class UAVPlayerSource
             {
                 if(_videoTexture == null && videoWidth != 0 && videoHeight != 0)
                 {
-                    Debug.Log("Create Texture width: " + videoWidth + ", height: " + videoHeight);
+                    Debug.Log("[UAVPlayer] Create Texture width: " + videoWidth + ", height: " + videoHeight);
                     _videoTexture = Texture2D.CreateExternalTexture(videoWidth, videoHeight, TextureFormat.BGRA32, false, false, nativeTex);
                     _videoTexture.filterMode = FilterMode.Bilinear;
                     _videoTexture.wrapMode = TextureWrapMode.Repeat;
                 }
 
-                Debug.Log("try update Texture");
+                Debug.Log("[UAVPlayer] try update Texture");
                 _videoTexture.UpdateExternalTexture(nativeTex);
             }
             else
             {
-                Debug.Log("native texture is zero");
+                Debug.Log("[UAVPlayer] native texture is zero");
                 _videoTexture = null;
             }
 
@@ -135,47 +135,49 @@ public class UAVPlayerSource
         }
     }
 
-    /*
-     *===[Functions]===
-     */
-     public static bool CanOutputToTexture(string videoPath)
+    // Check the whether player can play media or not
+    public static bool CanOutputToTexture(string videoPath)
     {
         bool canOutputTexture = UAVP_CanOutputToTexture(videoPath);
         if(canOutputTexture)
         {
-            Debug.Log("[Unity Player] CanOutputTexture");
+            Debug.Log("[UAVPlayer] Player can play the media");
         }
         else
         {
-            Debug.Log("[Unity Player] Problem to output texture");
+            Debug.Log("[UAVPlayer] Player cannot play the media");
         }
         return canOutputTexture;
     }
 
+    // Play the Player
     public void play(string videoPath)
     {
-        Debug.Log("[Unity Player] Player Start to play [" + videoPath + "]");
+        Debug.Log("[UAVPlayer_Play] URL[" + videoPath + "]");
         if (CanOutputToTexture(videoPath))
             UAVP_PlayVideo(videoPath);
     }
 
+    // Pause the Player
     public void pause()
     {
-        Debug.Log("[Unity Player] Player Pause");
+        Debug.Log("[UAVPlayer_Pause]");
         if (videoReady)
             UAVP_PauseVideo();
     }
 
+    // Resume the Player
     public void resume()
     {
-        Debug.Log("[Unity Player] Resume Pause");
+        Debug.Log("[UAVPlayer_Resume]");
 
         UAVP_ResumeVideo();
     }
 
+    // Release the Player
     public void release()
     {
-        Debug.Log("[Unity Player] Player Release");
+        Debug.Log("[UAVPlayer_Release]");
         UAVP_ReleasePlayer();
     }
 }
