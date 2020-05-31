@@ -8,7 +8,7 @@ public class UAVP : MonoBehaviour
     public Material videoMat = null;
     public RawImage videoRaw = null;
 
-    public string videoPath = null;
+    public string mediaStreamingURL = null;
 
     private bool videoTexAssigned = false;
 
@@ -24,8 +24,8 @@ public class UAVP : MonoBehaviour
 
         if(player != null)
         {
-            Debug.Log("Start to play [" + videoPath + "]");
-            player.play(videoPath);
+            Debug.Log("Start to play [" + mediaStreamingURL + "]");
+            player.play(mediaStreamingURL);
         }
         else
         {
