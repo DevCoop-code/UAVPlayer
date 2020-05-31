@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UAVPSample : MonoBehaviour
+public class UAVP : MonoBehaviour
 {
     public Material videoMat = null;
     public RawImage videoRaw = null;
@@ -12,7 +12,7 @@ public class UAVPSample : MonoBehaviour
 
     private bool videoTexAssigned = false;
 
-    private UAVPlayer player = new UAVPlayer();
+    private UAVPlayerSource player = new UAVPlayerSource();
 
     // Start is called before the first frame update
     void Start()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
 
-public class UAVPlayer
+public class UAVPlayerSource
 {
 #if UNITY_IPHONE && !UNITY_EDITOR
     [DllImport("__Internal")]
@@ -60,9 +60,9 @@ public class UAVPlayer
     /*
      * ===Constructor===
      */
-     public UAVPlayer()
+     public UAVPlayerSource()
     {
-        Debug.Log("[Unity Player] Call UAVPlayer Constructor");
+        Debug.Log("[Unity Player] Call UAVPlayerSource Constructor");
 
         UAVP_InitPlayer();
     }
