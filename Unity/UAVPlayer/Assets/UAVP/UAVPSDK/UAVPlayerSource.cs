@@ -53,17 +53,17 @@ public class UAVPlayerSource: UAVPFoundation
 #if UNITY_IPHONE && !UNITY_EDITOR
     [DllImport("__Internal")]
 #endif
-    private static extern void UAVP_PauseVideo();
+    private static extern UAVPError UAVP_PauseVideo();
 
 #if UNITY_IPHONE && !UNITY_EDITOR
     [DllImport("__Internal")]
 #endif
-    private static extern void UAVP_ResumeVideo();
+    private static extern UAVPError UAVP_ResumeVideo();
 
 #if UNITY_IPHONE && !UNITY_EDITOR
     [DllImport("__Internal")]
 #endif
-    private static extern void UAVP_ReleasePlayer();
+    private static extern UAVPError UAVP_ReleasePlayer();
     
      public UAVPlayerSource()
     {
@@ -148,10 +148,28 @@ public class UAVPlayerSource: UAVPFoundation
         }
     }
 
+    private UAVPStatus _status = UAVPStatus.UAVP_NONE;
+    public UAVPStatus playerStatus
+    {
+        get
+        {
+            return _status;
+        }
+    }
+
     // Initialize the Media Player
     public override UAVPError InitPlayer(UAVPLogLevel logLevel)
     {
         UAVPError error = UAVP_InitPlayer();
+
+        if (error == UAVPError.UAVP_ERROR_NONE)
+        {
+            _status = UAVPStatus.UAVP_INIT;
+        }
+        else
+        {
+            _status = UAVPStatus.UAVP_NONE;
+        }
 
         return error;
     }
@@ -165,10 +183,20 @@ public class UAVPlayerSource: UAVPFoundation
         if (CanOutputToTexture(URI))
         {
             error = UAVP_OpenVideo(URI);
+            if (error == UAVPError.UAVP_ERROR_NONE)
+            {
+                _status = UAVPStatus.UAVP_OPEN;
+            }
+            else
+            {
+                _status = UAVPStatus.UAVP_NONE;
+            }
         }
         else
         {
             error = UAVPError.UAVP_Error_OPENFAILED;
+            
+            _status = UAVPStatus.UAVP_NONE;
         }
         return error;
     }
@@ -177,16 +205,36 @@ public class UAVPlayerSource: UAVPFoundation
     public override void Start()
     {
         Debug.Log("[UAVPlayer_Start]");
-        UAVP_PlayVideo();
+
+        UAVPError error = UAVP_PlayVideo();
+
+        if (error == UAVPError.UAVP_ERROR_NONE)
+        {
+            _status = UAVPStatus.UAVP_START;
+        }
+        else
+        {
+            _status = UAVPStatus.UAVP_NONE;
+        }
     }
 
     // Pause the Player
     public override void Pause()
     {
         Debug.Log("[UAVPlayer_Pause]");
+
         if(videoReady)
         {
-            UAVP_PauseVideo();
+            UAVPError error = UAVP_PauseVideo();
+
+            if (error == UAVPError.UAVP_ERROR_NONE)
+            {
+                _status = UAVPStatus.UAVP_PAUSE;
+            }
+            else
+            {
+                _status = UAVPStatus.UAVP_NONE;
+            }
         }
     }
 
@@ -194,14 +242,33 @@ public class UAVPlayerSource: UAVPFoundation
     public override void Resume()
     {
         Debug.Log("[UAVPlayer_Resume]");
-        UAVP_ResumeVideo();
+        
+        UAVPError error = UAVP_ResumeVideo();
+        if (error == UAVPError.UAVP_ERROR_NONE)
+        {
+            _status = UAVPStatus.UAVP_START;
+        }
+        else
+        {
+            _status = UAVPStatus.UAVP_NONE;
+        }
     }
 
     // Release the Player
     public override void Release()
     {
         Debug.Log("[UAVPlayer_Release]");
-        UAVP_ReleasePlayer();
+        
+        UAVPError error = UAVP_ReleasePlayer();
+
+        if (error == UAVPError.UAVP_ERROR_NONE)
+        {
+            _status = UAVPStatus.UAVP_RELEASE;
+        }
+        else
+        {
+            _status = UAVPStatus.UAVP_RELEASE;
+        }
     }
 
     // Video Texture

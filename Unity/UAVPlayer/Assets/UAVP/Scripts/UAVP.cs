@@ -86,8 +86,18 @@ public class UAVP : MonoBehaviour
         player = null;
     }
 
+    public void OnPlay()
+    {
+        Debug.Log("OnPlay");
+        if (player != null)
+        {
+            player.Start();
+        }
+    }
+
     public void OnPause()
     {
+        Debug.Log("OnPause");
         if (player != null)
         {
             player.Pause();
@@ -96,14 +106,29 @@ public class UAVP : MonoBehaviour
 
     public void OnResume()
     {
+        Debug.Log("OnResume");
         if (player != null)
         {
             player.Resume();
         }
     }
 
-    public void ToggleStart()
+    public void ToggleStartPause()
     {
-        Debug.Log("start");
+        Debug.Log("OnToggleStartPause");
+        switch(player.playerStatus)
+        {
+            case UAVPStatus.UAVP_START:
+                {
+                    OnPause();
+                }
+            break;
+
+            case UAVPStatus.UAVP_PAUSE:
+                {
+                    OnPlay();
+                }
+            break;
+        }
     }
 }

@@ -25,3 +25,14 @@ public enum UAVPMediaType
     UAVP_Local_Media = 1,               // Local Media(Media in StreamingAssets Directory)
     UAVP_StreamingAsset_Media = 2       // Media in StreamingAssets Directory
 }
+
+// Player Status
+public enum UAVPStatus
+{
+    UAVP_NONE = 0,
+    UAVP_INIT = 1,
+    UAVP_OPEN = 2,
+    UAVP_START = 3,
+    UAVP_PAUSE = 4,
+    UAVP_RELEASE = 5
+}
