@@ -10,7 +10,6 @@
 
 @interface MySceneViewController ()
 {
-    playerStatus playerState;
 }
 
 @end
@@ -28,7 +27,6 @@
     _objectToDraw = [[Cube alloc]init:[super device] commandQ:[super commandQueue]];
     super.metalViewControllerDelegate = self;
     
-    playerState = playingStatus;
 }
 
 - (void)renderObject:(id<CAMetalDrawable>)drawable pixelBuffer:(CVPixelBufferRef)pixelBuffer
@@ -51,16 +49,7 @@
 
 - (IBAction)startPause:(id)sender
 {
-    switch (playerState) {
-        case playingStatus:
-            [self pausePlayer];
-            break;
-        case pauseStatus:
-            [self resumePlayer];
-            break;
-        default:
-            break;
-    }
+    
 }
 
 

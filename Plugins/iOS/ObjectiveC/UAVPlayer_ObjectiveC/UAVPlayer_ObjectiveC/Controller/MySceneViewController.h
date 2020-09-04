@@ -11,16 +11,14 @@
 #import "Matrix4.h"
 #import "Cube.h"
 
-@interface MySceneViewController : MetalViewController<MetalViewControllerDelegate>
+#ifndef MainScene
+#define MainScene
 
-typedef enum
-{
-    playingStatus = 1,
-    pauseStatus = 2,
-} playerStatus;
+@interface MySceneViewController : MetalViewController<MetalViewControllerDelegate>
 
 @property(nonatomic) Matrix4 *worldModelMatrix;
 @property(nonatomic) Cube *objectToDraw;
 
 @end
 
+#endif
