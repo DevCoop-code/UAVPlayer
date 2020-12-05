@@ -2,9 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
+using AOT;
 
 public class UAVPlayerSource: UAVPFoundation
 {
+    /*
+    Prototype of UAVP Listener callback
+
+    C# delegate method (Similar to C/C++ function pointer)
+
+    @param param1: Indicate what time of type, 0: total media Time, 1: current time
+    */
+    protected delegate void uavplayerTimeDelegate(int type, float time);
+
 #if UNITY_IPHONE && !UNITY_EDITOR
     [DllImport("__Internal")]
 #endif
@@ -64,8 +74,13 @@ public class UAVPlayerSource: UAVPFoundation
     [DllImport("__Internal")]
 #endif
     private static extern UAVPError UAVP_ReleasePlayer();
-    
-     public UAVPlayerSource()
+
+#if UNITY_IPHONE && !UNITY_EDITOR
+    [DllImport("__Internal")]
+#endif
+    private static extern void UAVP_setUAVPTimeListener(uavplayerTimeDelegate funcPtr);
+
+    public UAVPlayerSource()
     {
         Debug.Log("[UAVPlayer_Souce] Init");
     }
@@ -161,6 +176,8 @@ public class UAVPlayerSource: UAVPFoundation
     public override UAVPError InitPlayer(UAVPLogLevel logLevel)
     {
         UAVPError error = UAVP_InitPlayer();
+
+        UAVP_setUAVPTimeListener(new uavplayerTimeDelegate(UAVPTimeListener));
 
         if (error == UAVPError.UAVP_ERROR_NONE)
         {
@@ -314,5 +331,19 @@ public class UAVPlayerSource: UAVPFoundation
             Debug.Log("[UAVPlayer] Player cannot play the media");
         }
         return canOutputTexture;
+    }
+
+    [MonoPInvokeCallback(typeof(uavplayerTimeDelegate))]
+    static void UAVPTimeListener(int type, float time)
+    {
+        switch (type) {
+            case 0:         // total time
+                Debug.Log("[UAVPlayer] Total time: " + time);
+            break;
+
+            case 1:         // current time
+                Debug.Log("[UAVPlayer] Current time: " + time);
+            break;
+        }
     }
 }

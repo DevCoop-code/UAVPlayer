@@ -54,6 +54,10 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 @end
 
 @implementation UAVPlayer
+
+typedef void ( *UAVPTimeListener )(int, float);
+static UAVPTimeListener g_uavpTimeListener = NULL;
+
 - (void)initPlayer
 {
     NSLog(@"Init UAVP");
@@ -255,6 +259,10 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
             case AVPlayerItemStatusUnknown:
                 break;
             case AVPlayerItemStatusReadyToPlay:
+            {
+                CMTime mediaTotalTime = [[[avPlayer currentItem]asset]duration];
+                g_uavpTimeListener(0, CMTimeGetSeconds(mediaTotalTime));
+            }
                 break;
             case AVPlayerItemStatusFailed:
                 break;
@@ -360,4 +368,9 @@ extern "C" void UAVP_ResumeVideo()
 extern "C" void UAVP_ReleasePlayer()
 {
 
+}
+
+extern "C" void UAVP_setUAVPTimeListener(UAVPTimeListener listener)
+{
+    g_uavpTimeListener = listener;
 }
