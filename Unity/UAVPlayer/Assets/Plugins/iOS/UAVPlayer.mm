@@ -330,14 +330,15 @@ extern "C" intptr_t UAVP_CurFrameTexture()
     return (uintptr_t)(__bridge void*)([_GetPlayer() outputFrameTexture]);
 }
 
-extern "C" void UAVP_InitPlayer()
+extern "C" int UAVP_InitPlayer()
 {
     [_GetPlayer() initPlayer];
+    
+    return 0;
 }
 
 extern "C" void UAVP_OpenVideo(const char* filename)
 {
-    // - (void)openVideo:(NSURL*)url;
     [_GetPlayer() openVideo:_GetUrl(filename)];
 }
 
