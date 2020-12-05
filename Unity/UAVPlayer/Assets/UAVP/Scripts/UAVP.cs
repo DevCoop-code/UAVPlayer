@@ -5,12 +5,16 @@ using UnityEngine.UI;
 
 public class UAVP : MonoBehaviour
 {
+    /*
+    Properties
+    */
     public bool autoPlay = true;
-
     public bool loop = false;
-
     public bool mute = false;
 
+    /*
+    Unity Object which is assign Video Texture
+    */
     public Material videoMat = null;
     public RawImage videoRawImage = null;
 
@@ -23,16 +27,9 @@ public class UAVP : MonoBehaviour
     [Tooltip("If you want to play Streaming video, you should input the URL, But if you play the video in StreamingAssets or Local, you should put the Location Path")]
     public string mediaURI = null;
 
-    public Sprite playBtnSpirte;
-
-    public Sprite pauseBtnSpirte;
-
-    public Image startPauseBtn;
-
     public UAVPLogLevel logLevel;
 
     private bool videoTexAssigned = false;
-
     private UAVPlayerSource player = (UAVPlayerSource)UAVPFactory.GetUAVPlayer();
 
     // Start is called before the first frame update
@@ -49,7 +46,7 @@ public class UAVP : MonoBehaviour
             UAVPError error = player.InitPlayer(logLevel);
             if(error == UAVPError.UAVP_ERROR_NONE)
             {
-                player.OpenMedia(mediaURI, UAVPMediaType.UAVP_Local_Media);
+                player.OpenMedia(mediaURI, UAVPMediaType.UAVP_Streaming_Media);
             }
             else
             {
@@ -69,6 +66,8 @@ public class UAVP : MonoBehaviour
         {
             if (!videoTexAssigned && player.videoTexture)
             {
+                Debug.Log("Assign the Texture");
+                
                 if (videoMat != null)
                     videoMat.mainTexture = player.videoTexture;
 
@@ -79,6 +78,8 @@ public class UAVP : MonoBehaviour
             }
             if (videoTexAssigned && !player.videoTexture)
             {
+                Debug.Log("Release the Texture");
+
                 if (videoMat != null)
                     videoMat.mainTexture = null;
                 if (videoRawImage != null)
@@ -134,22 +135,12 @@ public class UAVP : MonoBehaviour
             case UAVPStatus.UAVP_START:
                 {
                     OnPause();
-
-                    if (startPauseBtn != null && playBtnSpirte != null)
-                    {
-                        startPauseBtn.sprite = playBtnSpirte;
-                    }
                 }
             break;
 
             case UAVPStatus.UAVP_PAUSE:
                 {
                     OnPlay();
-
-                    if (startPauseBtn != null && pauseBtnSpirte != null)
-                    {
-                        startPauseBtn.sprite = pauseBtnSpirte;
-                    }
                 }
             break;
         }

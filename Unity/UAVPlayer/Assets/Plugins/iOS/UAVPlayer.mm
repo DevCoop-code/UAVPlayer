@@ -39,7 +39,8 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     size_t height;
 }
 - (void)initPlayer;
-- (void)playVideo:(NSURL*)url;
+- (void)openVideo:(NSURL*)url;
+- (void)playVideo;
 - (void)pauseVideo;
 - (void)resumeVideo;
 - (void)onPlayerReady;
@@ -64,10 +65,10 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     [self addObserver:self forKeyPath:@"avPlayer.currentItem.status" options:NSKeyValueObservingOptionNew context:AVPlayerItemStatusContext];
 }
 
-- (void)playVideo:(NSURL*)url
+- (void)openVideo:(NSURL*)url
 {
-    NSLog(@"play video path : %@", url);
-    
+    NSLog(@"Open media path : %@", url);
+
     if(url != nil)
     {
         [self startToPlay:url];
@@ -76,6 +77,11 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     {
         NSLog(@"Problem in video path : %@", url);
     }
+}
+
+- (void)playVideo
+{    
+    [avPlayer play];
 }
 
 - (void)initProperties
@@ -122,9 +128,7 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 }
 
 - (void)startToPlay:(NSURL*)url
-{
-    [avPlayer pause];
-    
+{   
     [self setupPlaybackForURL:url];
 }
 
@@ -294,6 +298,7 @@ static NSURL* _GetUrl(const char* filename)
     return url;
 }
 
+
 extern "C" bool UAVP_CanOutputToTexture(const char* filename)
 {
     return [_GetPlayer() canOutputTexture:[NSString stringWithUTF8String:filename]];
@@ -309,6 +314,11 @@ extern "C" float UAVP_DurationSeconds()
     return 0;
 }
 
+extern "C" float UAVP_CurrentSeconds()
+{
+    return 0;
+}
+
 extern "C" void UAVP_VideoExtents(int* w, int* h)
 {
     *w = static_cast<int>([_GetPlayer() getTextureWidth]);
@@ -320,14 +330,20 @@ extern "C" intptr_t UAVP_CurFrameTexture()
     return (uintptr_t)(__bridge void*)([_GetPlayer() outputFrameTexture]);
 }
 
-extern "C" void UAVP_PlayVideo(const char* filename)
-{
-    [_GetPlayer() playVideo:_GetUrl(filename)];
-}
-
 extern "C" void UAVP_InitPlayer()
 {
+    [_GetPlayer() initPlayer];
+}
 
+extern "C" void UAVP_OpenVideo(const char* filename)
+{
+    // - (void)openVideo:(NSURL*)url;
+    [_GetPlayer() openVideo:_GetUrl(filename)];
+}
+
+extern "C" void UAVP_PlayVideo()
+{
+    [_GetPlayer() playVideo];
 }
 
 extern "C" void UAVP_PauseVideo()
