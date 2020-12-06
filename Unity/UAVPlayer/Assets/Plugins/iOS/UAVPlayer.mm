@@ -90,6 +90,11 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
     [avPlayer play];
 }
 
+- (void)pauseVideo
+{    
+    [avPlayer pause];
+}
+
 - (void)initProperties
 {
     device = MTLCreateSystemDefaultDevice();
@@ -375,12 +380,7 @@ extern "C" void UAVP_PlayVideo()
 
 extern "C" void UAVP_PauseVideo()
 {
-
-}
-
-extern "C" void UAVP_ResumeVideo()
-{
-
+    [_GetPlayer() pauseVideo];
 }
 
 extern "C" void UAVP_ReleasePlayer()

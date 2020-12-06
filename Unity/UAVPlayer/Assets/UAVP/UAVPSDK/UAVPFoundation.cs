@@ -32,9 +32,11 @@ public abstract class UAVPFoundation
     abstract public void Pause();
 
     /*
-    Resumes the Media
+    Seek the Media
+
+    param1: time is seconds
     */
-    abstract public void Resume();
+    abstract public void Seek(int time);
 
     /*
     Release the Player

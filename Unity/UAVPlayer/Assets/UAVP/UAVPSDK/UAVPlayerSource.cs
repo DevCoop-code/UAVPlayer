@@ -68,7 +68,7 @@ public class UAVPlayerSource: UAVPFoundation
 #if UNITY_IPHONE && !UNITY_EDITOR
     [DllImport("__Internal")]
 #endif
-    private static extern UAVPError UAVP_ResumeVideo();
+    private static extern UAVPError UAVP_SeekVideo(int time);
 
 #if UNITY_IPHONE && !UNITY_EDITOR
     [DllImport("__Internal")]
@@ -255,19 +255,14 @@ public class UAVPlayerSource: UAVPFoundation
         }
     }
 
-    // Resume the Player
-    public override void Resume()
+    // Seek the content specific time
+    public override void Seek(int time)
     {
-        Debug.Log("[UAVPlayer_Resume]");
-        
-        UAVPError error = UAVP_ResumeVideo();
-        if (error == UAVPError.UAVP_ERROR_NONE)
+        Debug.Log("[UAVPlayer_Seek]");
+
+        if(videoReady)
         {
-            _status = UAVPStatus.UAVP_START;
-        }
-        else
-        {
-            _status = UAVPStatus.UAVP_NONE;
+            UAVP_SeekVideo(time);
         }
     }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class UAVP : MonoBehaviour
 {
@@ -35,10 +36,26 @@ public class UAVP : MonoBehaviour
     private bool videoTexAssigned = false;
     private UAVPlayerSource player = (UAVPlayerSource)UAVPFactory.GetUAVPlayer();
 
+    private bool isSeeking = false;
+
     // Start is called before the first frame update
     void Start()
     {
         // Initialize the property
+        EventTrigger eventTrigger = seekbar.gameObject.AddComponent<EventTrigger>();
+
+        // When Click the Slider
+        EventTrigger.Entry entry_PointerDown = new EventTrigger.Entry();
+        entry_PointerDown.eventID = EventTriggerType.PointerDown;
+        entry_PointerDown.callback.AddListener((data) => { OnPointerDown((PointerEventData)data); });
+        eventTrigger.triggers.Add(entry_PointerDown);
+
+        // When Touch Up the Slider
+        EventTrigger.Entry entry_EndDrag = new EventTrigger.Entry();
+        entry_EndDrag.eventID = EventTriggerType.EndDrag;
+        entry_EndDrag.callback.AddListener((data) => { OnEndDrag((PointerEventData)data); });
+        eventTrigger.triggers.Add(entry_EndDrag);
+
         if(seekbar != null)
         {
             seekbar.minValue = 0;
@@ -112,6 +129,9 @@ public class UAVP : MonoBehaviour
         player = null;
     }
 
+    /*
+    Player Behaviour
+    */
     public void OnPlay()
     {
         Debug.Log("OnPlay");
@@ -130,12 +150,12 @@ public class UAVP : MonoBehaviour
         }
     }
 
-    public void OnResume()
+    public void OnSeek()
     {
-        Debug.Log("OnResume");
-        if (player != null)
+        Debug.Log("OnSeek");
+        if (player != null && seekbar != null)
         {
-            player.Resume();
+            player.Seek((int)seekbar.value);
         }
     }
 
@@ -156,6 +176,22 @@ public class UAVP : MonoBehaviour
                 }
             break;
         }
+    }
+
+    void OnPointerDown(PointerEventData data)
+    {
+        Debug.Log("Seekbar Pointer Down");
+
+        isSeeking = true;
+    }
+
+    void OnEndDrag(PointerEventData data)
+    {
+        Debug.Log("Seekbar Pointer Up");
+
+        OnSeek();
+
+        isSeeking = false;
     }
 
     // UAVP Event
@@ -227,7 +263,10 @@ public class UAVP : MonoBehaviour
                 elapsedTime.text = e_hour.ToString() + ":" + e_minuteStr + ":" + e_secondStr;
 
                 if(seekbar != null)
-                    seekbar.value = elapsedTimeSeconds;
+                {
+                    if (!isSeeking)
+                        seekbar.value = elapsedTimeSeconds;
+                }
             break;
 
             default:
