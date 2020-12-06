@@ -344,6 +344,7 @@ public class UAVPlayerSource: UAVPFoundation
 
             case 1:         // current time
                 Debug.Log("[UAVPlayer] Current time: " + time);
+                onEvent(type, time, 0, 0);
             break;
         }
     }

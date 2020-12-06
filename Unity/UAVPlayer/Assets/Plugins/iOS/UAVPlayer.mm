@@ -67,6 +67,8 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
     avPlayer = [[AVPlayer alloc] init];
     
     [self addObserver:self forKeyPath:@"avPlayer.currentItem.status" options:NSKeyValueObservingOptionNew context:AVPlayerItemStatusContext];
+    
+    [self addPeriodicTimeObserver];
 }
 
 - (void)openVideo:(NSURL*)url
@@ -105,6 +107,22 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
     lastFrameTimestamp = kCMTimeZero;
 
     textureCache = nil;
+}
+
+- (void)addPeriodicTimeObserver
+{
+    // Invoke callback every half second
+    CMTime interval = CMTimeMakeWithSeconds(0.5, NSEC_PER_SEC);
+    // Queue on which to invoke the callback
+    dispatch_queue_t mainQueue = dispatch_get_main_queue();
+    
+    // Add time observer
+    [avPlayer addPeriodicTimeObserverForInterval:interval
+                                              queue:mainQueue
+                                         usingBlock:^(CMTime time) {
+        // Use weak reference to self
+        g_uavpTimeListener(1, CMTimeGetSeconds(time));
+    }];
 }
 
 - (void)onPlayerReady

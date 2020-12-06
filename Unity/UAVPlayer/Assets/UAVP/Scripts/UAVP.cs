@@ -17,6 +17,8 @@ public class UAVP : MonoBehaviour
     */
     public Material videoMat = null;
     public RawImage videoRawImage = null;
+    public Text elapsedTime;
+    public Text totalTime;
 
     /*
     If the media type is Streaming, 
@@ -152,11 +154,67 @@ public class UAVP : MonoBehaviour
     // UAVP Event
     public void EventNotify(int type, float param1, float param2, float param3)
     {
-        Debug.Log("EventNotify, type: " + type + " ,param1: " + param1 + " ,param2: " + param2 + " ,param3: " + param3);
+        if (type != 1) 
+        {
+            Debug.Log("EventNotify, type: " + type + " ,param1: " + param1 + " ,param2: " + param2 + " ,param3: " + param3);
+        }
+
         switch (type)
         {
-            case 0:
-                
+            case 0:     // Total Media Time(seconds)
+                string t_minuteStr = "00";
+                string t_secondStr = "00";
+
+                float totalTimeSeconds = param1;
+                int t_hour = (int)totalTimeSeconds / 3600;
+                int t_minute = (int)(totalTimeSeconds % 3600) / 60;
+                int t_second = (int)(totalTimeSeconds % 3600) % 60;
+                if(t_minute >=0 && t_minute < 10)
+                {
+                    t_minuteStr = "0" + t_minute.ToString();
+                }
+                else
+                {
+                    t_minuteStr = t_minute.ToString();
+                }
+
+                if(t_second >= 0 && t_second < 10)
+                {
+                    t_secondStr = "0" + t_second.ToString();
+                }
+                else
+                {
+                    t_secondStr = t_second.ToString();
+                }
+                totalTime.text = t_hour.ToString() + ":" + t_minuteStr + ":" + t_secondStr;
+            break;
+
+            case 1:     // Current Media Time(seconds)
+                string e_minuteStr = "00";
+                string e_secondStr = "00";
+
+                float elapsedTimeSeconds = param1;
+                int e_hour = (int)elapsedTimeSeconds / 3600;
+                int e_minute = (int)(elapsedTimeSeconds % 3600) / 60;
+                int e_second = (int)(elapsedTimeSeconds % 3600) % 60;
+                if(e_minute >=0 && e_minute < 10)
+                {
+                    e_minuteStr = "0" + e_minute.ToString();
+                }
+                else
+                {
+                    e_minuteStr = e_minute.ToString();
+                }
+
+                if(e_second >= 0 && e_second < 10)
+                {
+                    e_secondStr = "0" + e_second.ToString();
+                }
+                else
+                {
+                    e_secondStr = e_second.ToString();
+                }
+                elapsedTime.text = e_hour.ToString() + ":" + e_minuteStr + ":" + e_secondStr;
             break;
 
             default:
