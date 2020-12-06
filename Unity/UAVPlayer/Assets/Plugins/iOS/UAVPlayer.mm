@@ -375,19 +375,25 @@ extern "C" int UAVP_InitPlayer()
     return 0;
 }
 
-extern "C" void UAVP_OpenVideo(const char* filename)
+extern "C" int UAVP_OpenVideo(const char* filename)
 {
     [_GetPlayer() openVideo:_GetUrl(filename)];
+    
+    return 0;
 }
 
-extern "C" void UAVP_PlayVideo()
+extern "C" int UAVP_PlayVideo()
 {
     [_GetPlayer() playVideo];
+    
+    return 0;
 }
 
-extern "C" void UAVP_PauseVideo()
+extern "C" int UAVP_PauseVideo()
 {
     [_GetPlayer() pauseVideo];
+    
+    return 0;
 }
 
 extern "C" void UAVP_SeekVideo(int time)

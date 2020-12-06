@@ -175,6 +175,12 @@ public class UAVP : MonoBehaviour
                     OnPlay();
                 }
             break;
+
+            case UAVPStatus.UAVP_OPEN:
+                {
+                    OnPlay();
+                }
+            break;
         }
     }
 

@@ -36,3 +36,11 @@ public enum UAVPStatus
     UAVP_PAUSE = 4,
     UAVP_RELEASE = 5
 }
+
+// Property Type
+public enum UAVPProperty
+{
+    UAVP_AUTOPLAY = 0,
+    UAVP_LOOP = 1,
+    UAVP_MUTE = 2
+}
