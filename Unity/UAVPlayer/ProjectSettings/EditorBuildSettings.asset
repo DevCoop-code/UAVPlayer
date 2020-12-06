@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/basicPlaybackScene.unity
-    guid: e26de362e3ae242c9a109e9c0c415977
+    path: Assets/UAVP/Scenes/UAVPRawImageSample.unity
+    guid: 0f386baca0fdc4487b9e639d2edd5c79
   m_configObjects: {}
