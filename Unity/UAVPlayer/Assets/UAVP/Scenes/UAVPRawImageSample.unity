@@ -1657,7 +1657,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '00:00
+  m_Text: '00:00:00
+
 
 '
 --- !u!222 &1788233960
@@ -1776,8 +1777,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -73, y: 224}
-  m_SizeDelta: {x: 144.69995, y: 57.7}
+  m_AnchoredPosition: {x: -112, y: 224}
+  m_SizeDelta: {x: 220, y: 57.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1882950795
 MonoBehaviour:
@@ -1812,7 +1813,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '00:00
+  m_Text: '00:00:00
 
 '
 --- !u!222 &1882950796
