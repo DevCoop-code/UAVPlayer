@@ -42,6 +42,7 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 - (void)openVideo:(NSURL*)url;
 - (void)playVideo;
 - (void)pauseVideo;
+- (void)seekVideo:(int)time;
 - (void)resumeVideo;
 - (void)onPlayerReady;
 - (void)onPlayerDidFinishPlayingVideo;
@@ -93,6 +94,12 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
 - (void)pauseVideo
 {    
     [avPlayer pause];
+}
+
+- (void)seekVideo:(int)time
+{
+    CMTime seekTime = CMTimeMake(time, 1);
+    [avPlayer seekToTime:seekTime];
 }
 
 - (void)initProperties
@@ -381,6 +388,11 @@ extern "C" void UAVP_PlayVideo()
 extern "C" void UAVP_PauseVideo()
 {
     [_GetPlayer() pauseVideo];
+}
+
+extern "C" void UAVP_SeekVideo(int time)
+{
+    [_GetPlayer() seekVideo: time];
 }
 
 extern "C" void UAVP_ReleasePlayer()
