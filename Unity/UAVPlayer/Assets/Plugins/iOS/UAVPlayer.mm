@@ -21,6 +21,9 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     id<MTLCommandQueue> commandQueue;
     
     @public BOOL playerReady;
+    BOOL autoplay;
+    BOOL loop;
+    BOOL mute;
     
     AVPlayer* avPlayer;
     AVPlayerItemVideoOutput* videoOutput;
@@ -51,6 +54,7 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 - (size_t)getTextureWidth;
 - (size_t)getTextureHeight;
 - (void)releasePlayer;
+- (void)setProperty:(int)type value:(int)param;
 
 @end
 
@@ -256,6 +260,44 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
     height = 0;
 }
 
+- (void)setProperty:(int)type value:(int)param
+{
+    switch (type) {
+        case 0:
+            if (param == 1)
+            {
+                autoplay = true;
+            }
+            else
+            {
+                autoplay = false;
+            }
+            break;
+        case 1:
+            if (param == 1)
+            {
+                loop = true;
+            }
+            else
+            {
+                loop = false;
+            }
+            break;
+        case 2:
+            if (param == 1)
+            {
+                mute = true;
+            }
+            else
+            {
+                mute = false;
+            }
+            break;
+        default:
+            break;
+    }
+}
+
 - (void)setupPlaybackForURL:(NSURL*)URL
 {
     //Remove video outtput from old item
@@ -271,7 +313,8 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
                 [item addOutput:videoOutput];
                 [avPlayer replaceCurrentItemWithPlayerItem:item];
                 [videoOutput requestNotificationOfMediaDataChangeWithAdvanceInterval:ONE_FRAME_DURATION];
-                [avPlayer play];
+                if (autoplay)
+                    [avPlayer play];
             });
         }
     }];
@@ -409,4 +452,9 @@ extern "C" void UAVP_ReleasePlayer()
 extern "C" void UAVP_setUAVPTimeListener(UAVPTimeListener listener)
 {
     g_uavpTimeListener = listener;
+}
+
+extern "C" void UAVP_setUAVPProperty(int type, int param)
+{
+    [_GetPlayer() setProperty:type value:param];
 }

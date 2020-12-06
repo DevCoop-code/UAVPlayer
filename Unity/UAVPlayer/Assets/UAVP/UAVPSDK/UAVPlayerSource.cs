@@ -15,6 +15,8 @@ public class UAVPlayerSource: UAVPFoundation
     */
     protected delegate void uavplayerTimeDelegate(int type, float time);
 
+    private bool autoplay = false;
+
 #if UNITY_IPHONE && !UNITY_EDITOR
     [DllImport("__Internal")]
 #endif
@@ -207,7 +209,10 @@ public class UAVPlayerSource: UAVPFoundation
             error = UAVP_OpenVideo(URI);
             if (error == UAVPError.UAVP_ERROR_NONE)
             {
-                _status = UAVPStatus.UAVP_OPEN;
+                if (autoplay)
+                    _status = UAVPStatus.UAVP_START;
+                else
+                    _status = UAVPStatus.UAVP_OPEN;
             }
             else
             {
@@ -294,6 +299,11 @@ public class UAVPlayerSource: UAVPFoundation
         Debug.Log("[UAVP setProperty] type: " + type + ", param: " + param);
 
         UAVP_setUAVPProperty(type, param);
+
+        if (type == UAVPProperty.UAVP_AUTOPLAY && param == 1)
+        {
+            autoplay = true;
+        }
     }
 
     // Video Texture
