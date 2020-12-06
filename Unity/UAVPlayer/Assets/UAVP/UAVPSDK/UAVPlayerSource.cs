@@ -339,6 +339,7 @@ public class UAVPlayerSource: UAVPFoundation
         switch (type) {
             case 0:         // total time
                 Debug.Log("[UAVPlayer] Total time: " + time);
+                onEvent(type, time, 0, 0);
             break;
 
             case 1:         // current time

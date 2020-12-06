@@ -42,6 +42,9 @@ public class UAVP : MonoBehaviour
 
         if(player != null)
         {
+            // Register the Event
+            UAVPlayerSource.onEvent += EventNotify;
+
             Debug.Log("Start to play [" + mediaURI + "]");
             UAVPError error = player.InitPlayer(logLevel);
             if(error == UAVPError.UAVP_ERROR_NONE)
@@ -67,7 +70,7 @@ public class UAVP : MonoBehaviour
             if (!videoTexAssigned && player.videoTexture)
             {
                 Debug.Log("Assign the Texture");
-                
+
                 if (videoMat != null)
                     videoMat.mainTexture = player.videoTexture;
 
@@ -142,6 +145,22 @@ public class UAVP : MonoBehaviour
                 {
                     OnPlay();
                 }
+            break;
+        }
+    }
+
+    // UAVP Event
+    public void EventNotify(int type, float param1, float param2, float param3)
+    {
+        Debug.Log("EventNotify, type: " + type + " ,param1: " + param1 + " ,param2: " + param2 + " ,param3: " + param3);
+        switch (type)
+        {
+            case 0:
+                
+            break;
+
+            default:
+
             break;
         }
     }

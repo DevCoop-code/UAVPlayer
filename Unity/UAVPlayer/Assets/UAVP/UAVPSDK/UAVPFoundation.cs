@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Use this delegate function to receive event from UAVPSource
+public delegate void EventNotify(int type, float param1, float param2, float param3);
+
 public abstract class UAVPFoundation
 {   
+    public static EventNotify onEvent;
     /*
     Initializes the player
     - logLevel: Set the LogLevel(Debug, Source, Porting, System)
