@@ -56,6 +56,22 @@ public class UAVP : MonoBehaviour
         entry_EndDrag.callback.AddListener((data) => { OnEndDrag((PointerEventData)data); });
         eventTrigger.triggers.Add(entry_EndDrag);
 
+        if (autoPlay)
+        {
+            if (player != null)
+                player.setProperty(UAVPProperty.UAVP_AUTOPLAY, 1);
+        }
+        if (loop)
+        {
+            if (player != null)
+                player.setProperty(UAVPProperty.UAVP_LOOP, 1);
+        }
+        if (mute)
+        {
+            if (player != null)
+                player.setProperty(UAVPProperty.UAVP_MUTE, 1);
+        }
+
         if(seekbar != null)
         {
             seekbar.minValue = 0;

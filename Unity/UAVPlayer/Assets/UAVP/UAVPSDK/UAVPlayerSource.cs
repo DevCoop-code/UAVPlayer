@@ -80,6 +80,11 @@ public class UAVPlayerSource: UAVPFoundation
 #endif
     private static extern void UAVP_setUAVPTimeListener(uavplayerTimeDelegate funcPtr);
 
+#if UNITY_IPHONE && !UNITY_EDITOR
+    [DllImport("__Internal")]
+#endif
+    private static extern void UAVP_setUAVPProperty(UAVPProperty type, int param);
+
     public UAVPlayerSource()
     {
         Debug.Log("[UAVPlayer_Souce] Init");
@@ -281,6 +286,14 @@ public class UAVPlayerSource: UAVPFoundation
         {
             _status = UAVPStatus.UAVP_RELEASE;
         }
+    }
+
+    // Set Property to Player
+    public override void setProperty(UAVPProperty type, int param)
+    {
+        Debug.Log("[UAVP setProperty] type: " + type + ", param: " + param);
+
+        UAVP_setUAVPProperty(type, param);
     }
 
     // Video Texture

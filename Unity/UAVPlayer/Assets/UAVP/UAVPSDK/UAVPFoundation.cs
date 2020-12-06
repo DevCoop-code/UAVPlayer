@@ -42,4 +42,9 @@ public abstract class UAVPFoundation
     Release the Player
     */
     abstract public void Release();
+
+    /*
+    Set Property to Player
+    */
+    abstract public void setProperty(UAVPProperty type, int param);
 }
