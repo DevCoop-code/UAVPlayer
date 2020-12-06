@@ -19,6 +19,7 @@ public class UAVP : MonoBehaviour
     public RawImage videoRawImage = null;
     public Text elapsedTime;
     public Text totalTime;
+    public Slider seekbar;
 
     /*
     If the media type is Streaming, 
@@ -37,6 +38,12 @@ public class UAVP : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Initialize the property
+        if(seekbar != null)
+        {
+            seekbar.minValue = 0;
+        }
+
         if(videoMat != null)
         {
             videoMat.mainTexture = null;
@@ -187,6 +194,9 @@ public class UAVP : MonoBehaviour
                     t_secondStr = t_second.ToString();
                 }
                 totalTime.text = t_hour.ToString() + ":" + t_minuteStr + ":" + t_secondStr;
+
+                if(seekbar != null)
+                    seekbar.maxValue = totalTimeSeconds;
             break;
 
             case 1:     // Current Media Time(seconds)
@@ -215,6 +225,9 @@ public class UAVP : MonoBehaviour
                     e_secondStr = e_second.ToString();
                 }
                 elapsedTime.text = e_hour.ToString() + ":" + e_minuteStr + ":" + e_secondStr;
+
+                if(seekbar != null)
+                    seekbar.value = elapsedTimeSeconds;
             break;
 
             default:
