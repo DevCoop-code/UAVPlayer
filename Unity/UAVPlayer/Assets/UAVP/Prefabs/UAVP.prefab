@@ -43,6 +43,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50872784bde184b39ab5ae08955e506c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  autoPlay: 1
+  loop: 0
+  mute: 0
   videoMat: {fileID: 0}
-  videoRaw: {fileID: 0}
-  mediaStreamingURL: 
+  videoRawImage: {fileID: 0}
+  elapsedTime: {fileID: 0}
+  totalTime: {fileID: 0}
+  seekbar: {fileID: 0}
+  mediaURI: https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8
+  logLevel: 0
