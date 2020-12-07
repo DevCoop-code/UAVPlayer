@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 namespace UAVPAPI
 {
@@ -47,6 +48,15 @@ namespace UAVPAPI
 
         [SerializeField]
         public UAVPLogLevel logLevel;
+
+        [SerializeField]
+        public UnityEvent openEvent = new UnityEvent();
+
+        [SerializeField]
+        public UnityEvent playEvent = new UnityEvent();
+
+        [SerializeField]
+        public UnityEvent pauseEvent = new UnityEvent();
 
         private bool videoTexAssigned = false;
         private UAVPlayerSource player = (UAVPlayerSource)UAVPFactory.GetUAVPlayer();
@@ -107,6 +117,7 @@ namespace UAVPAPI
                 if(error == UAVPError.UAVP_ERROR_NONE)
                 {
                     player.OpenMedia(mediaURI, mediaPlayType);
+                    openEvent.Invoke();
                 }
                 else
                 {
@@ -169,6 +180,7 @@ namespace UAVPAPI
             if (player != null)
             {
                 player.Start();
+                playEvent.Invoke();
             }
         }
 
@@ -178,6 +190,7 @@ namespace UAVPAPI
             if (player != null)
             {
                 player.Pause();
+                pauseEvent.Invoke();
             }
         }
 

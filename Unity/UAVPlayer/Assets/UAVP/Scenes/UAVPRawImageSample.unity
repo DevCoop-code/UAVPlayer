@@ -781,6 +781,50 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 1
+--- !u!1 &716486530
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 716486531}
+  - component: {fileID: 716486532}
+  m_Layer: 0
+  m_Name: UAVPUIChange
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &716486531
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716486530}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 854.5773, y: 799.30176, z: 2.0747871}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &716486532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716486530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae9d9ee12156b48eeb3b2b767c7d5d29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playPauseBtn: {fileID: 1443173389}
 --- !u!1 &919285247
 GameObject:
   m_ObjectHideFlags: 0
@@ -2058,6 +2102,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
         type: 3}
+      propertyPath: playEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: pauseEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
       propertyPath: videoRawImage
       value: 
       objectReference: {fileID: 442241665}
@@ -2076,6 +2130,66 @@ PrefabInstance:
       propertyPath: seekbar
       value: 
       objectReference: {fileID: 1585020701}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: logLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: mediaPlayType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: playEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: playEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: pauseEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: pauseEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: playEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 716486532}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: playEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangePlayStateButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: playEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: pauseEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 716486532}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: pauseEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangePauseStateButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: pauseEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3442910891842571460, guid: 362dbf660b53d4cbebd14b68ff6f9209,
         type: 3}
       propertyPath: m_LocalPosition.x

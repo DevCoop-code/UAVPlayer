@@ -22,8 +22,11 @@ namespace UAVPAPI
         SerializedProperty _mediaURI;
         SerializedProperty _logLevel;
         SerializedProperty _mediaPlayType;
-
+        SerializedProperty _playEvent;
+        SerializedProperty _pauseEvent;
+        SerializedProperty _openEvent;
         private string[] _playType;
+        private bool _eventListeners;
 
         private void OnEnable()
         {
@@ -38,6 +41,9 @@ namespace UAVPAPI
             _mediaURI       = serializedObject.FindProperty("mediaURI");
             _logLevel       = serializedObject.FindProperty("logLevel");
             _mediaPlayType  = serializedObject.FindProperty("mediaPlayType");
+            _playEvent      = serializedObject.FindProperty("playEvent");
+            _pauseEvent     = serializedObject.FindProperty("pauseEvent");
+            _openEvent      = serializedObject.FindProperty("openEvent");
         }
 
         public override void OnInspectorGUI()
@@ -118,6 +124,15 @@ namespace UAVPAPI
             EditorGUILayout.PropertyField(_totalTime, new GUIContent("Media TotalTime"), true);
             EditorGUILayout.PropertyField(_seekbar, new GUIContent("Media SeekBar"), true);
             GUILayout.EndVertical();
+
+            // Events
+            _eventListeners = EditorGUILayout.Foldout(_eventListeners, "Event Listeners");
+            if (_eventListeners)
+            {
+                EditorGUILayout.PropertyField(_openEvent, new GUIContent("Media Open Callback Event"), true, GUILayout.MinWidth(50));
+                EditorGUILayout.PropertyField(_playEvent, new GUIContent("Media Play Callback Event"), true, GUILayout.MinWidth(50));
+                EditorGUILayout.PropertyField(_pauseEvent, new GUIContent("Media Pause Callback Event"), true, GUILayout.MinWidth(50));
+            }
 
             if (EditorGUI.EndChangeCheck())
             {
