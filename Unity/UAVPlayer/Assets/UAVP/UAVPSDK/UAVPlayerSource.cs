@@ -171,7 +171,7 @@ public class UAVPlayerSource: UAVPFoundation
     }
 
     private UAVPStatus _status = UAVPStatus.UAVP_NONE;
-    public UAVPStatus playerStatus
+    public override UAVPStatus playerStatus
     {
         get
         {
@@ -308,7 +308,7 @@ public class UAVPlayerSource: UAVPFoundation
 
     // Video Texture
     private Texture2D _videoTexture = null;
-    public Texture2D videoTexture
+    public override Texture2D videoTexture
     {
         get
         {

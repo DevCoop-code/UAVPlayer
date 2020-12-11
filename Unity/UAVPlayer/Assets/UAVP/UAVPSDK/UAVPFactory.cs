@@ -14,6 +14,10 @@ public class UAVPFactory
         {
             player = new UAVPlayerSource();
         }
+        else if (Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer)
+        {
+            player = new UAVPlayerMacOSX();
+        }
         else 
         {
             player = null;

@@ -8,6 +8,11 @@ public delegate void EventNotify(int type, float param1, float param2, float par
 public abstract class UAVPFoundation
 {   
     public static EventNotify onEvent;
+
+    public abstract Texture2D videoTexture { get; }
+
+    public abstract UAVPStatus playerStatus { get; }
+
     /*
     Initializes the player
     - logLevel: Set the LogLevel(Debug, Source, Porting, System)

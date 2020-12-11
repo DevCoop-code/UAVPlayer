@@ -59,7 +59,7 @@ namespace UAVPAPI
         public UnityEvent pauseEvent = new UnityEvent();
 
         private bool videoTexAssigned = false;
-        private UAVPlayerSource player = (UAVPlayerSource)UAVPFactory.GetUAVPlayer();
+        private UAVPFoundation player = (UAVPFoundation)UAVPFactory.GetUAVPlayer();
 
         private bool isSeeking = false;
 
