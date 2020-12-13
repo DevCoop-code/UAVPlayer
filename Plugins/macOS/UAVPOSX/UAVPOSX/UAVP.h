@@ -65,8 +65,6 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 - (void)releasePlayer;
 - (void)setProperty:(int)type value:(int)param;
 
-- (float)getTest;
-
 @end
 
 NS_ASSUME_NONNULL_END

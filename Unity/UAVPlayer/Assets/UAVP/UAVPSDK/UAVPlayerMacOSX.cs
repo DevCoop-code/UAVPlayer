@@ -60,9 +60,6 @@ public class UAVPlayerMacOSX : UAVPFoundation
     [DllImport("UAVPOSX")]
     private static extern void UAVP_setUAVPProperty(UAVPProperty type, int param);
 
-    [DllImport("UAVPOSX")]
-    private static extern float UAVP_TestCode();
-
     public UAVPlayerMacOSX()
     {
         Debug.Log("[UAVPlayer_MacOSX] Init");
@@ -161,8 +158,6 @@ public class UAVPlayerMacOSX : UAVPFoundation
         Debug.Log("[UAVPlayer_MacOSX] Init Player");
 
         UAVPError error = UAVP_InitPlayer();
-
-        // Debug.Log("hello world: " + UAVP_TestCode());
 
         UAVP_setUAVPTimeListener(new uavplayerTimeDelegate(UAVPTimeListener));
 

@@ -180,10 +180,6 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
     }
 }
 
-- (float)getTest {
-    return 3000;
-}
-
 - (void)startToPlay:(NSURL*)url {
     [self setupPlaybackForURL:url];
 }
@@ -360,8 +356,4 @@ void UAVP_setUAVPTimeListener(UAVPTimeListener listener) {
 
 void UAVP_setUAVPProperty(int type, int param) {
     [_GetPlayer() setProperty:type value:param];
-}
-
-float UAVP_TestCode() {
-    return [_GetPlayer() getTest];
 }

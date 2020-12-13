@@ -40,8 +40,6 @@ extern "C" {
     void UAVP_setUAVPTimeListener(UAVPTimeListener listener);
 
     void UAVP_setUAVPProperty(int type, int param);
-
-    float UAVP_TestCode(void);
 #ifdef __cplusplus
 }
 #endif
