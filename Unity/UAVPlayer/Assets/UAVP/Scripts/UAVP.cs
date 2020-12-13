@@ -44,6 +44,12 @@ namespace UAVPAPI
         public string mediaURI = null;
 
         [SerializeField]
+        public string assetFileURI = null;
+
+        [SerializeField]
+        public int assetFileIndex = 0;
+
+        [SerializeField]
         public UAVPMediaType mediaPlayType;
 
         [SerializeField]

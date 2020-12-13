@@ -5,6 +5,7 @@ using UnityEditor;
 using UAVPAPI;
 using System.IO;
 using System.Linq;
+using UAVPlayerUtility;
 
 namespace UAVPAPI
 {
@@ -20,6 +21,8 @@ namespace UAVPAPI
         SerializedProperty _totalTime;
         SerializedProperty _seekbar;
         SerializedProperty _mediaURI;
+        SerializedProperty _assetFileIndex;
+        SerializedProperty _assetFileURI;
         SerializedProperty _logLevel;
         SerializedProperty _mediaPlayType;
         SerializedProperty _playEvent;
@@ -39,6 +42,8 @@ namespace UAVPAPI
             _totalTime      = serializedObject.FindProperty("totalTime");
             _seekbar        = serializedObject.FindProperty("seekbar");
             _mediaURI       = serializedObject.FindProperty("mediaURI");
+            _assetFileIndex = serializedObject.FindProperty("assetFileIndex");
+            _assetFileURI   = serializedObject.FindProperty("assetFileURI");
             _logLevel       = serializedObject.FindProperty("logLevel");
             _mediaPlayType  = serializedObject.FindProperty("mediaPlayType");
             _playEvent      = serializedObject.FindProperty("playEvent");
@@ -106,7 +111,30 @@ namespace UAVPAPI
             // Asset Video Path Field
             if (_mediaPlayType.intValue == 2)
             {
-                
+                EditorGUILayout.Space();
+                EditorGUILayout.LabelField("Asset video file : ");
+                EditorStyles.textField.wordWrap = true;
+
+                string[] filesArray = UAVPUtility.GetStreamingAssetVideoFiles();
+                if(filesArray != null)
+                {
+                    _assetFileIndex.intValue = EditorGUILayout.Popup(_assetFileIndex.intValue, filesArray);
+                    if(_assetFileIndex.intValue < filesArray.Length)
+                    {
+                        _assetFileURI.stringValue = filesArray[_assetFileIndex.intValue];
+                    }
+                    else
+                    {
+                        _assetFileURI.stringValue = filesArray[0];
+                    }
+                    _mediaURI.stringValue = _assetFileURI.stringValue;
+                }
+                else
+                {
+                    EditorGUILayout.Space();
+                    EditorGUILayout.LabelField("Please Add Video File in StreamingAsseets Directory \n" + Application.streamingAssetsPath);
+                    EditorStyles.textField.wordWrap = true;
+                }
             }
 
             // Rendering Field
