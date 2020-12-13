@@ -46,6 +46,8 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     
     size_t width;
     size_t height;
+    
+    id timeObserver;
 }
 
 - (void)initPlayer;

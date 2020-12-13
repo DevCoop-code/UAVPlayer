@@ -132,6 +132,7 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
 
 - (void)releasePlayer {
     if(avPlayer != nil) {
+        [avPlayer removeTimeObserver:self->timeObserver];
         [[avPlayer currentItem]removeOutput:videoOutput];
         avPlayer = nil;
     }
@@ -232,7 +233,7 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
     dispatch_queue_t mainQueue = dispatch_get_main_queue();
     
     // Add time observer
-    [avPlayer addPeriodicTimeObserverForInterval:interval
+    self->timeObserver = [avPlayer addPeriodicTimeObserverForInterval:interval
                                               queue:mainQueue
                                          usingBlock:^(CMTime time) {
         // Use weak reference to self

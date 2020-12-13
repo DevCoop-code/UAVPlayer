@@ -303,12 +303,14 @@ public class UAVPlayerMacOSX : UAVPFoundation
                 }
 
                 Debug.Log("[UAVPlayer] try update Texture");
-                _videoTexture.UpdateExternalTexture(nativeTex);
+                if(_videoTexture != null)
+                    _videoTexture.UpdateExternalTexture(nativeTex);
             }
             else
             {
                 Debug.Log("[UAVPlayer] native texture is zero");
-                _videoTexture = null;
+                if(_videoTexture != null)
+                    _videoTexture = null;
             }
 
             return _videoTexture;
