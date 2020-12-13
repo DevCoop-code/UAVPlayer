@@ -66,5 +66,25 @@ namespace UAVPlayerUtility
                 return null;
             }
         }
+
+        public static string GetAssetURI(string URI)
+        {
+            string assetURI = null;
+            string[] streamingAssetFilePath = URI.Split('/');
+            string streamingAAssetFileName = streamingAssetFilePath[streamingAssetFilePath.Length - 1];
+            if(URI.StartsWith(Application.streamingAssetsPath))
+            {
+                assetURI = URI;
+            }
+            else if(URI.StartsWith("file://"))
+            {
+                assetURI = URI.Replace("file://", "");
+            }
+            else
+            {
+                assetURI = Path.Combine(Application.streamingAssetsPath, URI);
+            }
+            return assetURI;
+        }
     }
 }

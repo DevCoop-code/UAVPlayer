@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using UAVPlayerUtility;
 
 namespace UAVPAPI
 {
@@ -126,6 +127,10 @@ namespace UAVPAPI
                 {
                     if(mediaURI != null)
                     {
+                        if (mediaPlayType == UAVPMediaType.UAVP_StreamingAsset_Media)
+                        {
+                            mediaURI = UAVPUtility.GetAssetURI(mediaURI);
+                        }
                         Debug.Log("Start to play [" + mediaURI + "]");
                         player.OpenMedia(mediaURI, mediaPlayType);
                     }
