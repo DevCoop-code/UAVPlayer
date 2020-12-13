@@ -132,6 +132,7 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
 
 - (void)releasePlayer {
     if(avPlayer != nil) {
+        [[avPlayer currentItem]removeOutput:videoOutput];
         avPlayer = nil;
     }
 
@@ -349,7 +350,7 @@ void UAVP_SeekVideo(int time) {
 }
 
 void UAVP_ReleasePlayer() {
-    
+    [_GetPlayer() releasePlayer];
 }
 
 void UAVP_setUAVPTimeListener(UAVPTimeListener listener) {

@@ -67,19 +67,22 @@ namespace UAVPAPI
         void Start()
         {
             // Initialize the property
-            EventTrigger eventTrigger = seekbar.gameObject.AddComponent<EventTrigger>();
+            if(seekbar != null) 
+            {
+                EventTrigger eventTrigger = seekbar.gameObject.AddComponent<EventTrigger>();
 
-            // When Click the Slider
-            EventTrigger.Entry entry_PointerDown = new EventTrigger.Entry();
-            entry_PointerDown.eventID = EventTriggerType.PointerDown;
-            entry_PointerDown.callback.AddListener((data) => { OnPointerDown((PointerEventData)data); });
-            eventTrigger.triggers.Add(entry_PointerDown);
+                // When Click the Slider
+                EventTrigger.Entry entry_PointerDown = new EventTrigger.Entry();
+                entry_PointerDown.eventID = EventTriggerType.PointerDown;
+                entry_PointerDown.callback.AddListener((data) => { OnPointerDown((PointerEventData)data); });
+                eventTrigger.triggers.Add(entry_PointerDown);
 
-            // When Touch Up the Slider
-            EventTrigger.Entry entry_EndDrag = new EventTrigger.Entry();
-            entry_EndDrag.eventID = EventTriggerType.EndDrag;
-            entry_EndDrag.callback.AddListener((data) => { OnEndDrag((PointerEventData)data); });
-            eventTrigger.triggers.Add(entry_EndDrag);
+                // When Touch Up the Slider
+                EventTrigger.Entry entry_EndDrag = new EventTrigger.Entry();
+                entry_EndDrag.eventID = EventTriggerType.EndDrag;
+                entry_EndDrag.callback.AddListener((data) => { OnEndDrag((PointerEventData)data); });
+                eventTrigger.triggers.Add(entry_EndDrag);
+            }
 
             if (autoPlay)
             {
@@ -112,11 +115,14 @@ namespace UAVPAPI
                 // Register the Event
                 UAVPlayerSource.onEvent += EventNotify;
 
-                Debug.Log("Start to play [" + mediaURI + "]");
                 UAVPError error = player.InitPlayer(logLevel);
                 if(error == UAVPError.UAVP_ERROR_NONE)
                 {
-                    player.OpenMedia(mediaURI, mediaPlayType);
+                    if(mediaURI != null)
+                    {
+                        Debug.Log("Start to play [" + mediaURI + "]");
+                        player.OpenMedia(mediaURI, mediaPlayType);
+                    }
                     openEvent.Invoke();
                 }
                 else
@@ -161,14 +167,26 @@ namespace UAVPAPI
             }
         }
 
-        private void OnDestroy()
+        void OnApplicationQuit()
         {
+            Debug.Log("Quit the Player");
             if (player != null)
             {
                 player.Release();
-            }
 
-            player = null;
+                player = null;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            Debug.Log("Destroy the Player");
+            if (player != null)
+            {
+                player.Release();
+
+                player = null;
+            }
         }
 
         /*
@@ -279,7 +297,8 @@ namespace UAVPAPI
                     {
                         t_secondStr = t_second.ToString();
                     }
-                    totalTime.text = t_hour.ToString() + ":" + t_minuteStr + ":" + t_secondStr;
+                    if(totalTime != null)
+                        totalTime.text = t_hour.ToString() + ":" + t_minuteStr + ":" + t_secondStr;
 
                     if(seekbar != null)
                         seekbar.maxValue = totalTimeSeconds;
@@ -310,7 +329,9 @@ namespace UAVPAPI
                     {
                         e_secondStr = e_second.ToString();
                     }
-                    elapsedTime.text = e_hour.ToString() + ":" + e_minuteStr + ":" + e_secondStr;
+
+                    if(elapsedTime != null)
+                        elapsedTime.text = e_hour.ToString() + ":" + e_minuteStr + ":" + e_secondStr;
 
                     if(seekbar != null)
                     {
