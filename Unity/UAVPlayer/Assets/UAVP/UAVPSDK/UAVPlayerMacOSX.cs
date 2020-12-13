@@ -18,75 +18,50 @@ public class UAVPlayerMacOSX : UAVPFoundation
 
     private bool autoplay = false;
 
-#if UNITY_EDITOR && UNITY_EDITOR_OSX
     [DllImport("UAVPOSX")]
-#endif
     private static extern bool UAVP_CanOutputToTexture(string videoPath);
 
-#if UNITY_EDITOR && UNITY_EDITOR_OSX
     [DllImport("UAVPOSX")]
-#endif
     private static extern bool UAVP_PlayerReady();
 
-#if UNITY_EDITOR && UNITY_EDITOR_OSX
     [DllImport("UAVPOSX")]
-#endif
     private static extern float UAVP_DurationSeconds();
 
-#if UNITY_EDITOR && UNITY_EDITOR_OSX
     [DllImport("UAVPOSX")]
-#endif
     private static extern float UAVP_CurrentSeconds();
 
-#if UNITY_EDITOR && UNITY_EDITOR_OSX
     [DllImport("UAVPOSX")]
-#endif
     private static extern void UAVP_VideoExtents(ref int w, ref int h);
 
-#if UNITY_EDITOR && UNITY_EDITOR_OSX
     [DllImport("UAVPOSX")]
-#endif
     private static extern System.IntPtr UAVP_CurFrameTexture();
 
-#if UNITY_EDITOR && UNITY_EDITOR_OSX
     [DllImport("UAVPOSX")]
-#endif
     private static extern UAVPError UAVP_InitPlayer();
 
-#if UNITY_EDITOR && UNITY_EDITOR_OSX
     [DllImport("UAVPOSX")]
-#endif
     private static extern UAVPError UAVP_OpenVideo(string videoPath);
 
-#if UNITY_EDITOR && UNITY_EDITOR_OSX
     [DllImport("UAVPOSX")]
-#endif
     private static extern UAVPError UAVP_PlayVideo();
 
-#if UNITY_EDITOR && UNITY_EDITOR_OSX
     [DllImport("UAVPOSX")]
-#endif
     private static extern UAVPError UAVP_PauseVideo();
 
-#if UNITY_EDITOR && UNITY_EDITOR_OSX
     [DllImport("UAVPOSX")]
-#endif
     private static extern UAVPError UAVP_SeekVideo(int time);
 
-#if UNITY_EDITOR && UNITY_EDITOR_OSX
     [DllImport("UAVPOSX")]
-#endif
     private static extern UAVPError UAVP_ReleasePlayer();
 
-#if UNITY_EDITOR && UNITY_EDITOR_OSX
     [DllImport("UAVPOSX")]
-#endif
     private static extern void UAVP_setUAVPTimeListener(uavplayerTimeDelegate funcPtr);
 
-#if UNITY_EDITOR && UNITY_EDITOR_OSX
     [DllImport("UAVPOSX")]
-#endif
     private static extern void UAVP_setUAVPProperty(UAVPProperty type, int param);
+
+    [DllImport("UAVPOSX")]
+    private static extern float UAVP_TestCode();
 
     public UAVPlayerMacOSX()
     {
@@ -186,6 +161,8 @@ public class UAVPlayerMacOSX : UAVPFoundation
         Debug.Log("[UAVPlayer_MacOSX] Init Player");
 
         UAVPError error = UAVP_InitPlayer();
+
+        // Debug.Log("hello world: " + UAVP_TestCode());
 
         UAVP_setUAVPTimeListener(new uavplayerTimeDelegate(UAVPTimeListener));
 

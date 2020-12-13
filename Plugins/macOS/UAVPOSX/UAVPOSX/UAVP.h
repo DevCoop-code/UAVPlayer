@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 # define ONE_FRAME_DURATION 0.03
 
+typedef void ( *UAVPTimeListener )(int, float);
 static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 
 @interface UAVP : NSObject {
@@ -61,6 +62,8 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 - (size_t)getTextureHeight;
 - (void)releasePlayer;
 - (void)setProperty:(int)type value:(int)param;
+
+- (float)getTest;
 
 @end
 

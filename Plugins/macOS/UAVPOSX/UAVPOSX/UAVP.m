@@ -11,7 +11,6 @@
 
 @implementation UAVP
 
-typedef void ( *UAVPTimeListener )(int, float);
 static UAVPTimeListener g_uavpTimeListener = NULL;
 
 - (void)initPlayer {
@@ -50,6 +49,10 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
     [avPlayer seekToTime:seekTime];
 }
 
+- (void)resumeVideo {
+    
+}
+
 - (void)onPlayerReady {
     
 }
@@ -83,7 +86,7 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
         height = CVPixelBufferGetHeight(pixelBuffer);
         
         if(textureCache == nil) {
-            CVMetalTextureRef textureOut;
+            CVMetalTextureRef textureOut = nil;
             
             CVReturn result = CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device, nil, &textureCache);
             
@@ -175,6 +178,10 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
     }
 }
 
+- (float)getTest {
+    return 3000;
+}
+
 - (void)startToPlay:(NSURL*)url {
     [self setupPlaybackForURL:url];
 }
@@ -207,11 +214,11 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
     [asset loadValuesAsynchronouslyForKeys:@[@"tracks"] completionHandler:^{
         if([asset statusOfValueForKey:@"tracks" error:nil] == AVKeyValueStatusLoaded) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [item addOutput:videoOutput];
-                [avPlayer replaceCurrentItemWithPlayerItem:item];
-                [videoOutput requestNotificationOfMediaDataChangeWithAdvanceInterval:ONE_FRAME_DURATION];
-                if (autoplay)
-                    [avPlayer play];
+                [item addOutput:self->videoOutput];
+                [self->avPlayer replaceCurrentItemWithPlayerItem:item];
+                [self->videoOutput requestNotificationOfMediaDataChangeWithAdvanceInterval:ONE_FRAME_DURATION];
+                if (self->autoplay)
+                    [self->avPlayer play];
             });
         }
     }];
@@ -232,10 +239,39 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
     }];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary<NSKeyValueChangeKey,id> *)change
+                       context:(void *)context
+{
+    if(context == AVPlayerItemStatusContext)
+    {
+        AVPlayerStatus status = (AVPlayerStatus)[change[NSKeyValueChangeNewKey] integerValue];
+        switch (status) {
+            case AVPlayerItemStatusUnknown:
+                break;
+            case AVPlayerItemStatusReadyToPlay:
+            {
+                CMTime mediaTotalTime = [[[avPlayer currentItem]asset]duration];
+                g_uavpTimeListener(0, CMTimeGetSeconds(mediaTotalTime));
+            }
+                break;
+            case AVPlayerItemStatusFailed:
+                break;
+            default:
+                break;
+        }
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
 @end
 
 /*
- Interface
+ MARK: Interface
  */
 static UAVP* _GetPlayer() {
     static UAVP* _player = nil;
@@ -322,4 +358,8 @@ void UAVP_setUAVPTimeListener(UAVPTimeListener listener) {
 
 void UAVP_setUAVPProperty(int type, int param) {
     [_GetPlayer() setProperty:type value:param];
+}
+
+float UAVP_TestCode() {
+    return [_GetPlayer() getTest];
 }

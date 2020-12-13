@@ -2190,6 +2190,11 @@ PrefabInstance:
       propertyPath: pauseEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: autoPlay
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3442910891842571460, guid: 362dbf660b53d4cbebd14b68ff6f9209,
         type: 3}
       propertyPath: m_LocalPosition.x
