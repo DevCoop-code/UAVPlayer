@@ -287,7 +287,15 @@ static NSURL* _GetUrl(const char* filename)
     }
     else
     {
-        url = [NSURL fileURLWithPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:[NSString stringWithUTF8String:filename]]];
+        url = [NSURL URLWithString:[NSString stringWithUTF8String:filename]];
+        
+//        url = [NSURL fileURLWithPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:[NSString stringWithUTF8String:filename]]];
+        
+//        NSString* filePath = [NSString stringWithUTF8String:filename];
+//        NSArray* arrString = [filePath componentsSeparatedByString:@"."];
+//        NSString* streamingAssetFilePath = [NSString stringWithFormat:@"%@%@", @"StreamingAssets/", [arrString objectAtIndex:0]];
+//        NSLog(@"File Name %@", [arrString objectAtIndex:0]);
+//        url = [[NSBundle mainBundle]URLForResource:[arrString objectAtIndex:0] withExtension:@".mp4"];
     }
     
     return url;

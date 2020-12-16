@@ -42,7 +42,7 @@ namespace UAVPAPI
         */
         [Tooltip("If you want to play Streaming video, you should input the URL, But if you play the video in StreamingAssets or Local, you should put the Location Path")]
         [SerializeField]
-        public string mediaURI = null;
+        public string mediaURI = null;      // use Streaming & Local type
 
         [SerializeField]
         public string assetFileURI = null;
@@ -127,9 +127,15 @@ namespace UAVPAPI
                 {
                     if(mediaURI != null)
                     {
-                        if (mediaPlayType == UAVPMediaType.UAVP_StreamingAsset_Media)
+                        // if (mediaPlayType == UAVPMediaType.UAVP_StreamingAsset_Media)
+                        // {
+                        //     mediaURI = UAVPUtility.GetAssetURI(mediaURI);
+                        // }
+                        if (mediaPlayType == UAVPMediaType.UAVP_Local_Media)
                         {
-                            mediaURI = UAVPUtility.GetAssetURI(mediaURI);
+                            Debug.Log("Play Local Media");
+                            Debug.Log(Application.persistentDataPath);
+                            mediaURI = UAVPUtility.GetLocalURI(mediaURI);
                         }
                         Debug.Log("Start to play [" + mediaURI + "]");
                         player.OpenMedia(mediaURI, mediaPlayType);

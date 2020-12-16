@@ -105,7 +105,12 @@ namespace UAVPAPI
             // Local Video Field
             if (_mediaPlayType.intValue == 1)
             {
-                
+                EditorGUILayout.Space();
+                EditorGUILayout.LabelField("Local File Path(Please Input the whole absolute path): ");
+                EditorStyles.textField.wordWrap = true;
+
+                _mediaURI.stringValue = EditorGUILayout.TextField(_mediaURI.stringValue, GUILayout.Height(30));
+                EditorStyles.textField.wordWrap = false;
             }
 
             // Asset Video Path Field
