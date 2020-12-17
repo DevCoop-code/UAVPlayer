@@ -51,6 +51,11 @@ namespace UAVPAPI
         public int assetFileIndex = 0;
 
         [SerializeField]
+        public string localURI = null;
+
+        private string URI = null;
+
+        [SerializeField]
         public UAVPMediaType mediaPlayType;
 
         [SerializeField]
@@ -125,28 +130,35 @@ namespace UAVPAPI
                 UAVPError error = player.InitPlayer(logLevel);
                 if(error == UAVPError.UAVP_ERROR_NONE)
                 {
-                    if(mediaURI != null)
+                    if (mediaPlayType == UAVPMediaType.UAVP_Streaming_Media)
                     {
-                        if (mediaPlayType == UAVPMediaType.UAVP_StreamingAsset_Media)
-                        {
-                            if (Application.platform == RuntimePlatform.OSXEditor)
-                            {
-                                Debug.Log("Play StreamingAsset Media");
-                                mediaURI = UAVPUtility.GetLocalURI(Application.dataPath + "/StreamingAssets/" + assetFileURI);
-                            }
-                            else
-                            {
-                                // mediaURI = UAVPUtility.GetAssetURI(mediaURI);
-                            }
-                        }
-                        else if (mediaPlayType == UAVPMediaType.UAVP_Local_Media)
-                        {
-                            Debug.Log("Play Local Media");
-                            mediaURI = UAVPUtility.GetLocalURI(mediaURI);
-                        }
-                        Debug.Log("Start to play [" + mediaURI + "]");
-                        player.OpenMedia(mediaURI, mediaPlayType);
+                        Debug.Log("Play Streaming");
+                        URI = mediaURI;
                     }
+                    else if (mediaPlayType == UAVPMediaType.UAVP_StreamingAsset_Media)
+                    {
+                        if (Application.platform == RuntimePlatform.OSXEditor)
+                        {
+                            Debug.Log("Play StreamingAsset Media");
+                            URI = UAVPUtility.GetLocalURI(Application.dataPath + "/StreamingAssets/" + assetFileURI);
+                        }
+                        else
+                        {
+                            // mediaURI = UAVPUtility.GetAssetURI(mediaURI);
+                        }
+                    }
+                    else if (mediaPlayType == UAVPMediaType.UAVP_Local_Media)
+                    {
+                        Debug.Log("Play Local Media");
+                        URI = UAVPUtility.GetLocalURI(localURI);
+                    }
+
+                    if (URI != null)
+                    {
+                        Debug.Log("Start to play [" + URI + "]");
+                        player.OpenMedia(URI, mediaPlayType);
+                    }
+                    
                     openEvent.Invoke();
                 }
                 else

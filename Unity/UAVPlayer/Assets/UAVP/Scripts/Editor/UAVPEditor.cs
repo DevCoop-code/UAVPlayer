@@ -23,6 +23,7 @@ namespace UAVPAPI
         SerializedProperty _mediaURI;
         SerializedProperty _assetFileIndex;
         SerializedProperty _assetFileURI;
+        SerializedProperty _localURI;
         SerializedProperty _logLevel;
         SerializedProperty _mediaPlayType;
         SerializedProperty _playEvent;
@@ -44,6 +45,7 @@ namespace UAVPAPI
             _mediaURI       = serializedObject.FindProperty("mediaURI");
             _assetFileIndex = serializedObject.FindProperty("assetFileIndex");
             _assetFileURI   = serializedObject.FindProperty("assetFileURI");
+            _localURI       = serializedObject.FindProperty("localURI");
             _logLevel       = serializedObject.FindProperty("logLevel");
             _mediaPlayType  = serializedObject.FindProperty("mediaPlayType");
             _playEvent      = serializedObject.FindProperty("playEvent");
@@ -109,7 +111,7 @@ namespace UAVPAPI
                 EditorGUILayout.LabelField("Local File Path(Please Input the whole absolute path): ");
                 EditorStyles.textField.wordWrap = true;
 
-                _mediaURI.stringValue = EditorGUILayout.TextField(_mediaURI.stringValue, GUILayout.Height(30));
+                _localURI.stringValue = EditorGUILayout.TextField(_localURI.stringValue, GUILayout.Height(30));
                 EditorStyles.textField.wordWrap = false;
             }
 
@@ -132,7 +134,6 @@ namespace UAVPAPI
                     {
                         _assetFileURI.stringValue = filesArray[0];
                     }
-                    _mediaURI.stringValue = _assetFileURI.stringValue;
                 }
                 else
                 {

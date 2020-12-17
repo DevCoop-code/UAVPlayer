@@ -2195,6 +2195,26 @@ PrefabInstance:
       propertyPath: autoPlay
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: mediaURI
+      value: https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: assetFileURI
+      value: SampleVideo_1280x720_1mb.mp4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: assetFileIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: localURI
+      value: /Users/hangyojeong/Desktop/IU_friday.mp4
+      objectReference: {fileID: 0}
     - target: {fileID: 3442910891842571460, guid: 362dbf660b53d4cbebd14b68ff6f9209,
         type: 3}
       propertyPath: m_LocalPosition.x
