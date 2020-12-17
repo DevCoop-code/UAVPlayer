@@ -297,13 +297,11 @@ public class UAVPlayerMacOSX : UAVPFoundation
                     _videoTexture.wrapMode = TextureWrapMode.Repeat;
                 }
 
-                Debug.Log("[UAVPlayer] try update Texture");
                 if(_videoTexture != null)
                     _videoTexture.UpdateExternalTexture(nativeTex);
             }
             else
             {
-                Debug.Log("[UAVPlayer] native texture is zero");
                 if(_videoTexture != null)
                     _videoTexture = null;
             }

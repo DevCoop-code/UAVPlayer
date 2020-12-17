@@ -127,14 +127,21 @@ namespace UAVPAPI
                 {
                     if(mediaURI != null)
                     {
-                        // if (mediaPlayType == UAVPMediaType.UAVP_StreamingAsset_Media)
-                        // {
-                        //     mediaURI = UAVPUtility.GetAssetURI(mediaURI);
-                        // }
-                        if (mediaPlayType == UAVPMediaType.UAVP_Local_Media)
+                        if (mediaPlayType == UAVPMediaType.UAVP_StreamingAsset_Media)
+                        {
+                            if (Application.platform == RuntimePlatform.OSXEditor)
+                            {
+                                Debug.Log("Play StreamingAsset Media");
+                                mediaURI = UAVPUtility.GetLocalURI(Application.dataPath + "/StreamingAssets/" + assetFileURI);
+                            }
+                            else
+                            {
+                                // mediaURI = UAVPUtility.GetAssetURI(mediaURI);
+                            }
+                        }
+                        else if (mediaPlayType == UAVPMediaType.UAVP_Local_Media)
                         {
                             Debug.Log("Play Local Media");
-                            Debug.Log(Application.persistentDataPath);
                             mediaURI = UAVPUtility.GetLocalURI(mediaURI);
                         }
                         Debug.Log("Start to play [" + mediaURI + "]");
