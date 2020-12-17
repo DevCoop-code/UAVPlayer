@@ -95,21 +95,34 @@ namespace UAVPAPI
                 entry_EndDrag.callback.AddListener((data) => { OnEndDrag((PointerEventData)data); });
                 eventTrigger.triggers.Add(entry_EndDrag);
             }
-
-            if (autoPlay)
+            if (player != null)
             {
-                if (player != null)
+                if (autoPlay)
+                {
                     player.setProperty(UAVPProperty.UAVP_AUTOPLAY, 1);
-            }
-            if (loop)
-            {
-                if (player != null)
+                }
+                else
+                {
+                    player.setProperty(UAVPProperty.UAVP_AUTOPLAY, 0);
+                }
+
+                if (loop)
+                {
                     player.setProperty(UAVPProperty.UAVP_LOOP, 1);
-            }
-            if (mute)
-            {
-                if (player != null)
+                }
+                else
+                {
+                    player.setProperty(UAVPProperty.UAVP_LOOP, 0);
+                }
+
+                if (mute)
+                {
                     player.setProperty(UAVPProperty.UAVP_MUTE, 1);
+                }
+                else
+                {
+                    player.setProperty(UAVPProperty.UAVP_MUTE, 0);
+                }
             }
 
             if(seekbar != null)
