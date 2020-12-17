@@ -302,9 +302,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50872784bde184b39ab5ae08955e506c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  autoPlay: 1
+  loop: 0
+  mute: 0
   videoMat: {fileID: 2100000, guid: 18eebb2c01001401ebc8743f6a36e2ce, type: 2}
-  videoRaw: {fileID: 0}
-  videoPath: https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8
+  videoRawImage: {fileID: 0}
+  elapsedTime: {fileID: 0}
+  totalTime: {fileID: 0}
+  seekbar: {fileID: 0}
+  mediaURI: 
+  assetFileURI: SampleVideo_1280x720_1mb.mp4
+  assetFileIndex: 0
+  localURI: 
+  mediaPlayType: 2
+  logLevel: 0
+  openEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  playEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  pauseEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  endEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!4 &1600834549
 Transform:
   m_ObjectHideFlags: 0
