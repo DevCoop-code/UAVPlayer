@@ -55,7 +55,7 @@ public class UAVPlayerSource: UAVPFoundation
 #if UNITY_IPHONE && !UNITY_EDITOR
     [DllImport("__Internal")]
 #endif
-    private static extern UAVPError UAVP_OpenVideo(string videoPath);
+    private static extern UAVPError UAVP_OpenVideo(string videoPath, UAVPMediaType mediaType);
 
 #if UNITY_IPHONE && !UNITY_EDITOR
     [DllImport("__Internal")]
@@ -206,7 +206,7 @@ public class UAVPlayerSource: UAVPFoundation
 
         if (CanOutputToTexture(URI))
         {
-            error = UAVP_OpenVideo(URI);
+            error = UAVP_OpenVideo(URI, mediaType);
             if (error == UAVPError.UAVP_ERROR_NONE)
             {
                 if (autoplay)

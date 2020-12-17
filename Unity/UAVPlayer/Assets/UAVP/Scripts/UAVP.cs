@@ -130,27 +130,34 @@ namespace UAVPAPI
                 UAVPError error = player.InitPlayer(logLevel);
                 if(error == UAVPError.UAVP_ERROR_NONE)
                 {
-                    if (mediaPlayType == UAVPMediaType.UAVP_Streaming_Media)
+                    if (mediaPlayType == UAVPMediaType.UAVP_Streaming_Media)            // Streaming
                     {
                         Debug.Log("Play Streaming");
                         URI = mediaURI;
                     }
-                    else if (mediaPlayType == UAVPMediaType.UAVP_StreamingAsset_Media)
+                    else if (mediaPlayType == UAVPMediaType.UAVP_StreamingAsset_Media)  // StreamingAsset
                     {
                         if (Application.platform == RuntimePlatform.OSXEditor)
                         {
                             Debug.Log("Play StreamingAsset Media");
                             URI = UAVPUtility.GetLocalURI(Application.dataPath + "/StreamingAssets/" + assetFileURI);
                         }
-                        else
+                        else if(Application.platform == RuntimePlatform.IPhonePlayer)
                         {
-                            // mediaURI = UAVPUtility.GetAssetURI(mediaURI);
+                            URI = assetFileURI;
                         }
                     }
-                    else if (mediaPlayType == UAVPMediaType.UAVP_Local_Media)
+                    else if (mediaPlayType == UAVPMediaType.UAVP_Local_Media)           // Local
                     {
-                        Debug.Log("Play Local Media");
-                        URI = UAVPUtility.GetLocalURI(localURI);
+                        if (Application.platform == RuntimePlatform.OSXEditor)
+                        {
+                            Debug.Log("Play Local Media");
+                            URI = UAVPUtility.GetLocalURI(localURI);
+                        }
+                        else if(Application.platform == RuntimePlatform.IPhonePlayer)
+                        {
+                            URI = localURI;
+                        }
                     }
 
                     if (URI != null)

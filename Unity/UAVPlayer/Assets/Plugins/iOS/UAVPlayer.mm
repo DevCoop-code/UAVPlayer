@@ -42,7 +42,7 @@ static void* AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     size_t height;
 }
 - (void)initPlayer;
-- (void)openVideo:(NSURL*)url;
+- (void)openVideo:(NSURL*)url mediaType:(int)mediaType;
 - (void)playVideo;
 - (void)pauseVideo;
 - (void)seekVideo:(int)time;
@@ -76,13 +76,13 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
     [self addPeriodicTimeObserver];
 }
 
-- (void)openVideo:(NSURL*)url
+- (void)openVideo:(NSURL*)url mediaType:(int)mediaType
 {
     NSLog(@"Open media path : %@", url);
 
     if(url != nil)
     {
-        [self startToPlay:url];
+        [self startToPlay:url type:mediaType];
     }
     else
     {
@@ -165,9 +165,9 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
     }
 }
 
-- (void)startToPlay:(NSURL*)url
+- (void)startToPlay:(NSURL*)url type:(int)mediaType
 {   
-    [self setupPlaybackForURL:url];
+    [self setupPlaybackForURL:url type:mediaType];
 }
 
 - (id<MTLTexture>)outputFrameTexture
@@ -298,26 +298,48 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
     }
 }
 
-- (void)setupPlaybackForURL:(NSURL*)URL
+- (void)setupPlaybackForURL:(NSURL*)URL type:(int)mediaType
 {
     //Remove video outtput from old item
     [[avPlayer currentItem] removeOutput:videoOutput];
     
-    AVPlayerItem* item = [[AVPlayerItem alloc] initWithURL:URL];
-    AVAsset* asset = [item asset];
+    AVPlayerItem* item = nil;
+    if(mediaType == 0)              // Streaming Media
+    {
+        item = [[AVPlayerItem alloc] initWithURL:URL];
+    }
+    else if(mediaType == 1)         // Local Media
+    {
+        NSFileManager* fileMgr = [NSFileManager defaultManager];
+        NSString* rootLocalFilePath = [fileMgr URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask][0].path;
+        NSString* localvideoPath = [NSString stringWithFormat:@"%@%@%@", rootLocalFilePath, @"/", [URL absoluteString]];
+        item = [[AVPlayerItem alloc] initWithURL:[NSURL fileURLWithPath:localvideoPath]];
+    }
+    else if(mediaType == 2)         // StreamingAsset Media
+    {
+        NSString* assetFileName = [URL absoluteString];
+        NSArray* assetFileArray = [assetFileName componentsSeparatedByString:@"."];
+        NSString* assetvideoPath = [NSString stringWithFormat:@"%@%@", @"Data/Raw/", assetFileArray[0]];
+        item = [[AVPlayerItem alloc]initWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]pathForResource:assetvideoPath ofType:assetFileArray[1]]]];
+    }
     
-    [asset loadValuesAsynchronouslyForKeys:@[@"tracks"] completionHandler:^{
-        if([asset statusOfValueForKey:@"tracks" error:nil] == AVKeyValueStatusLoaded)
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [item addOutput:videoOutput];
-                [avPlayer replaceCurrentItemWithPlayerItem:item];
-                [videoOutput requestNotificationOfMediaDataChangeWithAdvanceInterval:ONE_FRAME_DURATION];
-                if (autoplay)
-                    [avPlayer play];
-            });
-        }
-    }];
+    if(item != nil)
+    {
+        AVAsset* asset = [item asset];
+        
+        [asset loadValuesAsynchronouslyForKeys:@[@"tracks"] completionHandler:^{
+            if([asset statusOfValueForKey:@"tracks" error:nil] == AVKeyValueStatusLoaded)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [item addOutput:videoOutput];
+                    [avPlayer replaceCurrentItemWithPlayerItem:item];
+                    [videoOutput requestNotificationOfMediaDataChangeWithAdvanceInterval:ONE_FRAME_DURATION];
+                    if (autoplay)
+                        [avPlayer play];
+                });
+            }
+        }];
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -367,16 +389,19 @@ static UAVPlayer* _GetPlayer()
 static NSURL* _GetUrl(const char* filename)
 {
     NSURL* url = nil;
-    if(::strstr(filename, "://"))
-    {
-        url = [NSURL URLWithString:[NSString stringWithUTF8String:filename]];
-    }
-    else
-    {
-        url = [NSURL fileURLWithPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:[NSString stringWithUTF8String:filename]]];
-    }
+
+    url = [NSURL URLWithString:[NSString stringWithUTF8String:filename]];
     
     return url;
+}
+
+static NSString* _GetString(const char* filename)
+{
+    NSString* filenameStr = nil;
+    
+    filenameStr = [NSString stringWithUTF8String:filename];
+    
+    return filenameStr;
 }
 
 
@@ -418,9 +443,9 @@ extern "C" int UAVP_InitPlayer()
     return 0;
 }
 
-extern "C" int UAVP_OpenVideo(const char* filename)
+extern "C" int UAVP_OpenVideo(const char* filename, int mediaType)
 {
-    [_GetPlayer() openVideo:_GetUrl(filename)];
+    [_GetPlayer() openVideo:_GetUrl(filename) mediaType:mediaType];
     
     return 0;
 }
