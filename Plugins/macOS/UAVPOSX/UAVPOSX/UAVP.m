@@ -67,7 +67,7 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
     if(loop) {
         CMTime loopTime = CMTimeMake(0, 1);
         [avPlayer seekToTime:loopTime];
-        [avPlayer play];
+        [self playVideo];
     }
 }
 
@@ -234,7 +234,7 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
                     [self->avPlayer setVolume:0.0];
                 }
                 if (self->autoplay)
-                    [self->avPlayer play];
+                    [self playVideo];
             });
         }
     }];

@@ -257,7 +257,6 @@ namespace UAVPAPI
             if (player != null)
             {
                 player.Start();
-                playEvent.Invoke();
             }
         }
 
@@ -267,7 +266,6 @@ namespace UAVPAPI
             if (player != null)
             {
                 player.Pause();
-                pauseEvent.Invoke();
             }
         }
 
@@ -400,6 +398,14 @@ namespace UAVPAPI
                 break;
 
                 case 2:     // End of Content
+                    endEvent.Invoke();
+                break;
+
+                case 3:     // Play Event
+                    playEvent.Invoke();
+                break;
+
+                case 4:     // Pause Event
                     pauseEvent.Invoke();
                 break;
 
