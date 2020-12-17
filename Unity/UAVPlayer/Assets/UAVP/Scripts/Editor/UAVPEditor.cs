@@ -29,6 +29,7 @@ namespace UAVPAPI
         SerializedProperty _playEvent;
         SerializedProperty _pauseEvent;
         SerializedProperty _openEvent;
+        SerializedProperty _endEvent;
         private string[] _playType;
         private bool _eventListeners;
 
@@ -51,6 +52,7 @@ namespace UAVPAPI
             _playEvent      = serializedObject.FindProperty("playEvent");
             _pauseEvent     = serializedObject.FindProperty("pauseEvent");
             _openEvent      = serializedObject.FindProperty("openEvent");
+            _endEvent       = serializedObject.FindProperty("endEvent");
         }
 
         public override void OnInspectorGUI()
@@ -166,6 +168,7 @@ namespace UAVPAPI
                 EditorGUILayout.PropertyField(_openEvent, new GUIContent("Media Open Callback Event"), true, GUILayout.MinWidth(50));
                 EditorGUILayout.PropertyField(_playEvent, new GUIContent("Media Play Callback Event"), true, GUILayout.MinWidth(50));
                 EditorGUILayout.PropertyField(_pauseEvent, new GUIContent("Media Pause Callback Event"), true, GUILayout.MinWidth(50));
+                EditorGUILayout.PropertyField(_endEvent, new GUIContent("Media End Callback Event"), true, GUILayout.MinWidth(50));
             }
 
             if (EditorGUI.EndChangeCheck())

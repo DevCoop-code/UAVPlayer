@@ -37,10 +37,12 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
 }
 
 - (void)playVideo {
+    g_uavpTimeListener(3, 0);
     [avPlayer play];
 }
 
 - (void)pauseVideo {
+    g_uavpTimeListener(4, 0);
     [avPlayer pause];
 }
 
@@ -58,7 +60,15 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
 }
 
 - (void)onPlayerDidFinishPlayingVideo {
+    NSLog(@"onPlayerDidFinishPlayingVideo");
     
+    g_uavpTimeListener(2, 0);
+    
+    if(loop) {
+        CMTime loopTime = CMTimeMake(0, 1);
+        [avPlayer seekToTime:loopTime];
+        [avPlayer play];
+    }
 }
 
 - (Boolean)canOutputTexture:(NSString*)videoPath {
@@ -215,6 +225,14 @@ static UAVPTimeListener g_uavpTimeListener = NULL;
                 [item addOutput:self->videoOutput];
                 [self->avPlayer replaceCurrentItemWithPlayerItem:item];
                 [self->videoOutput requestNotificationOfMediaDataChangeWithAdvanceInterval:ONE_FRAME_DURATION];
+                
+                [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(onPlayerDidFinishPlayingVideo) name:AVPlayerItemDidPlayToEndTimeNotification object:self->avPlayer.currentItem];
+                
+                if (self->mute) {
+                    NSLog(@"Mute the Volume");
+                    
+                    [self->avPlayer setVolume:0.0];
+                }
                 if (self->autoplay)
                     [self->avPlayer play];
             });

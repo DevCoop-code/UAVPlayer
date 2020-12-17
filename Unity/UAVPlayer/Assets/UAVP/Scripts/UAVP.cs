@@ -70,6 +70,9 @@ namespace UAVPAPI
         [SerializeField]
         public UnityEvent pauseEvent = new UnityEvent();
 
+        [SerializeField]
+        public UnityEvent endEvent = new UnityEvent();
+
         private bool videoTexAssigned = false;
         private UAVPFoundation player = (UAVPFoundation)UAVPFactory.GetUAVPlayer();
 
@@ -394,6 +397,10 @@ namespace UAVPAPI
                         if (!isSeeking)
                             seekbar.value = elapsedTimeSeconds;
                     }
+                break;
+
+                case 2:     // End of Content
+                    pauseEvent.Invoke();
                 break;
 
                 default:

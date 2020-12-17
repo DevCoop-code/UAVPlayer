@@ -326,17 +326,32 @@ public class UAVPlayerMacOSX : UAVPFoundation
     }
 
     [MonoPInvokeCallback(typeof(uavplayerTimeDelegate))]
-    static void UAVPTimeListener(int type, float time)
+    static void UAVPTimeListener(int type, float param)
     {
         switch (type) {
             case 0:         // total time
-                Debug.Log("[UAVPlayer] Total time: " + time);
-                onEvent(type, time, 0, 0);
+                Debug.Log("[UAVPlayer] Total time: " + param);
+                onEvent(type, param, 0, 0);
             break;
 
             case 1:         // current time
-                Debug.Log("[UAVPlayer] Current time: " + time);
-                onEvent(type, time, 0, 0);
+                Debug.Log("[UAVPlayer] Current time: " + param);
+                onEvent(type, param, 0, 0);
+            break;
+
+            case 2:         // End of Content
+                Debug.Log("[UAVPlayer] End of Content ");
+                onEvent(type, param, 0, 0);
+            break;
+
+            case 3:         // Will Start of Content
+                Debug.Log("[UAVPlayer] Will Start of Content ");
+                onEvent(type, param, 0, 0);
+            break;
+
+            case 4:         // Will Pause of Content
+                Debug.Log("[UAVPlayer] Will Pause of Content ");
+                onEvent(type, param, 0, 0);
             break;
         }
     }

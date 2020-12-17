@@ -2193,7 +2193,7 @@ PrefabInstance:
     - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
         type: 3}
       propertyPath: autoPlay
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
         type: 3}
@@ -2214,6 +2214,16 @@ PrefabInstance:
         type: 3}
       propertyPath: localURI
       value: /Users/hangyojeong/Desktop/IU_friday.mp4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: mute
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: loop
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3442910891842571460, guid: 362dbf660b53d4cbebd14b68ff6f9209,
         type: 3}
