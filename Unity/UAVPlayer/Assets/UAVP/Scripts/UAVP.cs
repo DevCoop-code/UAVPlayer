@@ -78,9 +78,12 @@ namespace UAVPAPI
 
         private bool isSeeking = false;
 
+        private string uavp_version = "0.1.0";
+
         // Start is called before the first frame update
         void Start()
         {
+            Debug.Log("UAVP Version: " + uavp_version);
             // Initialize the property
             if(seekbar != null) 
             {
