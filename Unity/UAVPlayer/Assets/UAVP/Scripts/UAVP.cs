@@ -284,25 +284,28 @@ namespace UAVPAPI
         public void ToggleStartPause()
         {
             Debug.Log("OnToggleStartPause");
-            switch(player.playerStatus)
+            if(player != null)
             {
-                case UAVPStatus.UAVP_START:
-                    {
-                        OnPause();
-                    }
-                break;
+                switch(player.playerStatus)
+                {
+                    case UAVPStatus.UAVP_START:
+                        {
+                            OnPause();
+                        }
+                    break;
 
-                case UAVPStatus.UAVP_PAUSE:
-                    {
-                        OnPlay();
-                    }
-                break;
+                    case UAVPStatus.UAVP_PAUSE:
+                        {
+                            OnPlay();
+                        }
+                    break;
 
-                case UAVPStatus.UAVP_OPEN:
-                    {
-                        OnPlay();
-                    }
-                break;
+                    case UAVPStatus.UAVP_OPEN:
+                        {
+                            OnPlay();
+                        }
+                    break;
+                }
             }
         }
 
