@@ -20,7 +20,7 @@ Using UAVP is very simple and easy
 
 After the import the UAVP Package, There is UAVP Prefab(Asssets/UAVP/Prefabs). You should use UAVP Prefab in your project.
 
-![uavp_elements](./images/uavp_elements.PNG)
+![uavp_elements](./images/uavp_elements.png)
 
 1. Additional Properties
    1. **Auto Play**: Start playback automatically after video is buffered
@@ -41,4 +41,4 @@ After the import the UAVP Package, There is UAVP Prefab(Asssets/UAVP/Prefabs). Y
    3. Pause Callback Event: Callback Event when Media is Paused
    4. End Callback Event: Callback Event when Media reached the end
 # Demo
-![uavp_elements](./images/demo3.PNG)
+![uavp_elements](./images/demo3.png)
