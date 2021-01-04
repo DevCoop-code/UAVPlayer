@@ -1,7 +1,7 @@
 # UAVPlayer
 UAVP(Unity Audio Video Player) is cross platform media SDK for unity that based on AVPlayer
 
-[![UAVP_Tutorial](https://www.youtube.com/watch?v=giAo8_LupDg.jpg)](https://www.youtube.com/watch?v=giAo8_LupDg)
+<iframe width="640" height="360" src="https://www.youtube.com/watch?v=giAo8_LupDg" frameborder="0" gesture="media" allowfullscreen=""></iframe>
 
 |Platforms|CPUs|Graphic API|
 |------|---|---|
