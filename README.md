@@ -38,9 +38,9 @@ After the import the UAVP Package, There is UAVP Prefab(Asssets/UAVP/Prefabs). Y
    2. **Media TotalTime**: Text Field to represent the totaal media time
    3. **Media Seekbar**: Seekbar that can control the media
 5. Event Listeners
-   1. Open Callback Event: Callback Event when Media is Opened
-   2. Play Callback Event: Callback Event when Media is Started
-   3. Pause Callback Event: Callback Event when Media is Paused
-   4. End Callback Event: Callback Event when Media reached the end
+   1. **Open Callback Event**: Callback Event when Media is Opened
+   2. **Play Callback Event**: Callback Event when Media is Started
+   3. **Pause Callback Event**: Callback Event when Media is Paused
+   4. **End Callback Event**: Callback Event when Media reached the end
 # Demo
 ![uavp_elements](./images/demo3.png)
