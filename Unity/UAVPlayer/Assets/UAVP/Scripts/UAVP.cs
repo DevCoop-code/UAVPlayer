@@ -159,7 +159,10 @@ namespace UAVPAPI
                         if (Application.platform == RuntimePlatform.OSXEditor)
                         {
                             Debug.Log("Play StreamingAsset Media");
-                            URI = UAVPUtility.GetLocalURI(Application.dataPath + "/StreamingAssets/" + assetFileURI);
+                            if (assetFileURI != null)
+                                URI = UAVPUtility.GetLocalURI(Application.dataPath + "/StreamingAssets/" + assetFileURI);
+                            else
+                                URI = null;
                         }
                         else if(Application.platform == RuntimePlatform.IPhonePlayer)
                         {
@@ -171,7 +174,10 @@ namespace UAVPAPI
                         if (Application.platform == RuntimePlatform.OSXEditor)
                         {
                             Debug.Log("Play Local Media");
-                            URI = UAVPUtility.GetLocalURI(localURI);
+                            if (localURI != null)
+                                URI = UAVPUtility.GetLocalURI(localURI);
+                            else
+                                URI = null;
                         }
                         else if(Application.platform == RuntimePlatform.IPhonePlayer)
                         {
@@ -183,6 +189,10 @@ namespace UAVPAPI
                     {
                         Debug.Log("Start to play [" + URI + "]");
                         player.OpenMedia(URI, mediaPlayType);
+                    }
+                    else
+                    {
+                        Debug.Log("URI is null");
                     }
                     
                     openEvent.Invoke();
