@@ -2210,6 +2210,26 @@ PrefabInstance:
       objectReference: {fileID: 442241665}
     - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
         type: 3}
+      propertyPath: playEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: pauseEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: playEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: pauseEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
       propertyPath: playEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 716486532}
@@ -2220,6 +2240,16 @@ PrefabInstance:
       objectReference: {fileID: 716486532}
     - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
         type: 3}
+      propertyPath: playEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: pauseEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
       propertyPath: playEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ChangePlayStateButton
       objectReference: {fileID: 0}
@@ -2227,6 +2257,16 @@ PrefabInstance:
         type: 3}
       propertyPath: pauseEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ChangePauseStateButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: playEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442910891842571461, guid: 362dbf660b53d4cbebd14b68ff6f9209,
+        type: 3}
+      propertyPath: pauseEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3442910891842571462, guid: 362dbf660b53d4cbebd14b68ff6f9209,
         type: 3}
