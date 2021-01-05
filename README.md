@@ -44,3 +44,6 @@ After the import the UAVP Package, There is UAVP Prefab(Asssets/UAVP/Prefabs). Y
    4. **End Callback Event**: Callback Event when Media reached the end
 # Demo
 ![uavp_elements](./images/demo3.png)
+
+# Download the Unity Package
+[Download Version 1.1](https://drive.google.com/file/d/1nCsBYKLOmF0mgQr1JJjiXveb2XjAdURA/view?usp=sharing)
