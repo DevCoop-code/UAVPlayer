@@ -46,4 +46,4 @@ After the import the UAVP Package, There is UAVP Prefab(Asssets/UAVP/Prefabs). Y
 ![uavp_elements](./images/demo3.png)
 
 # Download the Unity Package
-[Download Version 1.1](https://drive.google.com/file/d/1nCsBYKLOmF0mgQr1JJjiXveb2XjAdURA/view?usp=sharing)
+[Download from Unity Asset Store](https://assetstore.unity.com/packages/slug/185282)
